@@ -160,6 +160,50 @@ class ModalWindow {
     return modalBody;
   }
 
+  forgotPasswordWindow() {
+    //Création du modalBody :
+    let modalBody = document.createElement("div");
+    modalBody.className = "modal-body text-left";
+
+    let form = document.createElement("form");
+    form.className = "needs-validation";
+    form.noValidate = true;
+
+    let formGroup = document.createElement("div");
+    formGroup.className = "form-group p-4";
+
+    let label = document.createElement("h1");
+    label.className = "h6";
+    label.innerHTML = "Veuillez renseigner votre adresse email : ";
+
+    let hr = document.createElement("div");
+    hr.className = "w-100";
+
+    let row = document.createElement("div");
+    row.className = "row mt-2";
+
+    let col = document.createElement("div");
+    col.className = "col";
+
+    let input = document.createElement("input");
+    input.setAttribute("type", "email");
+    input.setAttribute("id", "inputEmail");
+    input.setAttribute("placeholder", "jean.blanc@gmail.com");
+    input.setAttribute("aria-describedby", "emailHelp");
+    input.required = true;
+    input.className = "form-control";
+
+    col.appendChild(input);
+    row.appendChild(col);
+    formGroup.appendChild(label);
+    formGroup.appendChild(hr);
+    formGroup.appendChild(row);
+    form.appendChild(formGroup);
+    modalBody.appendChild(form);
+
+    return modalBody;
+  }
+
   componentMount() {
     //Modal :
     let modal = document.createElement("div");
@@ -198,6 +242,9 @@ class ModalWindow {
         break;
       case "registerInformationModal":
         var modalBody = this.registerInformationWindow();
+        break;
+      case "forgotPasswordModal":
+        var modalBody = this.forgotPasswordWindow();
         break;
     }
 

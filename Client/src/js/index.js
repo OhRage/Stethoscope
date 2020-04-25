@@ -49,7 +49,20 @@ function onRegistrationClick() {
   modalWindow.componentMount();
 }
 
-function onForgotClick() {}
+function onForgotClick() {
+    let modalSection = document.getElementById("modalSection");
+
+
+    //On ajoute la fenêtre modal au domElement :
+    var modalWindow = new ModalWindow(
+      modalSection,
+      "#forgotPasswordModal",
+      "",
+      "S'enregistrer",
+      undefined
+    );
+    modalWindow.componentMount();
+}
 
 //Gestionnnaire d'évenement du document :
 document.addEventListener("readystatechange", () => {
