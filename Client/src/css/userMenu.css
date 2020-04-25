@@ -1,0 +1,26 @@
+#userMenuComponent {
+  background-color: #2e2f32;
+  color: #fefefb;
+  font-weight: bold;
+  min-height: 100%;
+}
+
+#userMenuComponent,
+img {
+  border-radius: 15px;
+}
+
+#userMenuComponent hr {
+  background-color: #20b2aa;
+  size: 3px;
+}
+
+#userMenuComponent .btn {
+  color: white;
+  font-size: 1.2rem;
+  border-style: hidden;
+}
+
+#userMenuComponent .btn:hover {
+  background-color: #20b2aa;
+}

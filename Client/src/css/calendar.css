@@ -1,0 +1,127 @@
+[id^="calendar"] #calendarActualMonth,
+#calendarActionButtons .btn {
+  font-size: 1.8em;
+  color: #2e2f32;
+}
+
+[id^="calendar"] input[type="image"] {
+  height: 50px;
+}
+
+[id^="calendar"] .table-bordered {
+  table-layout: fixed;
+}
+
+[id^="calendar"] .table-bordered thead {
+  background-color: #2e2f32;
+  color: white;
+  text-align: center;
+}
+
+[id^="calendar"] #calendarActionButtons .btn:hover,
+#calendarModal #calendarConfirmedDateButton:hover,
+#calendarModal #calendarPendingDateButton:hover {
+  background-color: #20b2aa;
+  color: white;
+}
+
+[id^="calendar"] .table-bordered tbody {
+  text-align: center;
+}
+
+[id^="calendar"] .table-bordered tbody td {
+  padding: 0;
+}
+
+[id^="calendar"] .table-bordered tbody td[value="filledBox"] button {
+  color: #20b2aa;
+  font-weight: bold;
+  display: inline-block;
+  width: 100%;
+}
+
+[id^="calendar"] .table-bordered tbody td[value*="filled"] button:hover {
+  background-color: #20b2aa;
+  color: white;
+  font-weight: bold;
+  background-image: none;
+}
+
+[id^="calendar"] .table-bordered tbody td[value="filledTodayBox"] button {
+  color: white;
+  background-color: #20b2aa;
+  font-weight: bold;
+  display: inline-block;
+  width: 100%;
+}
+
+[id^="calendar"] .table-bordered tbody td[value="emptyBox"] {
+  color: transparent;
+}
+
+/* ====================================
+    Calendrier du patient : 
+==================================== */
+
+#calendarModal #calendarConfirmedDateButton {
+  background-color: forestgreen;
+}
+
+#calendarModal #calendarPendingDateButton {
+  background-color: firebrick;
+}
+
+#calendarModal
+  .table-bordered
+  tbody
+  td[value="filledBox"]
+  button[value="confirmedDate"] {
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  width: 100%;
+  background-color: forestgreen;
+}
+
+#calendarModal
+  .table-bordered
+  tbody
+  td[value="filledBox"]
+  button[value="pendingDate"] {
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  width: 100%;
+  background-color: firebrick;
+}
+
+#calendarModal
+  .table-bordered
+  tbody
+  td[value="filledBox"]
+  button[value="confirmedAndPendingDate"] {
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  width: 100%;
+  background-image: linear-gradient(to right, forestgreen 50%, firebrick 50%);
+}
+
+#calendarModal #calendarConfirmedDateButton,
+#calendarPendingDateButton {
+  color: white;
+  font-weight: bold;
+}
+
+/* ====================================
+    Calendrier du docteur : 
+==================================== */
+
+#calendarMainPage
+  .table-bordered
+  tbody
+  td[value="filledBox"]
+  button[value="dateNotAvailable"] {
+    background-color: #D3D3D3;
+    color: #2e2f32;
+}

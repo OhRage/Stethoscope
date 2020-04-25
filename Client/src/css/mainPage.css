@@ -1,0 +1,9 @@
+@font-face {
+    font-family: "Righteous-Regular";
+    src: url(./font/Righteous-Regular.ttf);
+  }
+
+#mainPage{
+    border-radius: 15px;
+    border: solid #20b2aa 2px;
+}
