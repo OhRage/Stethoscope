@@ -7,7 +7,7 @@ class ModalWindow {
     this.serverDatas = serverDatas;
   }
 
-  modalWindowFooter() {
+  modalWindowFooter(originPage) {
     //Création du modalFooter :
     let modalFooter = document.createElement("div");
     modalFooter.className = "modal-footer";
@@ -16,12 +16,27 @@ class ModalWindow {
 
     //Bouton fermer
     let modalCloseButton = document.createElement("button");
-    modalCloseButton.className = "btn btn-primary mr-2";
+    modalCloseButton.className = "btn btn-primary mr-4 ml-4";
     modalCloseButton.setAttribute("type", "button");
     modalCloseButton.setAttribute("data-dismiss", "modal");
     modalCloseButton.innerHTML = "Fermer";
 
     modalRow.appendChild(modalCloseButton);
+    modalFooter.appendChild(modalRow);
+
+    //Bouton Valider (page index.html)
+    let modalValidateButton = document.createElement("button");
+    modalValidateButton.className = "btn btn-primary mr-4 ml-4";
+
+    if (originPage === "index") {
+      modalValidateButton.setAttribute("type", "submit");
+      modalValidateButton.innerHTML = "Valider";
+    }else{
+      modalValidateButton.setAttribute("type", "button");
+      modalValidateButton.innerHTML = "Modifier";
+    }
+
+    modalRow.appendChild(modalValidateButton);
     modalFooter.appendChild(modalRow);
 
     //Gestionnaire d'évenement sur le bouton fermer :
@@ -226,6 +241,8 @@ class ModalWindow {
     modalWindowTitle.innerHTML = this.modalTitle;
     modalHeader.appendChild(modalWindowTitle);
 
+    let originPage = "homepage";
+
     //Construction du body et du footer en fonction de l'ID de la fenêtre modale :
     switch (this.modalID) {
       case "personalInformationModal":
@@ -242,14 +259,16 @@ class ModalWindow {
         break;
       case "registerInformationModal":
         var modalBody = this.registerInformationWindow();
+        originPage = "index";
         break;
       case "forgotPasswordModal":
         var modalBody = this.forgotPasswordWindow();
+        originPage = "index";
         break;
     }
 
     //Construction du modalFooter :
-    let modalFooter = this.modalWindowFooter();
+    let modalFooter = this.modalWindowFooter(originPage);
 
     //Ajout de tous les composant de la fenêtre modal :
     modalContent.appendChild(modalHeader);
