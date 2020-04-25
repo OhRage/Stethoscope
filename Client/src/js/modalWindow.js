@@ -41,18 +41,21 @@ class ModalWindow {
     let modalBody = document.createElement("div");
     modalBody.className = "modal-body";
 
-    let personnalInformationLabel = [
-      "Prénom :",
-      "Nom :",
-      "Age :",
-      "Numéro de sécurité sociale :",
-      "Adresse :",
-      "Ville :",
-      "Code postal :",
-      "Numéro de téléphone :",
-    ];
+    let personnalInformationLabel = {
+      firstName: "Prénom :",
+      lastName: "Nom :",
+      age: "Age :",
+      socialNumber: "Numéro de sécurité sociale :",
+      address: "Adresse :",
+      city: "Ville :",
+      postalCode: "Code postal :",
+      phoneNumber: "Numéro de téléphone :",
+    };
 
-    let connexionInformationLabel = ["Adresse email :", "Mot de passe :"];
+    let connexionInformationLabel = {
+      emailAddress: "Adresse email :",
+      password: "Mot de passe :",
+    };
 
     //Ajout des informations générales :
     let profileInformationsComponent = new ProfileInformations(
@@ -70,7 +73,7 @@ class ModalWindow {
     //Création du modalBody :
     let modalBody = document.createElement("div");
     modalBody.className = "modal-body";
-    modalBody.setAttribute("id", "patientCalendar")
+    modalBody.setAttribute("id", "patientCalendar");
 
     //Ajout des informations générales :
     const calendar = new Calendar(modalBody);
@@ -99,16 +102,16 @@ class ModalWindow {
     let modalBody = document.createElement("div");
     modalBody.className = "modal-body";
 
-    let doctorInformationLabel = [
-      "Prénom :",
-      "Nom :",
-      "Age :",
-      "Secteur de convention :",
-      "Adresse :",
-      "Ville :",
-      "Code postal :",
-      "Numéro de téléphone :",
-    ];
+    let doctorInformationLabel = {
+      firstName: "Prénom :",
+      lastName: "Nom :",
+      age: "Age :",
+      conventionArea: "Secteur de convention :",
+      address: "Adresse :",
+      city: "Ville :",
+      postalCode: "Code postal :",
+      phoneNumber: "Numéro de téléphone :",
+    };
 
     //Ajout des informations générales :
     let profileInformationsComponent = new ProfileInformations(
@@ -116,6 +119,41 @@ class ModalWindow {
       this.serverDatas,
       doctorInformationLabel,
       undefined
+    );
+    profileInformationsComponent.componentMount();
+
+    return modalBody;
+  }
+
+  registerInformationWindow() {
+    //Création du modalBody :
+    let modalBody = document.createElement("div");
+    modalBody.className = "modal-body text-left";
+
+    let personnalInformationLabel = {
+      firstName: "Prénom :",
+      lastName: "Nom :",
+      age: "Age :",
+      socialNumber: "Numéro de sécurité sociale :",
+      address: "Adresse :",
+      city: "Ville :",
+      postalCode: "Code postal :",
+      phoneNumber: "Numéro de téléphone :",
+    };
+
+    let connexionInformationLabel = {
+      emailAddress: "Adresse email :",
+      password: "Mot de passe :",
+      confirmEmailAddress: "Confirmez votre mot de passe",
+      confirmPassword: "Confirmez votre adresse email",
+    };
+
+    //Ajout des informations générales :
+    let profileInformationsComponent = new ProfileInformations(
+      modalBody,
+      undefined,
+      personnalInformationLabel,
+      connexionInformationLabel
     );
     profileInformationsComponent.componentMount();
 
@@ -158,6 +196,9 @@ class ModalWindow {
       case "doctorInformationModal":
         var modalBody = this.doctorInformationWindow();
         break;
+      case "registerInformationModal":
+        var modalBody = this.registerInformationWindow();
+        break;
     }
 
     //Construction du modalFooter :
@@ -183,8 +224,11 @@ class ModalWindow {
     this.domElement.removeChild(component);
 
     //On affiche la calendarModal dans le cas de la destruction d'une consultationModal :
-    let calendarModalWindow = document.querySelector("#calendarModal")
-    if(this.modalID === "consultationInformationModal" && calendarModalWindow){
+    let calendarModalWindow = document.querySelector("#calendarModal");
+    if (
+      this.modalID === "consultationInformationModal" &&
+      calendarModalWindow
+    ) {
       $("#calendarModal").modal("show");
     }
   }

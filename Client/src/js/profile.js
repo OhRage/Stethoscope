@@ -3,13 +3,16 @@ class ProfileInformations {
     domElement,
     userDatas,
     personnalInformationLabel,
-    connexionInformationLabel,
+    connexionInformationLabel
   ) {
     this.domElement = domElement;
     this.personnalInformationLabel = personnalInformationLabel;
     this.connexionInformationLabel = connexionInformationLabel;
-    this.personnalInformationValues = userDatas["personnalDatas"];
-    this.connexionInformationValues = userDatas["connexionDatas"];
+
+    if (userDatas) {
+      this.personnalInformationValues = userDatas["personnalDatas"];
+      this.connexionInformationValues = userDatas["connexionDatas"];
+    }
   }
 
   pannelInformationMount(
@@ -41,20 +44,27 @@ class ProfileInformations {
         let userInformationCol = document.createElement("div");
         userInformationCol.className = "col";
 
-        let keyOfComponentValues = Object.keys(componentValues)[j];
+        let keyOfComponentLabels = Object.keys(componentLabel)[j];
 
         //Construction du label :
         let label = document.createElement("label");
-        label.setAttribute("for", keyOfComponentValues);
-        label.innerHTML = componentLabel[j];
+        label.setAttribute("for", keyOfComponentLabels);
+        label.innerHTML = componentLabel[keyOfComponentLabels];
 
         //Construction de l'input
         let inputValue = document.createElement("input");
         inputValue.className = "form-control";
         inputValue.setAttribute("type", "text");
-        inputValue.setAttribute("id", keyOfComponentValues);
-        inputValue.setAttribute("value", componentValues[keyOfComponentValues]);
-        inputValue.disabled;
+        inputValue.setAttribute("id", keyOfComponentLabels);
+
+        if (componentValues) {
+          let keyOfComponentValues = Object.keys(componentValues)[j];
+          inputValue.setAttribute(
+            "value",
+            componentValues[keyOfComponentValues]
+          );
+          inputValue.disabled;
+        }
 
         //Ajout des composants à la col :
         userInformationCol.appendChild(label);
