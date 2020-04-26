@@ -7,7 +7,7 @@ class ModalWindow {
     this.serverDatas = serverDatas;
   }
 
-  modalWindowFooter(originPage) {
+  modalWindowFooter(modalID) {
     //Création du modalFooter :
     let modalFooter = document.createElement("div");
     modalFooter.className = "modal-footer";
@@ -24,19 +24,33 @@ class ModalWindow {
     modalRow.appendChild(modalCloseButton);
     modalFooter.appendChild(modalRow);
 
-    //Bouton Valider (page index.html)
-    let modalValidateButton = document.createElement("button");
-    modalValidateButton.className = "btn btn-primary mr-4 ml-4";
-
-    if (originPage === "index") {
+    //Spécification par modalWindow :
+    if (
+      modalID === "personalInformationModal" ||
+      modalID === "doctorInformationModal"
+    ) {
+      let modalModifyButton = document.createElement("button");
+      modalModifyButton.className = "btn btn-primary mr-4 ml-4";
+      modalModifyButton.setAttribute("type", "button");
+      modalModifyButton.innerHTML = "Modifier";
+      modalModifyButton.addEventListener("click", () => {
+        this.onModifyButtonClick();
+      });
+      modalRow.appendChild(modalModifyButton);
+    } else if (
+      modalID === "registerInformationModal" ||
+      modalID === "forgotPasswordModal"
+    ) {
+      let modalValidateButton = document.createElement("button");
+      modalValidateButton.className = "btn btn-primary mr-4 ml-4";
       modalValidateButton.setAttribute("type", "submit");
       modalValidateButton.innerHTML = "Valider";
-    } else {
-      modalValidateButton.setAttribute("type", "button");
-      modalValidateButton.innerHTML = "Modifier";
+      modalValidateButton.addEventListener("click", () => {
+        this.onValidateButtonClick();
+      });
+      modalRow.appendChild(modalValidateButton);
     }
 
-    modalRow.appendChild(modalValidateButton);
     modalFooter.appendChild(modalRow);
 
     //Gestionnaire d'évenement sur le bouton fermer :
@@ -188,7 +202,7 @@ class ModalWindow {
 
     let mainForm = document.createElement("form");
     mainForm.setAttribute("method", "post");
-    mainForm.setAttribute("id", "mainForm")
+    mainForm.setAttribute("id", "mainForm");
     mainForm.setAttribute("onsubmit", "httpRequests.php");
     mainForm.className = "needs-validation";
     mainForm.noValidate = true;
@@ -285,7 +299,7 @@ class ModalWindow {
     }
 
     //Construction du modalFooter :
-    let modalFooter = this.modalWindowFooter(originPage);
+    let modalFooter = this.modalWindowFooter(this.modalID);
 
     //Ajout de tous les composant de la fenêtre modal :
     modalContent.appendChild(modalHeader);
@@ -314,5 +328,13 @@ class ModalWindow {
     ) {
       $("#calendarModal").modal("show");
     }
+  }
+
+  onModifyButtonClick() {
+    console.log("Bouton Modifier");
+  }
+
+  onValidateButtonClick() {
+    console.log("Bouton Valider");
   }
 }
