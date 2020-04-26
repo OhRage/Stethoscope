@@ -69,7 +69,6 @@ class DoctorModalWindow {
     modalRow.appendChild(modalCloseButton);
     modalFooter.appendChild(modalRow);
 
-    //Spécification par modalWindow :
     let modalModifyButton = document.createElement("button");
     modalModifyButton.className = "btn btn-primary mr-4 ml-4";
     modalModifyButton.setAttribute("type", "button");
