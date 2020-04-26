@@ -31,7 +31,7 @@ class ModalWindow {
     if (originPage === "index") {
       modalValidateButton.setAttribute("type", "submit");
       modalValidateButton.innerHTML = "Valider";
-    }else{
+    } else {
       modalValidateButton.setAttribute("type", "button");
       modalValidateButton.innerHTML = "Modifier";
     }
@@ -80,6 +80,8 @@ class ModalWindow {
       connexionInformationLabel
     );
     profileInformationsComponent.componentMount();
+
+    this.setFormAttribute(modalBody);
 
     return modalBody;
   }
@@ -137,6 +139,8 @@ class ModalWindow {
     );
     profileInformationsComponent.componentMount();
 
+    this.setFormAttribute(modalBody);
+
     return modalBody;
   }
 
@@ -172,6 +176,8 @@ class ModalWindow {
     );
     profileInformationsComponent.componentMount();
 
+    this.setFormAttribute(modalBody);
+
     return modalBody;
   }
 
@@ -180,9 +186,12 @@ class ModalWindow {
     let modalBody = document.createElement("div");
     modalBody.className = "modal-body text-left";
 
-    let form = document.createElement("form");
-    form.className = "needs-validation";
-    form.noValidate = true;
+    let mainForm = document.createElement("form");
+    mainForm.setAttribute("method", "post");
+    mainForm.setAttribute("id", "mainForm")
+    mainForm.setAttribute("onsubmit", "httpRequests.php");
+    mainForm.className = "needs-validation";
+    mainForm.noValidate = true;
 
     let formGroup = document.createElement("div");
     formGroup.className = "form-group p-4";
@@ -213,10 +222,18 @@ class ModalWindow {
     formGroup.appendChild(label);
     formGroup.appendChild(hr);
     formGroup.appendChild(row);
-    form.appendChild(formGroup);
-    modalBody.appendChild(form);
+    mainForm.appendChild(formGroup);
+    modalBody.appendChild(mainForm);
+
+    this.setFormAttribute(modalBody);
 
     return modalBody;
+  }
+
+  setFormAttribute(modalBody) {
+    let form = modalBody.querySelector("#mainForm");
+    form.setAttribute("name", this.modalID + "Form");
+    form.setAttribute("onsubmit", "httpRequests.php");
   }
 
   componentMount() {

@@ -86,6 +86,8 @@ class ProfileInformations {
     //Formulaire principal :
     let mainForm = document.createElement("form");
     mainForm.className = "needs-validation";
+    mainForm.setAttribute("method", "post");
+    mainForm.setAttribute("id", "mainForm")
     mainForm.noValidate;
 
     //Création du pannel d'information personnel :

@@ -27,6 +27,10 @@ class DateReservation {
     mainContainer.appendChild(mainContainerTitle);
 
     let mainForm = document.createElement("form");
+    mainForm.setAttribute("method", "post")
+    mainForm.setAttribute("name", "dateReservationForm")
+    mainForm.setAttribute("id", "mainForm")
+    mainForm.setAttribute("onsubmit", "httpRequests.php");
 
     //Création du doctorPannel :
     let doctorPannel = this.doctorPannelMount();
