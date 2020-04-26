@@ -111,10 +111,7 @@ class UserMenu {
     button.addEventListener(
       "click",
       () => {
-        this.modalWindowMount(
-          this.menuInformations[subMenu].modalWindowID,
-          this.menuInformations[subMenu].labelValue
-        );
+        this.modalWindowMount(this.menuInformations[subMenu].modalWindowID);
       },
       false
     );
@@ -122,10 +119,11 @@ class UserMenu {
     return displaySubMenu;
   }
 
-  modalWindowMount(modalWindowID, modalTitle) {
-    var serverDatas = undefined;
-    // TODO : requete HTTP qui récupère les infos du serveurs en fonction de la window appelé (ID de la window passée en paramètre)
+  modalWindowMount(modalWindowID) {
+    let serverDatas = undefined;
+    let modalSection = document.querySelector("#modalSection");
 
+    // TODO : requete HTTP qui récupère les infos du serveurs en fonction de la window appelé (ID de la window passée en paramètre)
     switch (modalWindowID) {
       case "#personalInformationModal":
         //@TODO : Cas du bouton "Mon profil" => Récupération des informations de l'utilisateur. SQL => Pour la session courante, récupéré les infos ci-dessous (attention masquer le password)
@@ -145,6 +143,14 @@ class UserMenu {
             password: "#######",
           },
         };
+
+        //On ajoute la fenêtre modal au domElement :
+        let modalWindow = new ProfileModalWindow(
+          modalSection,
+          serverDatas
+        );
+        modalWindow.componentMount();
+
         break;
       case "#doctorInformationModal":
         //@TODO : Cas du bouton "Mon médecin" => récupération des informations du médecin traitant du patient (cf info ci-dessous):
@@ -170,18 +176,6 @@ class UserMenu {
       case "#logoutButton":
         break;
     }
-
-    var modalSection = document.querySelector("#modalSection");
-
-    //On ajoute la fenêtre modal au domElement :
-    var modalWindow = new ModalWindow(
-      modalSection,
-      modalWindowID,
-      "modal-lg",
-      modalTitle,
-      serverDatas
-    );
-    modalWindow.componentMount();
   }
 
   componentMount() {
