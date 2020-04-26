@@ -203,7 +203,7 @@ class ModalWindow {
     let mainForm = document.createElement("form");
     mainForm.setAttribute("method", "post");
     mainForm.setAttribute("id", "mainForm");
-    mainForm.setAttribute("onsubmit", "httpRequests.php");
+    mainForm.setAttribute("action", "httpRequests.php");
     mainForm.className = "needs-validation";
     mainForm.noValidate = true;
 
@@ -247,7 +247,7 @@ class ModalWindow {
   setFormAttribute(modalBody) {
     let form = modalBody.querySelector("#mainForm");
     form.setAttribute("name", this.modalID + "Form");
-    form.setAttribute("onsubmit", "httpRequests.php");
+    form.setAttribute("action", "httpRequests.php");
   }
 
   componentMount() {
@@ -335,6 +335,12 @@ class ModalWindow {
   }
 
   onValidateButtonClick() {
-    console.log("Bouton Valider");
+    //Récupération du formulaire de la fenêtre modale :
+    let mainForm = document.querySelector("#modalSection #mainForm");
+    
+    //Vérification des saisies :
+
+    //Envoi du formulaire :
+    mainForm.submit()
   }
 }

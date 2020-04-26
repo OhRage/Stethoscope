@@ -30,7 +30,7 @@ class DateReservation {
     mainForm.setAttribute("method", "post")
     mainForm.setAttribute("name", "dateReservationForm")
     mainForm.setAttribute("id", "mainForm")
-    mainForm.setAttribute("onsubmit", "httpRequests.php");
+    mainForm.setAttribute("action", "httpRequests.php");
 
     //Création du doctorPannel :
     let doctorPannel = this.doctorPannelMount();
