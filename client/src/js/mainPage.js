@@ -28,9 +28,9 @@ class DateReservation {
 
     let mainForm = document.createElement("form");
     mainForm.setAttribute("method", "post")
-    mainForm.setAttribute("name", "dateReservationForm")
-    mainForm.setAttribute("id", "mainForm")
-    mainForm.setAttribute("action", "httpRequests.php");
+    mainForm.setAttribute("name", "mainForm")
+    mainForm.setAttribute("id", "dateReservationForm")
+    mainForm.setAttribute("action", "/server/src/httpRequests.php");
 
     //Création du doctorPannel :
     let doctorPannel = this.doctorPannelMount();
@@ -154,6 +154,7 @@ class DateReservation {
       inputValue.className = "form-control";
       inputValue.setAttribute("type", "text");
       inputValue.setAttribute("id", keyLabelListValue);
+      inputValue.setAttribute("name", keyLabelListValue);
       inputValue.setAttribute("value", "");
       inputValue.disabled = true;
 
@@ -216,6 +217,7 @@ class DateReservation {
       input.className = "form-control";
       input.setAttribute("type", "text");
       input.setAttribute("id", labelKey[i]);
+      input.setAttribute("name", labelKey[i]);
       input.disabled = true;
 
       col.appendChild(label);
@@ -272,6 +274,7 @@ class DateReservation {
     reasonInput.className = "form-control";
     reasonInput.setAttribute("type", "text");
     reasonInput.setAttribute("id", "reasonInput");
+    reasonInput.setAttribute("name", "reasonInput");
 
     inputCol.appendChild(inputLabel);
     inputCol.appendChild(reasonInput);
@@ -290,6 +293,7 @@ class DateReservation {
     checkBoxInput.className = "form-check-input ml-2";
     checkBoxInput.setAttribute("type", "checkbox");
     checkBoxInput.setAttribute("id", "firstDateInput");
+    checkBoxInput.setAttribute("name", "firstDateInput");
 
     checkBoxCol.appendChild(checkBoxLabel);
     checkBoxCol.appendChild(checkBoxInput);

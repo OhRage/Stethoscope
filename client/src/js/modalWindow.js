@@ -202,8 +202,8 @@ class ModalWindow {
 
     let mainForm = document.createElement("form");
     mainForm.setAttribute("method", "post");
-    mainForm.setAttribute("id", "mainForm");
-    mainForm.setAttribute("action", "httpRequests.php");
+    mainForm.setAttribute("name", "mainForm");
+    mainForm.setAttribute("action", "/server/src/httpRequests.php");
     mainForm.className = "needs-validation";
     mainForm.noValidate = true;
 
@@ -226,6 +226,7 @@ class ModalWindow {
     let input = document.createElement("input");
     input.setAttribute("type", "email");
     input.setAttribute("id", "inputEmail");
+    input.setAttribute("name", "inputEmail");
     input.setAttribute("placeholder", "jean.blanc@gmail.com");
     input.setAttribute("aria-describedby", "emailHelp");
     input.required = true;
@@ -245,9 +246,17 @@ class ModalWindow {
   }
 
   setFormAttribute(modalBody) {
-    let form = modalBody.querySelector("#mainForm");
-    form.setAttribute("name", this.modalID + "Form");
-    form.setAttribute("action", "httpRequests.php");
+    //Récupération du formulaire :
+    let form = modalBody.querySelector("[name=mainForm");
+    form.setAttribute("id", this.modalID + "Form");
+    form.setAttribute("action", "/server/src/httpRequests.php");
+
+    //Ajout d'un input au formulaire contenant le nom de celui (pour traitement côté server):
+    let formName = document.createElement("input");
+    formName.setAttribute("type", "hidden");
+    formName.setAttribute("name", form.getAttribute("id"));
+
+    form.appendChild(formName)
   }
 
   componentMount() {
@@ -336,11 +345,11 @@ class ModalWindow {
 
   onValidateButtonClick() {
     //Récupération du formulaire de la fenêtre modale :
-    let mainForm = document.querySelector("#modalSection #mainForm");
-    
+    let mainForm = document.querySelector("#modalSection [name=mainForm]");
+    console.log(mainForm)
     //Vérification des saisies :
 
     //Envoi du formulaire :
-    mainForm.submit()
+    mainForm.submit();
   }
 }
