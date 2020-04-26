@@ -50,12 +50,8 @@ function onForgotClick() {
 
 
     //On ajoute la fenêtre modal au domElement :
-    var modalWindow = new ModalWindow(
+    var modalWindow = new ResetPasswordModalWindow(
       modalSection,
-      "#forgotPasswordModal",
-      "",
-      "S'enregistrer",
-      undefined
     );
     modalWindow.componentMount();
 }

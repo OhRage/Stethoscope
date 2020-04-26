@@ -101,7 +101,7 @@ class ProfileInformations {
     mainForm.appendChild(personalInformationPannel);
 
     //Création du pannel d'information de connexion :
-    if (this.connexionInformationValues) {
+    if (this.connexionInformationLabel) {
       let connexionInformationPannel = this.pannelInformationMount(
         "connexionInformationComponent",
         "Informations de connexion",
