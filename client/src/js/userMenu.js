@@ -145,7 +145,10 @@ class UserMenu {
         };
 
         //On ajoute la fenêtre modal au domElement :
-        let profileModalWindow = new ProfileModalWindow(modalSection, serverDatas);
+        let profileModalWindow = new ProfileModalWindow(
+          modalSection,
+          serverDatas
+        );
         profileModalWindow.componentMount();
 
         break;
@@ -166,12 +169,21 @@ class UserMenu {
         };
 
         //On ajoute la fenêtre modal au domElement :
-        let doctorModalWindow = new DoctorModalWindow(modalSection, serverDatas);
+        let doctorModalWindow = new DoctorModalWindow(
+          modalSection,
+          serverDatas
+        );
         doctorModalWindow.componentMount();
 
         break;
       case "#calendarModal":
         //@TODO : Cas du bouton "Mon planning" => Récupération des informations du planning de l'utilisateur.
+        //On ajoute la fenêtre modal au domElement :
+        let calendarModalWindow = new CalendarModalWindow(
+          modalSection,
+          serverDatas
+        );
+        calendarModalWindow.componentMount();
         break;
       case "#historyMenu":
         break;
