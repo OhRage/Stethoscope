@@ -39,12 +39,8 @@ function onRegistrationClick() {
 
 
   //On ajoute la fenêtre modal au domElement :
-  var modalWindow = new ModalWindow(
+  var modalWindow = new RegistrationModalWindow(
     modalSection,
-    "#registerInformationModal",
-    "modal-lg",
-    "S'enregistrer",
-    undefined
   );
   modalWindow.componentMount();
 }
