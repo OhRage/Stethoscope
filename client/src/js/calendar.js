@@ -322,7 +322,7 @@ class Calendar {
         postalCode: "69003",
         reason: "Bilan sanguin annuel",
         imagePath:
-          "/home/kimist/Developpement/StethoscopeApp/Stethoscope/src/img/user-image.jpg",
+          "../img/user-image.jpg",
       },
       {
         consultationID: 2,
@@ -336,16 +336,14 @@ class Calendar {
         postalCode: "69003",
         reason: "Gynécologue",
         imagePath:
-          "/home/kimist/Developpement/StethoscopeApp/Stethoscope/src/img/user-image.jpg",
+          "../img/user-image.jpg",
       },
     ];
     var modalSection = document.querySelector("#modalSection");
 
     //On ajoute la fenêtre modal au domElement :
-    var modalWindow = new ModalWindow(
+    var modalWindow = new ConsultationModalWindow(
       modalSection,
-      "#consultationInformationModal",
-      "modal-lg",
       modalWindowTitle,
       serverDatas
     );
