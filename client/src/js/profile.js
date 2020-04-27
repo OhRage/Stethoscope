@@ -59,6 +59,15 @@ class ProfileInformations {
         inputValue.setAttribute("name", keyOfComponentLabels);
         inputValue.required = true;
 
+        //Affectation du type d'input pour le mot de passe et l'email :
+        if (mainContainerID === "connexionInformationComponent"){
+          if (keyOfComponentLabels === "password" || keyOfComponentLabels === "confirmPassword"){
+            inputValue.setAttribute("type", "password")
+          }else if(keyOfComponentLabels === "emailAddress" || keyOfComponentLabels === "confirmEmailAddress"){
+            inputValue.setAttribute("type", "email")
+          }
+        }
+
         if (componentValues) {
           let keyOfComponentValues = Object.keys(componentValues)[j];
           inputValue.setAttribute(

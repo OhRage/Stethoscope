@@ -64,9 +64,9 @@ class RegistrationModalWindow {
 
     let connexionInformationLabel = {
       emailAddress: "Adresse email :",
+      confirmEmailAddress: "Confirmez votre adresse email",
       password: "Mot de passe :",
-      confirmEmailAddress: "Confirmez votre mot de passe",
-      confirmPassword: "Confirmez votre adresse email",
+      confirmPassword: "Confirmez votre mot de passe",
     };
 
     //Ajout des informations générales :
@@ -93,6 +93,7 @@ class RegistrationModalWindow {
     modalRow.className = "row justify-content-end";
 
     form.appendChild(formName);
+    
     //Bouton fermer
     let modalCloseButton = document.createElement("button");
     modalCloseButton.className = "btn btn-primary mr-4 ml-4";
