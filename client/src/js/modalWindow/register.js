@@ -27,13 +27,9 @@ class RegistrationModalWindow {
 
     let modalBody = this.modalWindowBodyMount();
 
-    //Construction du modalFooter :
-    let modalFooter = this.modalWindowFooterMount();
-
     //Ajout de tous les composant de la fenêtre modal :
     modalContent.appendChild(modalHeader);
     modalContent.appendChild(modalBody);
-    modalContent.appendChild(modalFooter);
 
     modalDialog.appendChild(modalContent);
     modal.appendChild(modalDialog);
@@ -92,38 +88,26 @@ class RegistrationModalWindow {
     formName.setAttribute("type", "hidden");
     formName.setAttribute("name", "registerInformationModalForm");
 
-    form.appendChild(formName);
-
-    return modalBody;
-  }
-
-  modalWindowFooterMount() {
-    //Création du modalFooter :
-    let modalFooter = document.createElement("div");
-    modalFooter.className = "modal-footer";
+    //Ajout des boutons du formulaire :
     let modalRow = document.createElement("div");
-    modalRow.className = "row";
+    modalRow.className = "row justify-content-end";
 
+    form.appendChild(formName);
     //Bouton fermer
     let modalCloseButton = document.createElement("button");
     modalCloseButton.className = "btn btn-primary mr-4 ml-4";
     modalCloseButton.setAttribute("type", "button");
     modalCloseButton.setAttribute("data-dismiss", "modal");
     modalCloseButton.innerHTML = "Fermer";
-
     modalRow.appendChild(modalCloseButton);
-    modalFooter.appendChild(modalRow);
 
     let modalValidateButton = document.createElement("button");
     modalValidateButton.className = "btn btn-primary mr-4 ml-4";
     modalValidateButton.setAttribute("type", "submit");
     modalValidateButton.innerHTML = "Valider";
-    modalValidateButton.addEventListener("click", () => {
-      this.onValidateButtonClick();
-    });
     modalRow.appendChild(modalValidateButton);
 
-    modalFooter.appendChild(modalRow);
+    form.appendChild(modalRow);
 
     //Gestionnaire d'évenement sur le bouton fermer :
     modalCloseButton.addEventListener(
@@ -134,16 +118,6 @@ class RegistrationModalWindow {
       false
     );
 
-    return modalFooter;
-  }
-
-  onValidateButtonClick() {
-    //Récupération du formulaire de la fenêtre modale :
-    let mainForm = document.querySelector("#modalSection [name=mainForm]");
-
-    //Vérification des saisies :
-
-    //Envoi du formulaire :
-    mainForm.submit();
+    return modalBody;
   }
 }

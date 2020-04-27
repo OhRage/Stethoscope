@@ -57,6 +57,7 @@ class ProfileInformations {
         inputValue.setAttribute("type", "text");
         inputValue.setAttribute("id", keyOfComponentLabels);
         inputValue.setAttribute("name", keyOfComponentLabels);
+        inputValue.required = true;
 
         if (componentValues) {
           let keyOfComponentValues = Object.keys(componentValues)[j];
@@ -88,7 +89,7 @@ class ProfileInformations {
     let mainForm = document.createElement("form");
     mainForm.className = "needs-validation";
     mainForm.setAttribute("method", "post");
-    mainForm.setAttribute("name", "mainForm")
+    mainForm.setAttribute("name", "mainForm");
     mainForm.noValidate;
 
     //Création du pannel d'information personnel :
