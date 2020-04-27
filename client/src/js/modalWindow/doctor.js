@@ -139,7 +139,7 @@ class DoctorModalWindow {
   onValidateButtonClick() {
     //Récupération du formulaire de la fenêtre modale :
     let mainForm = document.querySelector("#modalSection [name=mainForm]");
-    console.log(mainForm);
+
     //Vérification des saisies :
 
     //Envoi du formulaire :
