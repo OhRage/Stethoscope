@@ -100,7 +100,7 @@ class ProfileModalWindow {
     let personnalInformationLabel = {
       firstName: "Prénom :",
       lastName: "Nom :",
-      age: "Age :",
+      birthDate: "Date de naissance :",
       socialNumber: "Numéro de sécurité sociale :",
       address: "Adresse :",
       city: "Ville :",

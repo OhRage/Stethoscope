@@ -100,7 +100,7 @@ class DoctorModalWindow {
     let doctorInformationLabel = {
       firstName: "Prénom :",
       lastName: "Nom :",
-      age: "Age :",
+      birthDate: "Date de naissance :",
       conventionArea: "Secteur de convention :",
       address: "Adresse :",
       city: "Ville :",

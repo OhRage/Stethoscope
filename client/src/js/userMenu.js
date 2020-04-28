@@ -131,7 +131,7 @@ class UserMenu {
           personnalDatas: {
             firstName: "Kevin",
             lastName: "ICOL",
-            age: "30",
+            birthDate: "24/05/1990",
             socialNumber: "19005730011",
             address: "16 rue George Sand",
             city: "Villeurbanne",
@@ -158,7 +158,7 @@ class UserMenu {
           personnalDatas: {
             firstName: "Gregory",
             lastName: "HOUSE",
-            age: "45",
+            birthDate: "12/06/1968",
             conventionArea: "Secteur 1",
             address: "1er rue de la liberté",
             city: "Lyon",
