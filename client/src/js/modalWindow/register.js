@@ -93,7 +93,7 @@ class RegistrationModalWindow {
     modalRow.className = "row justify-content-end";
 
     form.appendChild(formName);
-    
+
     //Bouton fermer
     let modalCloseButton = document.createElement("button");
     modalCloseButton.className = "btn btn-primary mr-4 ml-4";
@@ -106,6 +106,10 @@ class RegistrationModalWindow {
     modalValidateButton.className = "btn btn-primary mr-4 ml-4";
     modalValidateButton.setAttribute("type", "submit");
     modalValidateButton.innerHTML = "Valider";
+    modalValidateButton.addEventListener("click", () => {
+      this.onSubmitForm(form);
+    });
+
     modalRow.appendChild(modalValidateButton);
 
     form.appendChild(modalRow);
@@ -120,5 +124,40 @@ class RegistrationModalWindow {
     );
 
     return modalBody;
+  }
+
+  onSubmitForm(form){
+
+    //Contrôle de saisie :
+        //L'utilisateur doit avoir plus de 18 ans :
+        let age = getAge(form.querySelector("#birthDate").value)
+        console.log(age)
+
+        //Le code postal doit contenir 5 chiffres :
+        let postalCode = form.querySelector("#postalCode").value;
+        console.log(postalCode)
+
+        //Le numéro de téléphone doit contenir 10 chiffres :
+        let phoneNumber = form.querySelector("#phoneNumber").value;
+        console.log(phoneNumber)    
+
+        //Le mot de passe doit être fort : 
+        let password = form.querySelector("#password").value;
+        console.log(password) 
+
+        //Les emails renseignés doivent être égaux :
+        let emailAddress = form.querySelector("#emailAddress").value;
+        console.log(emailAddress) 
+
+        let confirmEmailAddress = form.querySelector("#confirmEmailAddress").value;
+        console.log(confirmEmailAddress) 
+
+        //Les mot de passes doivent être égaux : 
+        let confirmPassword = form.querySelector("#confirmPassword").value;
+        console.log(confirmPassword) 
+
+    //Soumissions du formulaire :
+
+
   }
 }
