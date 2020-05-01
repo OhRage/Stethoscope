@@ -78,6 +78,12 @@ class RegistrationModalWindow {
     );
     profileInformationsComponent.componentMount();
 
+    this.setModificationForm(modalBody);
+
+    return modalBody;
+  }
+
+  setModificationForm(modalBody) {
     //Récupération du formulaire :
     let form = modalBody.querySelector("[name=mainForm");
     form.setAttribute("id", "registerInformationModalForm");
@@ -87,6 +93,17 @@ class RegistrationModalWindow {
     let formName = document.createElement("input");
     formName.setAttribute("type", "hidden");
     formName.setAttribute("name", "registerInformationModalForm");
+
+    //Ajout des invalid-feedback :
+    let inputs = form.getElementsByTagName("input");
+    for (let i = 0; i < inputs.length; i++) {
+      if (inputs[i].type !== "hidden") {
+        inputs[i].insertAdjacentHTML(
+          "afterend",
+          "<div class='invalid-feedback'></div>"
+        );
+      }
+    }
 
     //Ajout des boutons du formulaire :
     let modalRow = document.createElement("div");
@@ -107,7 +124,7 @@ class RegistrationModalWindow {
     modalValidateButton.setAttribute("type", "submit");
     modalValidateButton.innerHTML = "Valider";
     modalValidateButton.addEventListener("click", () => {
-      this.onSubmitForm(form);
+      this.onSubmitForm(form, event);
     });
 
     modalRow.appendChild(modalValidateButton);
@@ -122,42 +139,142 @@ class RegistrationModalWindow {
       },
       false
     );
-
-    return modalBody;
   }
 
-  onSubmitForm(form){
-
+  onSubmitForm(form, event) {
     //Contrôle de saisie :
-        //L'utilisateur doit avoir plus de 18 ans :
-        let age = getAge(form.querySelector("#birthDate").value)
-        console.log(age)
 
-        //Le code postal doit contenir 5 chiffres :
-        let postalCode = form.querySelector("#postalCode").value;
-        console.log(postalCode)
+    let inputs = form.getElementsByTagName("input");
+    for (let i = 0; i < inputs.length; i++) {
+      if (inputs[i].type !== "hidden") {
+        if (inputs[i].value === "") {
+          //Les champs ne doivent pas être vide :
+          inputs[i].setCustomValidity("Invalid field");
+          let invalidFeedback = inputs[i].nextSibling;
+          invalidFeedback.innerHTML = "Vous devez saisir une valeur.";
+        } else {
+          inputs[i].setCustomValidity("");
 
-        //Le numéro de téléphone doit contenir 10 chiffres :
-        let phoneNumber = form.querySelector("#phoneNumber").value;
-        console.log(phoneNumber)    
+          //Contrôles supplémentaires
+          let invalidFeedback;
+          switch (inputs[i].getAttribute("id")) {
+            case "birthDate":
+              //L'utilisateur doit avoir plus de 18 ans :
+              let age = getAge(inputs[i].value);
+              if (age < 18) {
+                inputs[i].setCustomValidity("Invalid Field");
+                invalidFeedback = inputs[i].nextSibling;
+                invalidFeedback.innerHTML =
+                  "Vous devez être majeur pour vous inscrire";
+              }
+              break;
 
-        //Le mot de passe doit être fort : 
-        let password = form.querySelector("#password").value;
-        console.log(password) 
+            case "socialNumber":
+              //Le numéro de sécurité social doit avoir 13 chiffres et aucune lettre :
+              let socialNumber = inputs[i].value;
+              if (isNaN(parseInt(socialNumber, 10)) || socialNumber.length !== 13) {
+                inputs[i].setCustomValidity("Invalid Field");
+                invalidFeedback = inputs[i].nextSibling;
+                invalidFeedback.innerHTML =
+                  "Le numéro de sécurité social doit contenir 13 chiffres.";
+              }
+              break;
 
-        //Les emails renseignés doivent être égaux :
-        let emailAddress = form.querySelector("#emailAddress").value;
-        console.log(emailAddress) 
+            case "city":
+              //La ville doit contenir que des caractères :
+              let city = inputs[i].value;
+              if (city.match(/.*[0-9].*/gm)) {
+                inputs[i].setCustomValidity("Invalid Field");
+                invalidFeedback = inputs[i].nextSibling;
+                invalidFeedback.innerHTML =
+                  "La ville que vous avez renseignée est invalide.";
+              }
+              break;
 
-        let confirmEmailAddress = form.querySelector("#confirmEmailAddress").value;
-        console.log(confirmEmailAddress) 
+            case "postalCode":
+              //Le code postal doit contenir 5 chiffres :
+              let postalCode = inputs[i].value;
+              if (isNaN(parseInt(postalCode, 10)) || postalCode.length !== 5) {
+                inputs[i].setCustomValidity("Invalid Field");
+                invalidFeedback = inputs[i].nextSibling;
+                invalidFeedback.innerHTML =
+                  "Vous devez saisir un code postal valide (ex : 69000)";
+              }
+              break;
 
-        //Les mot de passes doivent être égaux : 
-        let confirmPassword = form.querySelector("#confirmPassword").value;
-        console.log(confirmPassword) 
+            case "phoneNumber":
+              //Le numéro de téléphone doit contenir 10 chiffres :
+              let phoneNumber = inputs[i].value;
+              if (
+                isNaN(parseInt(phoneNumber, 10)) ||
+                phoneNumber.length !== 10 ||
+                phoneNumber.charAt(0) !== "0"
+              ) {
+                inputs[i].setCustomValidity("Invalid Field");
+                invalidFeedback = inputs[i].nextSibling;
+                invalidFeedback.innerHTML =
+                  "Vous devez saisir un numéro de téléphone valide (ex : 0601020304)";
+              }
+              break;
 
-    //Soumissions du formulaire :
+            case "password":
+              //Le mot de passe doit être fort :
+              let password = inputs[i].value;
+              if (
+                !password.match(
+                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/g
+                )
+              ) {
+                inputs[i].setCustomValidity("Invalid Field");
+                invalidFeedback = inputs[i].nextSibling;
+                invalidFeedback.innerHTML =
+                  "Votre mot de passe doit contenir 8 caractères dont une majuscule, une minuscule, un chiffre et un caractère spécial (!@#$%^&*).";
+              }
+              break;
 
+            case "confirmEmailAddress":
+              //Les emails renseignés doivent être égaux :
+              let emailAddressValue = form.querySelector("#emailAddress").value;
+              let confirmEmailAddress = inputs[i].value;
+              if (emailAddressValue !== confirmEmailAddress) {
+                inputs[i].setCustomValidity("Invalid Field");
+                invalidFeedback = inputs[i].nextSibling;
+                invalidFeedback.innerHTML =
+                  "Les adresses emails doivent être identiques.";
+              }
+              break;
 
+            case "confirmPassword":
+              //Les mot de passes doivent être égaux :
+              let passwordValue = form.querySelector("#password").value;
+              let confirmPassword = inputs[i].value;
+              if (passwordValue !== confirmPassword) {
+                inputs[i].setCustomValidity("Invalid Field");
+                invalidFeedback = inputs[i].nextSibling;
+                invalidFeedback.innerHTML =
+                  "Les mot de passe doivent être identiques.";
+              }
+              break;
+          }
+        }
+      }
+    }
+
+    if (form.checkValidity() === false) {
+      //Retour à l'écran d'enregistrement :
+      event.preventDefault();
+      event.stopPropagation();
+
+      for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].type !== "hidden") {
+          let invalidFeedback = inputs[i].nextSibling;
+          if (inputs[i].checkValidity() === false) {
+            invalidFeedback.className = "invalid-feedback d-block";
+          } else {
+            invalidFeedback.className = "invalid-feedback";
+          }
+        }
+      }
+    }
   }
 }

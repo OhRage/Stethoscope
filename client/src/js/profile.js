@@ -106,7 +106,7 @@ class ProfileInformations {
     mainForm.className = "needs-validation";
     mainForm.setAttribute("method", "post");
     mainForm.setAttribute("name", "mainForm");
-    mainForm.noValidate;
+    mainForm.noValidate = true;
 
     //Création du pannel d'information personnel :
     let personalInformationPannel = this.pannelInformationMount(
