@@ -3,29 +3,34 @@
     ini_set("log_errors", 1);
     ini_set("error_log", "../log/error.stethoscope.fr.log");
 
-    function send_select_request($request){
+    function send_request($request, $type){
 
         /* Ouverture de la connexion non persistante : */
         $connection = mysqli_connect("127.0.0.1:3306", "root", "Jupiter2020!", "Stethoscope");
 
         /* Vérification de la connexion */
-        if (mysqli_connect_errno()){
-            error_log("Echec de la connexion : %s\n", mysqli_connect_error());
+        if ($error = mysqli_connect_errno()){
+            error_log("Echec de la connexion : {$error}\n", 0);
             exit();
         }
             
         $result = mysqli_query($connection, $request);
 
         if ($result  == false){
-            error_log("Erreur de transaction sur la requête suivante : %s\n", $request);
+            $error = mysqli_error($connection);
+            error_log("Erreur de transaction : {$error} Requête : {$request}\n", 0);
+            $rows = false;
+        } else {
+            /* Récupération des données : */
+            if($type = "select" && gettype($result) != "boolean"){
+                $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                /* Libération des résultats */
+                mysqli_free_result($result);
+            } elseif ($type = "upsert"){
+                $rows = $result;
+            }
         }
-        
-        /* Récupération des données : */
-        $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-        /* Libération des résultats */
-        mysqli_free_result($result);
-        
+    
         /* Fermeture de la connexion */
         mysqli_close($connection);
 
