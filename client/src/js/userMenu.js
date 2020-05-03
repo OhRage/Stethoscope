@@ -34,15 +34,24 @@ class UserMenu {
   userPhotoMount() {
     //Cadre photo :
     let displayPhoto = document.createElement("div");
-    displayPhoto.className = "row align-items-center m-auto p-4";
-    displayPhoto.setAttribute("id", "userPhoto");
-    let image = document.createElement("img");
-    image.className = "fluid";
-    image.setAttribute("src", this.userDatas["imagePath"]);
-    image.setAttribute("alt", "Image");
-
-    displayPhoto.appendChild(image);
-
+    displayPhoto.className = "row justify-items-center my-3 mx-auto";
+    if (this.userDatas["imagePath"]) {
+      displayPhoto.setAttribute("id", "userPhoto");
+      let photo = document.createElement("img");
+      photo.className = "fluid";
+      photo.setAttribute("src", this.userDatas["imagePath"]);
+      photo.setAttribute("alt", "photo");
+      displayPhoto.appendChild(photo);
+    } else {
+      //Image par défaut de l'utilisateur :
+      displayPhoto.setAttribute("id", "userImage");
+      let defaultImage = document.createElement("div");
+      defaultImage.setAttribute("id", "userDefaultImage");
+      defaultImage.innerHTML =
+        this.userDatas["firstName"].charAt(0) +
+        this.userDatas["lastName"].charAt(0);
+      displayPhoto.appendChild(defaultImage);
+    }
     return displayPhoto;
   }
 
@@ -202,13 +211,17 @@ class UserMenu {
     let displayPhoto = this.userPhotoMount();
     mainContainer.appendChild(displayPhoto);
 
+    //Ajout d'une barre HR :
+    let horizontalLine1 = document.createElement("hr");
+    mainContainer.appendChild(horizontalLine1);
+
     //Création du username :
     let displayUsername = this.usernameMount();
     mainContainer.appendChild(displayUsername);
 
     //Ajout d'une barre HR :
-    let horizontalLine = document.createElement("hr");
-    mainContainer.appendChild(horizontalLine);
+    let horizontalLine2 = document.createElement("hr");
+    mainContainer.appendChild(horizontalLine2);
 
     //Création du pannel de menu :
     for (let subMenu = 0; subMenu < this.menuInformations.length; subMenu++) {
@@ -232,7 +245,7 @@ function loadUserMenu() {
       firstName: "Kevin",
       lastName: "ICOL",
       userStatut: "Patient",
-      imagePath: "../img/doctor-image.jpg",
+      imagePath: "",
     };
 
     //Création du composant userMenu :

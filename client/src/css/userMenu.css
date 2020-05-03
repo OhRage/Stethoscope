@@ -24,3 +24,18 @@ img {
 #userMenuComponent .btn:hover {
   background-color: #20b2aa;
 }
+
+#userMenuComponent #userImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+  background: #20b2aa;
+}
+
+#userMenuComponent #userDefaultImage{
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 36px;
+  line-height: 100px;
+}

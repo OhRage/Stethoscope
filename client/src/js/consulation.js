@@ -65,11 +65,11 @@ class Consultation {
     let displayPhoto = document.createElement("div");
     displayPhoto.className =
       "row col-3 my-2 justify-content-center align-items-center";
-    let userPhoto = document.createElement("img");
-    userPhoto.className = "img-fluid";
-    userPhoto.setAttribute("src", this.imagePath);
-    userPhoto.setAttribute("alt", "image");
-    displayPhoto.appendChild(userPhoto);
+    let doctorPhoto = document.createElement("img");
+    doctorPhoto.className = "img-fluid";
+    doctorPhoto.setAttribute("src", this.imagePath);
+    doctorPhoto.setAttribute("alt", "");
+    displayPhoto.appendChild(doctorPhoto);
 
     return displayPhoto;
   }
