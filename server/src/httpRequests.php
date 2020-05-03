@@ -105,7 +105,9 @@
             // header("refresh:4;url=http://stethoscope/client/src/html/homepage.html");
         }else{
             http_response_code(403);
-            // header("refresh:4;url=http://stethoscope/index.html");
+            header('Content-type: application/json');
+            $json = [ "error" => "UNKNOWN_DATAS"];
+            echo json_encode($json);
         }     
     }
 ?>

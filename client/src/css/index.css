@@ -42,6 +42,12 @@ body {
   font-family: "Righteous-Regular";
 }
 
+#invalidConnexionFeedback{
+  color: red;
+  display: none;
+  font-size: small;
+}
+
 /* ====================================
     Fenêtres modal : 
 ==================================== */

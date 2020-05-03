@@ -45,6 +45,17 @@ function onLoginClick() {
         invalidFeedback.innerHTML = "Vous devez saisir une valeur.";
       } else {
         inputs[i].setCustomValidity("");
+
+        //L'adresse email doit avoir un format correct :
+        if (inputs[i].getAttribute("id") === "inputEmail") {
+          let email = inputs[i].value;
+          if (!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
+            inputs[i].setCustomValidity("Invalid Field");
+            invalidFeedback = inputs[i].nextSibling;
+            invalidFeedback.innerHTML =
+              "Mauvais format d'email (ex: jean.blanc@email.com).";
+          }
+        }
       }
     }
   }
@@ -63,6 +74,27 @@ function onLoginClick() {
         }
       }
     }
+  } else {
+    //Appel AJAX :
+    let ajax = new XMLHttpRequest();
+
+    ajax.onload = () => {
+      let status = ajax.status;
+      if (status === 200) {
+        //Connexion a la page d'accueil :
+        window.location.href =
+          "http://stethoscope/client/src/html/homepage.html";
+      } else if (status === 403) {
+        //Informations de connexion invalides :
+        let invalidConnexionFeedback = form.querySelector(
+          "#invalidConnexionFeedback"
+        );
+        invalidConnexionFeedback.style.display = "block";
+      }
+    };
+
+    ajax.open("POST", "http://stethoscope/server/src/httpRequests.php");
+    ajax.send(new FormData(form));
   }
 }
 
