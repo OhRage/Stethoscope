@@ -172,7 +172,10 @@ class RegistrationModalWindow {
             case "socialNumber":
               //Le numéro de sécurité social doit avoir 13 chiffres et aucune lettre :
               let socialNumber = inputs[i].value;
-              if (isNaN(parseInt(socialNumber, 10)) || socialNumber.length !== 13) {
+              if (
+                isNaN(parseInt(socialNumber, 10)) ||
+                socialNumber.length !== 13
+              ) {
                 inputs[i].setCustomValidity("Invalid Field");
                 invalidFeedback = inputs[i].nextSibling;
                 invalidFeedback.innerHTML =
@@ -214,6 +217,21 @@ class RegistrationModalWindow {
                 invalidFeedback = inputs[i].nextSibling;
                 invalidFeedback.innerHTML =
                   "Vous devez saisir un numéro de téléphone valide (ex : 0601020304)";
+              }
+              break;
+
+            case "emailAddress":
+              //L'adresse email doit avoir un format correct :
+              let email = inputs[i].value;
+              if (
+                !email.match(
+                  /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
+                )
+              ) {
+                inputs[i].setCustomValidity("Invalid Field");
+                invalidFeedback = inputs[i].nextSibling;
+                invalidFeedback.innerHTML =
+                  "Votre adresse email n'est pas au bon format (ex: jean.blanc@email.com).";
               }
               break;
 
