@@ -87,8 +87,26 @@
         header("refresh:4;url=http://stethoscope/index.html"); 
         
     //Formulaire de récupération du mot de passe : 
-    }elseif (isset($_POST["forgotPasswordModalForm"])) {
-        echo "Récupération du mot de passe";
+    }elseif (isset($_POST["loginForm"])) {
+
+        //Récupération des inputs :
+        $datas = [
+            "login" => strtolower($_POST["emailAddress"]),
+            "password" => ($_POST["password"]),
+         ];
+
+        //Vérification des identifiants de connexion :
+        $msg = "Echec";
+        $query = "SELECT password FROM USERS WHERE login = \"{$datas["login"]}\"";
+        $result = send_request($query, "select");
+
+        if($result != false && $result[0]["password"] == $datas["password"]){
+            http_response_code(200);
+            // header("refresh:4;url=http://stethoscope/client/src/html/homepage.html");
+        }else{
+            http_response_code(403);
+            // header("refresh:4;url=http://stethoscope/index.html");
+        }     
     }
 ?>
 
