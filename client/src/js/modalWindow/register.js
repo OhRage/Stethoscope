@@ -115,13 +115,14 @@ class RegistrationModalWindow {
     let modalCloseButton = document.createElement("button");
     modalCloseButton.className = "btn btn-primary mr-4 ml-4";
     modalCloseButton.setAttribute("type", "button");
+    modalCloseButton.setAttribute("id", "closeButton");
     modalCloseButton.setAttribute("data-dismiss", "modal");
     modalCloseButton.innerHTML = "Fermer";
     modalRow.appendChild(modalCloseButton);
 
     let modalValidateButton = document.createElement("button");
     modalValidateButton.className = "btn btn-primary mr-4 ml-4";
-    modalValidateButton.setAttribute("type", "submit");
+    modalValidateButton.setAttribute("type", "button");
     modalValidateButton.innerHTML = "Valider";
     modalValidateButton.addEventListener("click", () => {
       this.onSubmitForm(form, event);
@@ -223,11 +224,7 @@ class RegistrationModalWindow {
             case "emailAddress":
               //L'adresse email doit avoir un format correct :
               let email = inputs[i].value;
-              if (
-                !email.match(
-                  /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
-                )
-              ) {
+              if (!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
                 inputs[i].setCustomValidity("Invalid Field");
                 invalidFeedback = inputs[i].nextSibling;
                 invalidFeedback.innerHTML =
@@ -293,6 +290,43 @@ class RegistrationModalWindow {
           }
         }
       }
+    } else {
+      //Appel AJAX :
+      let ajax = new XMLHttpRequest();
+
+      ajax.onload = () => {
+        let status = ajax.status;
+        let msg = JSON.parse(ajax.response)["message"];
+
+        if (
+          status === 403 &&
+          msg === "L'email que vous avez saisie est déjà utilisé."
+        ) {
+          //Information sur l'email déjà pris :
+          let emailAddressInvalidFeedback = form.querySelector("#emailAddress")
+            .nextSibling;
+          emailAddressInvalidFeedback.className = "invalid-feedback d-block";
+          emailAddressInvalidFeedback.innerHTML = msg;
+        } else {
+          //Ferme la fenêtre modal :
+          form.querySelector("#closeButton").click();
+
+          //Récupération du connexionFeedback :
+          let connexionFeedback = document.querySelector("#connexionFeedback");
+          connexionFeedback.innerHTML = msg;
+          connexionFeedback.style.display = "block";
+
+          if (status === 200) {
+            //Information sur la connexion OK :
+            connexionFeedback.style.color = "green";
+          } else {
+            connexionFeedback.style.color = "red";
+          }
+        }
+      };
+
+      ajax.open("POST", "http://stethoscope/server/src/httpRequests.php");
+      ajax.send(new FormData(form));
     }
   }
 }

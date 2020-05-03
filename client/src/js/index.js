@@ -86,10 +86,12 @@ function onLoginClick() {
           "http://stethoscope/client/src/html/homepage.html";
       } else if (status === 403) {
         //Informations de connexion invalides :
-        let invalidConnexionFeedback = form.querySelector(
-          "#invalidConnexionFeedback"
+        let connexionFeedback = form.querySelector(
+          "#connexionFeedback"
         );
-        invalidConnexionFeedback.style.display = "block";
+        connexionFeedback.innerHTML = "Les informations que vous avez saisies sont invalides.";
+        connexionFeedback.style.display = "block";
+        connexionFeedback.style.color = "red";
       }
     };
 

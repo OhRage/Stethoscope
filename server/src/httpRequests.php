@@ -19,7 +19,8 @@
         ];
 
         //Vérification de l'unicité de l'email:
-        $msg = "Erreur lors de l'enregistrement";
+        $msg = "Erreur lors de l'enregistrement. Veuillez réesayer.";
+        $code = 403;
         $login = $datas["emailAddress"];
         $query = "SELECT login FROM USERS WHERE login = \"$login\";";
         $result = send_request($query, "select");
@@ -27,7 +28,8 @@
 
         //Redirection en fonction de $result :
         if (gettype($result) != "array" && $result == false){ //Erreur de transaction
-            $msg = "Erreur serveur.";
+            $msg = "Erreur serveur. Veuillez réessayer";
+            $code = 500;
         }elseif (gettype($result) == "array" && $result != false) { //Email déjà pris
             $msg = "L'email que vous avez saisie est déjà utilisé.";        
         }else if (gettype($result) == "array" && $result == false){ //Enregistrement OK
@@ -75,16 +77,23 @@
                     $result = send_request($query, "upsert");
 
                     if($result){
-                        $msg = "Enregistrement validé.";
+                        $msg = "Enregistrement validé. Vous pouvez vous connecter.";
+                        $code = 200;
+                        http_response_code($code);
                     }
                 }
+            }
+
+            if($code != 200){
+                $code = 403;
             }
         }
 
         //Redirection vers la page de connexion :
-        $msg .= "\nVous allez être redirigé vers la page de connexion.";
-        echo $msg;
-        header("refresh:4;url=http://stethoscope/index.html"); 
+        http_response_code($code);
+        header('Content-type: application/json');
+        $json = ["message" => $msg];
+        echo json_encode($json);
         
     //Formulaire de récupération du mot de passe : 
     }elseif (isset($_POST["loginForm"])) {
