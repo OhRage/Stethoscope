@@ -8,3 +8,11 @@ function getAge(dateString) {
   }
   return age;
 }
+
+function setCookie(name, value, expires = "") {
+  document.cookie =
+    name +
+    "" +
+    encodeURIComponent(value) +
+    (expires == "" ? "" : ";expires=" + expires.toUTCString());
+}
