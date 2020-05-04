@@ -16,3 +16,12 @@ function setCookie(name, value, expires = "") {
     encodeURIComponent(value) +
     (expires == "" ? "" : ";expires=" + expires.toUTCString());
 }
+
+function getCookie(name) {
+  let cookies = allCokies();
+  if (cookies[name]) {
+    return decodeURIComponent(cookies[name]);
+  } else {
+    return null;
+  }
+}
