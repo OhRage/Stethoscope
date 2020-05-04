@@ -9,16 +9,27 @@ function getAge(dateString) {
   return age;
 }
 
+function allCookies() {
+  let cookiesTab = document.cookie.split(";");
+  let cookies = [];
+  for (let i = 0; i < cookiesTab.length; i++) {
+    let name = cookiesTab[i].substring(0, cookiesTab[i].indexOf("="));
+    let value = cookiesTab[i].substring(cookiesTab[i].indexOf("=") + 1);
+    cookies[name] = value;
+  }
+  return cookies;
+}
+
 function setCookie(name, value, expires = "") {
   document.cookie =
     name +
-    "" +
+    "=" +
     encodeURIComponent(value) +
     (expires == "" ? "" : ";expires=" + expires.toUTCString());
 }
 
 function getCookie(name) {
-  let cookies = allCokies();
+  let cookies = allCookies();
   if (cookies[name]) {
     return decodeURIComponent(cookies[name]);
   } else {

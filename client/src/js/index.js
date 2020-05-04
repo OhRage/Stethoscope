@@ -81,15 +81,18 @@ function onLoginClick() {
     ajax.onload = () => {
       let status = ajax.status;
       if (status === 200) {
+        //Enregistrement du login dans un cookie :
+        let login = document.querySelector("#inputEmail").value;
+        setCookie("login", login);
+
         //Connexion a la page d'accueil :
         window.location.href =
           "http://stethoscope/client/src/html/homepage.html";
       } else if (status === 403) {
         //Informations de connexion invalides :
-        let connexionFeedback = form.querySelector(
-          "#connexionFeedback"
-        );
-        connexionFeedback.innerHTML = "Les informations que vous avez saisies sont invalides.";
+        let connexionFeedback = form.querySelector("#connexionFeedback");
+        connexionFeedback.innerHTML =
+          "Les informations que vous avez saisies sont invalides.";
         connexionFeedback.style.display = "block";
         connexionFeedback.style.color = "red";
       }
