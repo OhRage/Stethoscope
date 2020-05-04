@@ -87,7 +87,7 @@ function onLoginClick() {
 
         //Connexion a la page d'accueil :
         window.location.href =
-          "http://stethoscope/client/src/html/homepage.html";
+          "http://stethoscope/client/src/html/homepage.php";
       } else if (status === 403) {
         //Informations de connexion invalides :
         let connexionFeedback = form.querySelector("#connexionFeedback");
@@ -98,7 +98,7 @@ function onLoginClick() {
       }
     };
 
-    ajax.open("POST", "http://stethoscope/server/src/httpRequests.php");
+    ajax.open("POST", "http://stethoscope/index.php");
     ajax.send(new FormData(form));
   }
 }

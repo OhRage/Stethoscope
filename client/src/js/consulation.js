@@ -47,7 +47,7 @@ class Consultation {
     //Ajout du bouton d'annulation de la consultation :
     let displayCancelButton = this.cancelButtonMount();
 
-    //Ajout des composants a homepage.html
+    //Ajout des composants a homepage
     mainContainer.appendChild(displayPhoto);
     mainContainer.appendChild(displayInformations);
     mainContainer.appendChild(displayCancelButton);

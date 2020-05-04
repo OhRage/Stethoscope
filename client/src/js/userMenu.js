@@ -240,7 +240,6 @@ document.addEventListener("readystatechange", () => {
 });
 function loadUserMenu() {
   if (document.readyState === "complete") {
-    console.log(getCookie("login"));
     //Datas du server TODO : requete SQL =>  récupérer le nom, prénom, le status (doctor, patient) et le path de l'image de profile.
     userMenuDatas = {
       firstName: "Kevin",

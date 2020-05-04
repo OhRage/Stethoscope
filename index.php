@@ -1,3 +1,28 @@
+<?php
+  session_start();
+  include "server/src/database.php";
+
+  if (isset($_POST["loginForm"])) {
+
+    //Récupération des inputs :
+    $datas = [
+        "login" => strtolower($_POST["emailAddress"]),
+        "password" => ($_POST["password"]),
+     ];
+
+    //Vérification des identifiants de connexion :
+    $query = "SELECT password FROM USERS WHERE login = \"{$datas["login"]}\"";
+    $result = send_request($query, "select");
+
+    if($result != false && $result[0]["password"] == $datas["password"]){
+        echo "OK";
+        http_response_code(200);
+        $_SESSION["login"]=$datas["login"];
+    }else{
+        http_response_code(403);
+    }     
+}else{
+?>
 <!DOCTYPE html>
 <html lang="fr" style="height: 100%;">
   <head>
@@ -131,3 +156,6 @@
   <script type="text/javascript" src="client/src/js/profile.js"></script>
   <script type="text/javascript" src="client/src/js/util.js"></script>
 </html>
+<?php
+}
+?>
