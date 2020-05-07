@@ -81,10 +81,6 @@ function onLoginClick() {
     ajax.onload = () => {
       let status = ajax.status;
       if (status === 200) {
-        //Enregistrement du login dans un cookie :
-        let login = document.querySelector("#inputEmail").value;
-        setCookie("login", login);
-
         //Connexion a la page d'accueil :
         window.location.href =
           "http://stethoscope/client/src/html/homepage.php";
