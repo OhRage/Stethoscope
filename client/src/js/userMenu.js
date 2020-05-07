@@ -240,17 +240,39 @@ document.addEventListener("readystatechange", () => {
 });
 function loadUserMenu() {
   if (document.readyState === "complete") {
-    //Datas du server TODO : requete SQL =>  récupérer le nom, prénom, le status (doctor, patient) et le path de l'image de profile.
-    userMenuDatas = {
-      firstName: "Kevin",
-      lastName: "ICOL",
-      userStatut: "Patient",
-      imagePath: "",
+    //Récupération des infos de l'utilisateur sur le serveur :
+    let ajax = new XMLHttpRequest();
+
+    ajax.onload = () => {
+      if (ajax.status == 200) {
+        let datas = JSON.parse(ajax.response);
+        let userMenuDatas = {
+          firstName:
+            datas["first_name"].charAt(0).toUpperCase() +
+            datas["first_name"].slice(1),
+          lastName: datas["last_name"].toUpperCase(),
+        };
+
+        //Création du composant userMenu :
+        let domElement = document.getElementById("mainRow");
+        const userMenu = new UserMenu(domElement, userMenuDatas);
+        userMenu.componentMount();
+      } else {
+        console.log(
+          "Erreur de récupération des données du serveur (getId = get_user_datas)"
+        );
+        let userMenuDatas = {
+          firstName: undefined,
+          lastName: undefined,
+        };
+      }
     };
 
-    //Création du composant userMenu :
-    let domElement = document.getElementById("mainRow");
-    const userMenu = new UserMenu(domElement, userMenuDatas);
-    userMenu.componentMount();
+    ajax.open(
+      "GET",
+      "http://stethoscope/server/src/httpRequests.php?getId=get_user_datas&login=" +
+        sessionLogin
+    );
+    ajax.send();
   }
 }

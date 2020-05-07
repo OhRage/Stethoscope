@@ -94,6 +94,31 @@
         header('Content-type: application/json');
         $json = ["message" => $msg];
         echo json_encode($json);
+    }else if (isset($_GET["getId"]) == "get_user_datas"){
+
+        //Récupération des données de l'utilisateur :
+        $query = "SELECT
+                PATIENT.first_name
+                , PATIENT.last_name
+            FROM PATIENT
+                INNER JOIN USERS ON USERS.ID_User = PATIENT.ID_User
+            WHERE USERS.login = \"{$_GET["login"]}\";";
+
+        $result = send_request($query, "select");
+
+        if($result){
+            http_response_code(200);
+            header('Content-type: application/json');
+            $json = [
+                "first_name" => $result[0]["first_name"],
+                "last_name" => $result[0]["last_name"]
+            ];
+            echo json_encode($json);
+
+        }else{
+            http_response_code(400);
+            error_log("Aucune valeur retournée pour la requête http \"get_user_datas\"");
+        }
     }
 ?>
 
