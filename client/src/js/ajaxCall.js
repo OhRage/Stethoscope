@@ -74,7 +74,7 @@ class AjaxCall {
         }
     }
 
-    usernameAjaxOnload() {
+    getUsernameAjaxOnload() {
         if (this.ajaxId === "usernameAjax") {
             this.ajax.onload = () => {
                 let userMenuDatas = {};
@@ -94,6 +94,48 @@ class AjaxCall {
                         firstName: undefined,
                         lastName: undefined,
                     };
+                }
+
+                //Création du composant userMenu :
+                let domElement = document.getElementById("mainRow");
+                const userMenu = new UserMenu(domElement, userMenuDatas);
+                userMenu.componentMount();
+            };
+        } else {
+            console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);
+        }
+    }
+
+    getProfileAjaxOnload() {
+        if (this.ajaxId === "getProfileAjax") {
+            this.ajax.onload = () => {
+                let profileDatas = {};
+                if (this.ajax.status == 200) {
+                    let datas = JSON.parse(this.ajax.response);
+
+                    // profileDatas = {
+                    //     personnalDatas: {
+                    //         firstName:
+                    //             datas["first_name"].charAt(0).toUpperCase() +
+                    //             datas["first_name"].slice(1),
+                    //         lastName: datas["last_name"].toUpperCase(),
+                    //         birthDate: ,
+                    //         socialNumber: ,
+                    //         address: ,
+                    //         city: ,
+                    //         postalCode: ,
+                    //         phoneNumber: ,
+                    //     },
+                    //     connexionDatas: {
+                    //         emailAddress: ,
+                    //         password: ,
+                    //     },
+                    // };
+                } else {
+                    console.log(
+                        "Erreur de récupération des données du serveur (getId = get_user_datas)"
+                    );
+
                 }
 
                 //Création du composant userMenu :

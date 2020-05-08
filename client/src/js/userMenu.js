@@ -138,23 +138,11 @@ class UserMenu {
         switch (modalWindowID) {
             case "#personalInformationModal":
                 //Récupération des informations de l'utilisateur :
+                let ajax = new AjaxCall("getProfileAjax");
+                ajax.profileAjaxOnload();
+                ajax.sendAjax("GET", "");
 
-                serverDatas = {
-                    personnalDatas: {
-                        firstName: "Kevin",
-                        lastName: "ICOL",
-                        birthDate: "24/05/1990",
-                        socialNumber: "19005730011",
-                        address: "16 rue George Sand",
-                        city: "Villeurbanne",
-                        postalCode: "69100",
-                        phoneNumber: "0608137982",
-                    },
-                    connexionDatas: {
-                        emailAddress: "kevin.icol@hotmail.fr",
-                        password: "Jupiter2020!",
-                    },
-                };
+                
 
                 //On ajoute la fenêtre modal au domElement :
                 let profileModalWindow = new ProfileModalWindow(
@@ -249,7 +237,7 @@ function loadUserMenu() {
     if (document.readyState === "complete") {
         //Récupération des infos de l'utilisateur sur le serveur :
         let ajax = new AjaxCall("usernameAjax");
-        ajax.usernameAjaxOnload();
+        ajax.getUsernameAjaxOnload();
         ajax.sendAjax(
             "GET",
             "http://stethoscope/server/src/httpRequests.php?getId=get_user_datas&login=" +

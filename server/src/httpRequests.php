@@ -56,7 +56,7 @@
                     //Création du patient :
                     $userID = $result[0]["ID_User"];
 
-                    $query = "INSERT INTO Stethoscope.PATIENT(
+                    $query1 = "INSERT INTO Stethoscope.PATIENT(
                         first_name
                         , last_name
                         , birth_date
@@ -72,9 +72,9 @@
                         , \"{$datas["socialNumber"]}\"
                         , \"{$datas["phoneNumber"]}\"
                         , \"{$datas["emailAddress"]}\"
-                        , {$userID});
-                        
-                    INSERT INTO Stethoscope.ADDRESS(
+                        , {$userID});";
+
+                    $query2 = "INSERT INTO Stethoscope.ADDRESS(
                         address
                         , city
                         , postal_code
@@ -86,9 +86,10 @@
                         , \"{$datas["postalCode"]}\"
                         , {$userID});";
 
-                    $result = send_request($query, "upsert");
+                    $result1 = send_request($query, "upsert");
+                    $result2 = send_request($query, "upsert");
 
-                    if($result){
+                    if($result1 && $result2){
                         $msg = "Enregistrement validé. Vous pouvez vous connecter.";
                         $code = 200;
                         http_response_code($code);
