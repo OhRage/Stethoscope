@@ -76,26 +76,9 @@ function onLoginClick() {
     }
   } else {
     //Appel AJAX :
-    let ajax = new XMLHttpRequest();
-
-    ajax.onload = () => {
-      let status = ajax.status;
-      if (status === 200) {
-        //Connexion a la page d'accueil :
-        window.location.href =
-          "http://stethoscope/client/src/html/homepage.php";
-      } else if (status === 403) {
-        //Informations de connexion invalides :
-        let connexionFeedback = form.querySelector("#connexionFeedback");
-        connexionFeedback.innerHTML =
-          "Les informations que vous avez saisies sont invalides.";
-        connexionFeedback.style.display = "block";
-        connexionFeedback.style.color = "red";
-      }
-    };
-
-    ajax.open("POST", "http://stethoscope/index.php");
-    ajax.send(new FormData(form));
+    let ajax = new AjaxCall("loginAjax");
+    ajax.loginAjaxOnload();
+    ajax.sendAjax("POST", "http://stethoscope/index.php", new FormData(form))
   }
 }
 

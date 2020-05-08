@@ -155,6 +155,7 @@
   ></script>
   <script type="text/javascript" src="client/src/js/profile.js"></script>
   <script type="text/javascript" src="client/src/js/util.js"></script>
+  <script type="text/javascript" src="client/src/js/ajaxCall.js"></script>
 </html>
 <?php
 }

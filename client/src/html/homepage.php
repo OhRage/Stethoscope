@@ -59,5 +59,6 @@
   <script type="text/javascript" src="../js/consulation.js"></script>
   <script type="text/javascript" src="../js/profile.js"></script>
   <script type="text/javascript" src="../js/util.js"></script>
+  <script type="text/javascript" src="../js/ajaxCall.js"></script>
   <script type="text/javascript">var sessionLogin = "<?php echo $_SESSION["login"]; ?>";</script>
 </html>
