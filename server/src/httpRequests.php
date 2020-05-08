@@ -36,8 +36,8 @@
             //Création de l'utilisateur :
             $query = "INSERT INTO Stethoscope.USERS(
                 login
-                ,password
-                ,administrator)
+                , password
+                , administrator)
             VALUES(
                 \"{$datas["emailAddress"]}\",
                 \"{$datas["password"]}\",
@@ -58,11 +58,11 @@
 
                     $query = "INSERT INTO Stethoscope.PATIENT(
                         first_name
-                        ,last_name
-                        ,birth_date
-                        ,social_security_number
-                        ,phone_number
-                        ,email_address
+                        , last_name
+                        , birth_date
+                        , social_security_number
+                        , phone_number
+                        , email_address
                         , ID_User
                     )
                     VALUES(
@@ -72,6 +72,18 @@
                         , \"{$datas["socialNumber"]}\"
                         , \"{$datas["phoneNumber"]}\"
                         , \"{$datas["emailAddress"]}\"
+                        , {$userID});
+                        
+                    INSERT INTO Stethoscope.ADDRESS(
+                        address
+                        , city
+                        , postal_code
+                        , ID_User
+                    )
+                    VALUES(
+                        \"{$datas["address"]}\"
+                        , \"{$datas["city"]}\"
+                        , \"{$datas["postalCode"]}\"
                         , {$userID});";
 
                     $result = send_request($query, "upsert");
