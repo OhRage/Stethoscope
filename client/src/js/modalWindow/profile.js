@@ -75,9 +75,6 @@ class ProfileModalWindow {
         modalModifyButton.className = "btn btn-primary mr-4 ml-4";
         modalModifyButton.setAttribute("type", "button");
         modalModifyButton.innerHTML = "Modifier";
-        modalModifyButton.addEventListener("click", () => {
-            this.onModifyButtonClick();
-        });
         modalRow.appendChild(modalModifyButton);
 
         let modalValidateButton = document.createElement("button");
@@ -89,6 +86,10 @@ class ProfileModalWindow {
             this.onValidateButtonClick();
         });
         modalRow.appendChild(modalValidateButton);
+
+        modalModifyButton.addEventListener("click", () => {
+            this.onModifyButtonClick(modalModifyButton, modalValidateButton);
+        });
 
         modalFooter.appendChild(modalRow);
 
@@ -149,7 +150,7 @@ class ProfileModalWindow {
         return modalBody;
     }
 
-    onModifyButtonClick() {
+    onModifyButtonClick(modifyButton, validateButton) {
         //On rend les input enabled :
         let form = document.querySelector("#personalInformationModalForm");
         let inputs = form.getElementsByTagName("input");
@@ -158,8 +159,10 @@ class ProfileModalWindow {
         }
 
         //On masque le bouton "Modifier":
+        modifyButton.style.display = "none";
 
         //On affiche le bouton valider :
+        validateButton.style.display = "block";
     }
 
     onValidateButtonClick() {
