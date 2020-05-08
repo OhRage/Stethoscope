@@ -78,6 +78,16 @@ class ProfileModalWindow {
     });
     modalRow.appendChild(modalModifyButton);
 
+    let modalValidateButton = document.createElement("button");
+    modalValidateButton.className = "btn btn-primary mr-4 ml-4";
+    modalValidateButton.setAttribute("type", "button");
+    modalValidateButton.innerHTML = "Valider";
+    modalValidateButton.style.display = "none";
+    modalModifyButton.addEventListener("click", () => {
+      this.onValidateButtonClick();
+    });
+    modalRow.appendChild(modalModifyButton);
+
     modalFooter.appendChild(modalRow);
 
     //Gestionnaire d'évenement sur le bouton fermer :
@@ -138,7 +148,11 @@ class ProfileModalWindow {
   }
 
   onModifyButtonClick() {
-    console.log("Bouton Modifier");
+    //On rend les input enabled :
+
+    //On masque le bouton "Modifier":
+
+    //On affiche le bouton valider :
   }
 
   onValidateButtonClick() {
