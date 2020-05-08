@@ -58,6 +58,7 @@ class ProfileInformations {
         inputValue.setAttribute("id", keyOfComponentLabels);
         inputValue.setAttribute("name", keyOfComponentLabels);
         inputValue.required = true;
+        inputValue.disabled = true;
 
         //Affectation du type d'input pour le mot de passe et l'email :
 
