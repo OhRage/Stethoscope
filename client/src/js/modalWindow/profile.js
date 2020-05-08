@@ -29,13 +29,9 @@ class ProfileModalWindow {
         //Construction du body  :
         var modalBody = this.modalWindowBodyMount();
 
-        //Construction du modalFooter :
-        let modalFooter = this.modalWindowFooterMount();
-
         //Ajout de tous les composant de la fenêtre modal :
         modalContent.appendChild(modalHeader);
         modalContent.appendChild(modalBody);
-        modalContent.appendChild(modalFooter);
 
         modalDialog.appendChild(modalContent);
         modal.appendChild(modalDialog);
@@ -52,57 +48,6 @@ class ProfileModalWindow {
             "#personalInformationModal"
         );
         this.domElement.removeChild(component);
-    }
-
-    modalWindowFooterMount() {
-        //Création du modalFooter :
-        let modalFooter = document.createElement("div");
-        modalFooter.className = "modal-footer";
-        let modalRow = document.createElement("div");
-        modalRow.className = "row";
-
-        //Bouton fermer
-        let modalCloseButton = document.createElement("button");
-        modalCloseButton.className = "btn btn-primary mr-4 ml-4";
-        modalCloseButton.setAttribute("type", "button");
-        modalCloseButton.setAttribute("data-dismiss", "modal");
-        modalCloseButton.innerHTML = "Fermer";
-
-        modalRow.appendChild(modalCloseButton);
-        modalFooter.appendChild(modalRow);
-
-        let modalModifyButton = document.createElement("button");
-        modalModifyButton.className = "btn btn-primary mr-4 ml-4";
-        modalModifyButton.setAttribute("type", "button");
-        modalModifyButton.innerHTML = "Modifier";
-        modalRow.appendChild(modalModifyButton);
-
-        let modalValidateButton = document.createElement("button");
-        modalValidateButton.className = "btn btn-primary mr-4 ml-4";
-        modalValidateButton.setAttribute("type", "button");
-        modalValidateButton.innerHTML = "Valider";
-        modalValidateButton.style.display = "none";
-        modalValidateButton.addEventListener("click", () => {
-            this.onValidateButtonClick();
-        });
-        modalRow.appendChild(modalValidateButton);
-
-        modalModifyButton.addEventListener("click", () => {
-            this.onModifyButtonClick(modalModifyButton, modalValidateButton);
-        });
-
-        modalFooter.appendChild(modalRow);
-
-        //Gestionnaire d'évenement sur le bouton fermer :
-        modalCloseButton.addEventListener(
-            "click",
-            () => {
-                this.componentUnmount();
-            },
-            false
-        );
-
-        return modalFooter;
     }
 
     modalWindowBodyMount() {
@@ -135,19 +80,86 @@ class ProfileModalWindow {
         );
         profileInformationsComponent.componentMount();
 
+        this.setModificationForm(modalBody);
+
+        return modalBody;
+    }
+
+    setModificationForm(modalBody) {
         //Récupération du formulaire :
         let form = modalBody.querySelector("[name=mainForm");
         form.setAttribute("id", "personalInformationModalForm");
         form.setAttribute("action", "/server/src/httpRequests.php");
 
+        //On rend les inputs disabled :
+        let inputs = form.getElementsByTagName("input");
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].disabled = true;
+        }
+
         //Ajout d'un input au formulaire contenant le nom de celui (pour traitement côté server):
         let formName = document.createElement("input");
         formName.setAttribute("type", "hidden");
         formName.setAttribute("name", "personalInformationModalForm");
+        form.appendChild(formName);
+
+        //Ajout des invalid-feedback :
+        inputs = form.getElementsByTagName("input");
+        for (let i = 0; i < inputs.length; i++) {
+            if (inputs[i].type !== "hidden") {
+                inputs[i].insertAdjacentHTML(
+                    "afterend",
+                    "<div class='invalid-feedback'></div>"
+                );
+            }
+        }
+
+        //Ajout des boutons du formulaire :
+        let modalRow = document.createElement("div");
+        modalRow.className = "row justify-content-end";
 
         form.appendChild(formName);
 
-        return modalBody;
+        //Bouton fermer
+        let modalCloseButton = document.createElement("button");
+        modalCloseButton.className = "btn btn-primary mr-4 ml-4";
+        modalCloseButton.setAttribute("type", "button");
+        modalCloseButton.setAttribute("data-dismiss", "modal");
+        modalCloseButton.innerHTML = "Fermer";
+        modalRow.appendChild(modalCloseButton);
+
+        //Bouton modifier :
+        let modalModifyButton = document.createElement("button");
+        modalModifyButton.className = "btn btn-primary mr-4 ml-4";
+        modalModifyButton.setAttribute("type", "button");
+        modalModifyButton.innerHTML = "Modifier";
+        modalRow.appendChild(modalModifyButton);
+
+        //Bouton valider :
+        let modalValidateButton = document.createElement("button");
+        modalValidateButton.className = "btn btn-primary mr-4 ml-4";
+        modalValidateButton.setAttribute("type", "button");
+        modalValidateButton.innerHTML = "Valider";
+        modalValidateButton.style.display = "none";
+        modalValidateButton.addEventListener("click", () => {
+            this.onValidateButtonClick();
+        });
+        modalRow.appendChild(modalValidateButton);
+
+        modalModifyButton.addEventListener("click", () => {
+            this.onModifyButtonClick(modalModifyButton, modalValidateButton);
+        });
+
+        form.appendChild(modalRow);
+
+        //Gestionnaire d'évenement sur le bouton fermer :
+        modalCloseButton.addEventListener(
+            "click",
+            () => {
+                this.componentUnmount();
+            },
+            false
+        );
     }
 
     onModifyButtonClick(modifyButton, validateButton) {
@@ -166,12 +178,17 @@ class ProfileModalWindow {
     }
 
     onValidateButtonClick() {
-        //Récupération du formulaire de la fenêtre modale :
-        let mainForm = document.querySelector("#modalSection [name=mainForm]");
+        //Récupération des inputs du formulaire de la fenêtre modale :
+        let form = document.querySelector("#personalInformationModalForm");
+        let inputs = form.getElementsByTagName("input");
 
         //Vérification des saisies :
+        registerInputControl(form, inputs);
 
-        //Envoi du formulaire :
-        mainForm.submit();
+        //Envoi des données au serveurs :
+
+        //On rend les champs disabled :
+
+        //On affiche le bouton valider :
     }
 }

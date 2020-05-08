@@ -20,7 +20,7 @@ body {
     Fenêtres modal : 
 ==================================== */
 
-.modal-footer .btn {
+#modalSection .btn {
   background-color: #20b2aa;
   border-style: hidden;
 }
