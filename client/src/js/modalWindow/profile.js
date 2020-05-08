@@ -185,6 +185,63 @@ class ProfileModalWindow {
         //Vérification des saisies :
         registerInputControl(form, inputs);
 
+        if (form.checkValidity() === false) {
+          //Retour à l'écran d'enregistrement :
+          event.preventDefault();
+          event.stopPropagation();
+
+          for (let i = 0; i < inputs.length; i++) {
+              if (inputs[i].type !== "hidden") {
+                  let invalidFeedback = inputs[i].nextSibling;
+                  if (inputs[i].checkValidity() === false) {
+                      invalidFeedback.className = "invalid-feedback d-block";
+                  } else {
+                      invalidFeedback.className = "invalid-feedback";
+                  }
+              }
+          }
+      } else {
+          // //Appel AJAX :
+          // let ajax = new XMLHttpRequest();
+
+          // ajax.onload = () => {
+          //     let status = ajax.status;
+          //     let msg = JSON.parse(ajax.response)["message"];
+
+          //     if (
+          //         status === 403 &&
+          //         msg === "L'email que vous avez saisie est déjà utilisé."
+          //     ) {
+          //         //Information sur l'email déjà pris :
+          //         let emailAddressInvalidFeedback = form.querySelector(
+          //             "#emailAddress"
+          //         ).nextSibling;
+          //         emailAddressInvalidFeedback.className =
+          //             "invalid-feedback d-block";
+          //         emailAddressInvalidFeedback.innerHTML = msg;
+          //     } else {
+          //         //Ferme la fenêtre modal :
+          //         form.querySelector("#closeButton").click();
+
+          //         //Récupération du connexionFeedback :
+          //         let connexionFeedback = document.querySelector(
+          //             "#connexionFeedback"
+          //         );
+          //         connexionFeedback.innerHTML = msg;
+          //         connexionFeedback.style.display = "block";
+
+          //         if (status === 200) {
+          //             //Information sur la connexion OK :
+          //             connexionFeedback.style.color = "green";
+          //         } else {
+          //             connexionFeedback.style.color = "red";
+          //         }
+          //     }
+          // };
+
+          // ajax.open("POST", "http://stethoscope/server/src/httpRequests.php");
+          // ajax.send(new FormData(form));
+      }
         //Envoi des données au serveurs :
 
         //On rend les champs disabled :

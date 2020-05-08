@@ -149,7 +149,7 @@ class UserMenu {
           },
           connexionDatas: {
             emailAddress: "kevin.icol@hotmail.fr",
-            password: "#######",
+            password: "Jupiter2020!",
           },
         };
 

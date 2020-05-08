@@ -30,7 +30,7 @@ function registerInputControl(form, inputs) {
                             inputs[i].setCustomValidity("Invalid Field");
                             invalidFeedback = inputs[i].nextSibling;
                             invalidFeedback.innerHTML =
-                                "Vous devez être majeur pour vous inscrire";
+                                "Vous devez être majeur.";
                         }
                         break;
 
