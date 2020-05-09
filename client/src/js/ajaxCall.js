@@ -34,7 +34,10 @@ class AjaxCall {
     }
 
     registerAjaxOnload() {
-        if (this.ajaxId === "registerAjax") {
+        if (
+            this.ajaxId === "registerAjax" ||
+            this.ajaxId === "setProfileAjax"
+        ) {
             this.ajax.onload = () => {
                 let status = this.ajax.status;
                 let msg = JSON.parse(this.ajax.response)["message"];
@@ -51,21 +54,36 @@ class AjaxCall {
                         "invalid-feedback d-block";
                     emailAddressInvalidFeedback.innerHTML = msg;
                 } else {
-                    //Ferme la fenêtre modal :
-                    document.querySelector("#closeButton").click();
-
                     //Récupération du connexionFeedback :
                     let connexionFeedback = document.querySelector(
                         "#connexionFeedback"
                     );
                     connexionFeedback.innerHTML = msg;
-                    connexionFeedback.style.display = "block";
 
-                    if (status === 200) {
-                        //Information sur la connexion OK :
-                        connexionFeedback.style.color = "green";
-                    } else {
-                        connexionFeedback.style.color = "red";
+                    if (this.ajaxId === "registerAjax") {
+                        //Ferme la fenêtre modal :
+                        document.querySelector("#closeButton").click();
+                        connexionFeedback.style.display = "block";
+
+                        if ((status = 200)) {
+                            connexionFeedback.style.color = "green";
+                        } else {
+                            connexionFeedback.style.color = "red";
+                        }
+                    } else if (this.ajaxId === "setProfileAjax") {
+                        if ((status = 200)) {
+                            //Demande de reconnexion :
+                            alert(msg);
+                            let ajax = new AjaxCall("destroySessionAjax");
+                            ajax.destroySessionOnload();
+                            ajax.sendAjax(
+                                "GET",
+                                "http://stethoscope/server/src/httpRequests.php?getId=destroy_php_session"
+                            );
+                        } else {
+                            connexionFeedback.style.display = "block";
+                            connexionFeedback.style.color = "red";
+                        }
                     }
                 }
             };
@@ -168,6 +186,64 @@ class AjaxCall {
                         "Erreur de récupération des données du serveur (getId = get_user_datas)"
                     );
                 }
+            };
+        } else {
+            console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);
+        }
+    }
+
+    setProfileAjaxOnload() {
+        if (this.ajaxId === "registerAjax") {
+            this.ajax.onload = () => {
+                let status = this.ajax.status;
+                let msg = JSON.parse(this.ajax.response)["message"];
+
+                if (
+                    status === 403 &&
+                    msg === "L'email que vous avez saisie est déjà utilisé."
+                ) {
+                    //Information sur l'email déjà pris :
+                    let emailAddressInvalidFeedback = document.querySelector(
+                        "#emailAddress"
+                    ).nextSibling;
+                    emailAddressInvalidFeedback.className =
+                        "invalid-feedback d-block";
+                    emailAddressInvalidFeedback.innerHTML = msg;
+                } else {
+                    //Ferme la fenêtre modal :
+                    document.querySelector("#closeButton").click();
+
+                    //Récupération du connexionFeedback :
+                    let connexionFeedback = document.querySelector(
+                        "#connexionFeedback"
+                    );
+                    connexionFeedback.innerHTML = msg;
+                    connexionFeedback.style.display = "block";
+
+                    if (status === 200) {
+                        //Information sur la connexion OK :
+                        connexionFeedback.style.color = "green";
+                    } else {
+                        connexionFeedback.style.color = "red";
+                    }
+                }
+            };
+        } else {
+            console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);
+        }
+    }
+
+    destroySessionOnload() {
+        if (this.ajaxId === "destroySessionAjax") {
+            this.ajax.onload = () => {
+                let status = this.ajax.status;
+
+                if (status === 200) {
+                    console.log("Destruction de session terminée.")
+                } else {
+                    console.log("Erreur lors de la destruction de session.")
+                }
+                window.location = "../../../index.php";
             };
         } else {
             console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);

@@ -111,12 +111,17 @@ class ProfileModalWindow {
             }
         }
 
-        //Ajout des boutons du formulaire :
+        
         let modalRow = document.createElement("div");
         modalRow.className = "row justify-content-end";
+        
+        //Ajout du feedback des reponses serveurs : 
+        let feedbackConnexion = document.createElement("div")
+        feedbackConnexion.setAttribute("id", "connexionFeedback")
+        feedbackConnexion. className = "mb-3"
+        modalRow.appendChild(feedbackConnexion);
 
-        form.appendChild(formName);
-
+        //Ajout des boutons du formulaire :
         //Bouton fermer
         let modalCloseButton = document.createElement("button");
         modalCloseButton.className = "btn btn-primary mr-4 ml-4";
@@ -139,7 +144,7 @@ class ProfileModalWindow {
         modalValidateButton.innerHTML = "Valider";
         modalValidateButton.style.display = "none";
         modalValidateButton.addEventListener("click", () => {
-            this.onValidateButtonClick();
+            this.onValidateButtonClick(modalModifyButton, modalValidateButton);
         });
         modalRow.appendChild(modalValidateButton);
 
@@ -174,7 +179,7 @@ class ProfileModalWindow {
         validateButton.style.display = "block";
     }
 
-    onValidateButtonClick() {
+    onValidateButtonClick(modifyButton, validateButton) {
         //Récupération des inputs du formulaire de la fenêtre modale :
         let form = document.querySelector("#personalInformationModalForm");
         let inputs = form.getElementsByTagName("input");
@@ -198,51 +203,14 @@ class ProfileModalWindow {
               }
           }
       } else {
-          // //Appel AJAX :
-          // let ajax = new XMLHttpRequest();
-
-          // ajax.onload = () => {
-          //     let status = ajax.status;
-          //     let msg = JSON.parse(ajax.response)["message"];
-
-          //     if (
-          //         status === 403 &&
-          //         msg === "L'email que vous avez saisie est déjà utilisé."
-          //     ) {
-          //         //Information sur l'email déjà pris :
-          //         let emailAddressInvalidFeedback = form.querySelector(
-          //             "#emailAddress"
-          //         ).nextSibling;
-          //         emailAddressInvalidFeedback.className =
-          //             "invalid-feedback d-block";
-          //         emailAddressInvalidFeedback.innerHTML = msg;
-          //     } else {
-          //         //Ferme la fenêtre modal :
-          //         form.querySelector("#closeButton").click();
-
-          //         //Récupération du connexionFeedback :
-          //         let connexionFeedback = document.querySelector(
-          //             "#connexionFeedback"
-          //         );
-          //         connexionFeedback.innerHTML = msg;
-          //         connexionFeedback.style.display = "block";
-
-          //         if (status === 200) {
-          //             //Information sur la connexion OK :
-          //             connexionFeedback.style.color = "green";
-          //         } else {
-          //             connexionFeedback.style.color = "red";
-          //         }
-          //     }
-          // };
-
-          // ajax.open("POST", "http://stethoscope/server/src/httpRequests.php");
-          // ajax.send(new FormData(form));
+        //Appel AJAX :
+        let ajax = new AjaxCall("setProfileAjax");
+        ajax.registerAjaxOnload();
+        ajax.sendAjax(
+            "POST",
+            "http://stethoscope/server/src/httpRequests.php",
+            new FormData(form)
+        );
       }
-        //Envoi des données au serveurs :
-
-        //On rend les champs disabled :
-
-        //On affiche le bouton valider :
     }
 }
