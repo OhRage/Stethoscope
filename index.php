@@ -12,7 +12,7 @@
 
     //Vérification des identifiants de connexion :
     $query = "SELECT password FROM USERS WHERE login = \"{$datas["login"]}\"";
-    $result = send_request($query, "select");
+    $result = send_simple_query($query, "select");
 
     if($result != false && $result[0]["password"] == $datas["password"]){
         echo "OK";

@@ -3,7 +3,7 @@
     ini_set("log_errors", 1);
     ini_set("error_log", "../log/error.stethoscope.fr.log");
 
-    function send_request($request, $type){
+    function send_simple_query($request, $type){
 
         /* Ouverture de la connexion non persistante : */
         $connection = mysqli_connect("127.0.0.1:3306", "root", "Jupiter2020!", "Stethoscope");

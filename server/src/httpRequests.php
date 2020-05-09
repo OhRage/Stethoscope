@@ -23,7 +23,7 @@
         $code = 403;
         $login = $datas["emailAddress"];
         $query = "SELECT login FROM USERS WHERE login = \"$login\";";
-        $result = send_request($query, "select");
+        $result = send_simple_query($query, "select");
         
 
         //Redirection en fonction de $result :
@@ -33,6 +33,7 @@
         }elseif (gettype($result) == "array" && $result != false) { //Email déjà pris
             $msg = "L'email que vous avez saisie est déjà utilisé.";        
         }else if (gettype($result) == "array" && $result == false){ //Enregistrement OK
+            
             //Création de l'utilisateur :
             $query = "INSERT INTO Stethoscope.USERS(
                 login
@@ -43,13 +44,13 @@
                 \"{$datas["password"]}\",
                 \"0\");";
 
-            $result = send_request($query, "upsert");
+            $result = send_simple_query($query, "upsert");
 
             if ($result){
 
                 //Récupération de l'ID de l'utilisateur :
                 $query = "SELECT ID_User FROM USERS WHERE login = \"$login\"";
-                $result = send_request($query, "select");
+                $result = ($query, "select");
 
                 if($result){
 
@@ -86,8 +87,8 @@
                         , \"{$datas["postalCode"]}\"
                         , {$userID});";
 
-                    $result1 = send_request($query, "upsert");
-                    $result2 = send_request($query, "upsert");
+                    $result1 = send_simple_query($query, "upsert");
+                    $result2 = send_simple_query($query, "upsert");
 
                     if($result1 && $result2){
                         $msg = "Enregistrement validé. Vous pouvez vous connecter.";
@@ -126,7 +127,7 @@
                 LEFT JOIN ADDRESS ON ADDRESS.ID_User = PATIENT.ID_User
             WHERE USERS.login = \"{$_GET["login"]}\";";
 
-        $result = send_request($query, "select");
+        $result = send_simple_query($query, "select");
 
         if($result){
             http_response_code(200);
