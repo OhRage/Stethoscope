@@ -34,8 +34,11 @@
             $msg = "L'email que vous avez saisie est déjà utilisé.";        
         }else if (gettype($result) == "array" && $result == false){ //Enregistrement OK
             
+            //On enlève l'autocommit :
+            $query = "SET AUTOCOMMIT=0;";
+
             //Création de l'utilisateur :
-            $query = "INSERT INTO Stethoscope.USERS(
+            $query .= "INSERT INTO Stethoscope.USERS(
                 login
                 , password
                 , administrator)
@@ -44,61 +47,46 @@
                 \"{$datas["password"]}\",
                 \"0\");";
 
-            $result = send_simple_query($query, "upsert");
+            $query .= "SET @User_id = (SELECT ID_User FROM USERS WHERE login = \"$login\");";  
+            $query .= "INSERT INTO Stethoscope.PATIENT(
+                 first_name
+                 , last_name
+                 , birth_date
+                 , social_security_number
+                 , phone_number
+                 , email_address
+                 , ID_User
+             )
+             VALUES(
+                 \"{$datas["firstName"]}\"
+                 , \"{$datas["lastName"]}\"
+                 , \"{$datas["birthDate"]}\"
+                 , \"{$datas["socialNumber"]}\"
+                 , \"{$datas["phoneNumber"]}\"
+                 , \"{$datas["emailAddress"]}\"
+                 , @User_id);";
+
+             $query .= "INSERT INTO Stethoscope.ADDRESS(
+                 address
+                 , city
+                 , postal_code
+                 , ID_User
+             )
+             VALUES(
+                 \"{$datas["address"]}\"
+                 , \"{$datas["city"]}\"
+                 , \"{$datas["postalCode"]}\"
+                 , @User_id);";
+
+            $query .= "COMMIT;";
+
+            $result = send_multiple_upsert_query($query);
 
             if ($result){
-
-                //Récupération de l'ID de l'utilisateur :
-                $query = "SELECT ID_User FROM USERS WHERE login = \"$login\"";
-                $result = ($query, "select");
-
-                if($result){
-
-                    //Création du patient :
-                    $userID = $result[0]["ID_User"];
-
-                    $query1 = "INSERT INTO Stethoscope.PATIENT(
-                        first_name
-                        , last_name
-                        , birth_date
-                        , social_security_number
-                        , phone_number
-                        , email_address
-                        , ID_User
-                    )
-                    VALUES(
-                        \"{$datas["firstName"]}\"
-                        , \"{$datas["lastName"]}\"
-                        , \"{$datas["birthDate"]}\"
-                        , \"{$datas["socialNumber"]}\"
-                        , \"{$datas["phoneNumber"]}\"
-                        , \"{$datas["emailAddress"]}\"
-                        , {$userID});";
-
-                    $query2 = "INSERT INTO Stethoscope.ADDRESS(
-                        address
-                        , city
-                        , postal_code
-                        , ID_User
-                    )
-                    VALUES(
-                        \"{$datas["address"]}\"
-                        , \"{$datas["city"]}\"
-                        , \"{$datas["postalCode"]}\"
-                        , {$userID});";
-
-                    $result1 = send_simple_query($query, "upsert");
-                    $result2 = send_simple_query($query, "upsert");
-
-                    if($result1 && $result2){
-                        $msg = "Enregistrement validé. Vous pouvez vous connecter.";
-                        $code = 200;
-                        http_response_code($code);
-                    }
-                }
-            }
-
-            if($code != 200){
+                $msg = "Enregistrement validé. Vous pouvez vous connecter.";
+                $code = 200;
+                http_response_code($code);
+            }else{
                 $code = 403;
             }
         }
