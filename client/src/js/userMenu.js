@@ -139,18 +139,12 @@ class UserMenu {
             case "#personalInformationModal":
                 //Récupération des informations de l'utilisateur :
                 let ajax = new AjaxCall("getProfileAjax");
-                ajax.profileAjaxOnload();
-                ajax.sendAjax("GET", "");
-
-                
-
-                //On ajoute la fenêtre modal au domElement :
-                let profileModalWindow = new ProfileModalWindow(
-                    modalSection,
-                    serverDatas
+                ajax.getProfileAjaxOnload();
+                ajax.sendAjax(
+                    "GET",
+                    "http://stethoscope/server/src/httpRequests.php?getId=get_user_datas&login=" +
+                        sessionLogin
                 );
-                profileModalWindow.componentMount();
-
                 break;
             case "#doctorInformationModal":
                 //@TODO : Cas du bouton "Mon médecin" => récupération des informations du médecin traitant du patient (cf info ci-dessous):

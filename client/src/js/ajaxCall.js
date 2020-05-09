@@ -82,9 +82,13 @@ class AjaxCall {
                     let datas = JSON.parse(this.ajax.response);
                     userMenuDatas = {
                         firstName:
-                            datas["first_name"].charAt(0).toUpperCase() +
-                            datas["first_name"].slice(1),
-                        lastName: datas["last_name"].toUpperCase(),
+                            datas["personnal_datas"]["first_name"]
+                                .charAt(0)
+                                .toUpperCase() +
+                            datas["personnal_datas"]["first_name"].slice(1),
+                        lastName: datas["personnal_datas"][
+                            "last_name"
+                        ].toUpperCase(),
                     };
                 } else {
                     console.log(
@@ -112,36 +116,58 @@ class AjaxCall {
                 let profileDatas = {};
                 if (this.ajax.status == 200) {
                     let datas = JSON.parse(this.ajax.response);
+                    let date = new Date(
+                        datas["personnal_datas"]["birth_date"] * 1000 +
+                            24 * 3600 * 1000 // Add one day to get GMT+1
+                    );
 
-                    // profileDatas = {
-                    //     personnalDatas: {
-                    //         firstName:
-                    //             datas["first_name"].charAt(0).toUpperCase() +
-                    //             datas["first_name"].slice(1),
-                    //         lastName: datas["last_name"].toUpperCase(),
-                    //         birthDate: ,
-                    //         socialNumber: ,
-                    //         address: ,
-                    //         city: ,
-                    //         postalCode: ,
-                    //         phoneNumber: ,
-                    //     },
-                    //     connexionDatas: {
-                    //         emailAddress: ,
-                    //         password: ,
-                    //     },
-                    // };
+                    profileDatas = {
+                        personnalDatas: {
+                            firstName:
+                                datas["personnal_datas"]["first_name"]
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                datas["personnal_datas"]["first_name"].slice(1),
+                            lastName: datas["personnal_datas"][
+                                "last_name"
+                            ].toUpperCase(),
+                            birthDate: date.toISOString().substring(0, 10),
+                            socialNumber:
+                                datas["personnal_datas"][
+                                    "social_security_number"
+                                ],
+                            address: datas["personnal_datas"]["address"],
+                            city:
+                                datas["personnal_datas"]["city"]
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                datas["personnal_datas"]["city"].slice(1),
+                            postalCode: datas["personnal_datas"]["postal_code"],
+                            phoneNumber:
+                                datas["personnal_datas"]["phone_number"],
+                        },
+                        connexionDatas: {
+                            emailAddress:
+                                datas["connexion_datas"]["email_address"],
+                            password: datas["connexion_datas"]["password"],
+                        },
+                    };
+
+                    //On ajoute la fenêtre modal au domElement :
+                    let modalSection = document.querySelector("#modalSection");
+                    let profileModalWindow = new ProfileModalWindow(
+                        modalSection,
+                        profileDatas
+                    );
+                    profileModalWindow.componentMount();
+
+                    //Link du button sur la fenêtre modal :
+                    $("#personalInformationModal").modal();
                 } else {
                     console.log(
                         "Erreur de récupération des données du serveur (getId = get_user_datas)"
                     );
-
                 }
-
-                //Création du composant userMenu :
-                let domElement = document.getElementById("mainRow");
-                const userMenu = new UserMenu(domElement, userMenuDatas);
-                userMenu.componentMount();
             };
         } else {
             console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);

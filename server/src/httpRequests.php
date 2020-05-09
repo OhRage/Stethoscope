@@ -125,7 +125,7 @@
                     "first_name" => $result[0]["first_name"],
                     "last_name" => $result[0]["last_name"],
                     "birth_date" => $result[0]["birth_date"],
-                    "social_number" => $result[0]["social_security_number"],
+                    "social_security_number" => $result[0]["social_security_number"],
                     "address" => $result[0]["address"],
                     "city" => $result[0]["city"],
                     "postal_code"=> $result[0]["postal_code"],

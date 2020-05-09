@@ -36,9 +36,6 @@ class ProfileModalWindow {
         modalDialog.appendChild(modalContent);
         modal.appendChild(modalDialog);
 
-        //Link du button sur la fenêtre modal :
-        $("#personalInformationModal").modal();
-
         //Ajout de la fenêtre modal au domElement :
         this.domElement.appendChild(modal);
     }
