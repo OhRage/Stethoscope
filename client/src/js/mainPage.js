@@ -1,426 +1,436 @@
 class DateReservation {
-  constructor(domElement, doctorDatas) {
-    this.domElement = domElement;
-    this.doctorDatas = doctorDatas;
+    constructor(domElement, doctorDatas) {
+        this.domElement = domElement;
+        this.doctorDatas = doctorDatas;
 
-    this.doctorList = [];
-    this.medecineTypeList = [""];
+        this.doctorList = [];
+        this.medecineTypeList = [""];
 
-    //Ajout des types de médecine à la medecineTypeList:
-    for (let i = 0; i < this.doctorDatas.length; i++) {
-      if (!this.medecineTypeList.includes(this.doctorDatas[i]["medicalType"])) {
-        this.medecineTypeList.push(this.doctorDatas[i]["medicalType"]);
-      }
-    }
-  }
-
-  componentMount() {
-    let mainContainer = document.createElement("div");
-    mainContainer.className = "col-10";
-    mainContainer.setAttribute("id", "mainPage");
-
-    //Header :
-    let mainContainerTitle = document.createElement("h1");
-    mainContainerTitle.className = "h2";
-    mainContainerTitle.setAttribute("id", "mainTitle");
-    mainContainerTitle.innerHTML = "Prenez un rendez-vous :";
-    mainContainer.appendChild(mainContainerTitle);
-
-    let mainForm = document.createElement("form");
-    mainForm.setAttribute("method", "post")
-    mainForm.setAttribute("name", "mainForm")
-    mainForm.setAttribute("id", "dateReservationForm")
-    mainForm.setAttribute("action", "/server/src/httpRequests.php");
-
-    //Création du doctorPannel :
-    let doctorPannel = this.doctorPannelMount();
-    mainForm.appendChild(doctorPannel);
-
-    //Création du placePannel :
-    let placePannel = this.placePannelMount();
-    mainForm.appendChild(placePannel);
-
-    //Création du datePannel :
-    let datePannel = this.datePannelMount();
-    mainForm.appendChild(datePannel);
-
-    //Création du reasonPannel :
-    let reasonPannel = this.reasonPannelMount();
-    mainForm.appendChild(reasonPannel);
-
-    mainContainer.appendChild(mainForm);
-    //Footer :
-
-    this.domElement.appendChild(mainContainer);
-  }
-
-  doctorPannelMount() {
-    let doctorPannel = document.createElement("div");
-    doctorPannel.className = "form-group p-4";
-
-    //Titre du pannel :
-    let doctorPannelTitle = document.createElement("h1");
-    doctorPannelTitle.className = "row h4 mb-3 border-bottom";
-    doctorPannelTitle.innerHTML = "Le médecin :";
-    doctorPannel.appendChild(doctorPannelTitle);
-
-    let labelList = [
-      { medicalType: "Type de médecine" },
-      { doctorName: "Nom du médecin" },
-    ];
-
-    let pannelRow = document.createElement("div");
-    pannelRow.className = "row mt-3";
-
-    for (let i = 0; i < labelList.length; i++) {
-      let keyLabelListValue = Object.keys(labelList[i])[0];
-
-      let pannelCol = document.createElement("div");
-      pannelCol.className = "col-4";
-
-      //Création du label :
-      let label = document.createElement("label");
-      label.className = "input-group-text";
-      label.setAttribute("for", keyLabelListValue);
-      label.innerHTML = labelList[i][keyLabelListValue];
-      pannelRow.appendChild(label);
-
-      //Création de la liste déroulante de valeur
-      let optionList = document.createElement("select");
-      optionList.className = "custom-select";
-      optionList.setAttribute("id", keyLabelListValue);
-
-      if (optionList.getAttribute("id") === "medicalType") {
-        for (let j = 0; j < this.medecineTypeList.length; j++) {
-          let option = document.createElement("option");
-          option.setAttribute("value", j);
-          option.innerHTML = this.medecineTypeList[j];
-          optionList.appendChild(option);
+        //Ajout des types de médecine à la medecineTypeList:
+        for (let i = 0; i < this.doctorDatas.length; i++) {
+            if (
+                !this.medecineTypeList.includes(
+                    this.doctorDatas[i]["medicalType"]
+                )
+            ) {
+                this.medecineTypeList.push(this.doctorDatas[i]["medicalType"]);
+            }
         }
-        //Gestionnaire d'évenement de la liste medicalType :
-        optionList.addEventListener("input", () => {
-          this.onMedicalTypeChangeValue(optionList);
-        });
-      } else {
-        //Gestionnaire d'évenement de la liste doctorName :
-        optionList.addEventListener("input", () => {
-          this.onDoctorNameChangeValue(optionList);
-        });
-      }
-
-      pannelCol.appendChild(label);
-      pannelCol.appendChild(optionList);
-
-      pannelRow.appendChild(pannelCol);
     }
 
-    doctorPannel.appendChild(pannelRow);
+    componentMount() {
+        let mainContainer = document.createElement("div");
+        mainContainer.className = "col-10";
+        mainContainer.setAttribute("id", "mainPage");
 
-    return doctorPannel;
-  }
+        //Header :
+        let mainContainerTitle = document.createElement("h1");
+        mainContainerTitle.className = "h2";
+        mainContainerTitle.setAttribute("id", "mainTitle");
+        mainContainerTitle.innerHTML = "Prenez un rendez-vous :";
+        mainContainer.appendChild(mainContainerTitle);
 
-  placePannelMount() {
-    let placePannel = document.createElement("div");
-    placePannel.className = "form-group p-4";
+        let mainForm = document.createElement("form");
+        mainForm.setAttribute("method", "post");
+        mainForm.setAttribute("name", "mainForm");
+        mainForm.setAttribute("id", "dateReservationForm");
+        mainForm.setAttribute("action", "/server/src/httpRequests.php");
 
-    //Titre du pannel :
-    let placePannelTitle = document.createElement("h1");
-    placePannelTitle.className = "row h4 mb-3 border-bottom";
-    placePannelTitle.innerHTML = "Le lieu :";
-    placePannel.appendChild(placePannelTitle);
+        //Création du doctorPannel :
+        let doctorPannel = this.doctorPannelMount();
+        mainForm.appendChild(doctorPannel);
 
-    let placePannelRow = document.createElement("div");
-    placePannelRow.className = "row mt-3";
-    placePannelRow.setAttribute("id", "placePannel");
+        //Création du placePannel :
+        let placePannel = this.placePannelMount();
+        mainForm.appendChild(placePannel);
 
-    let labelList = [
-      { address: "Adresse du cabinet :" },
-      { city: "Ville :" },
-      { postalCode: "Code postal :" },
-    ];
+        //Création du datePannel :
+        let datePannel = this.datePannelMount();
+        mainForm.appendChild(datePannel);
 
-    for (let i = 0; i < labelList.length; i++) {
-      let keyLabelListValue = Object.keys(labelList[i])[0];
+        //Création du reasonPannel :
+        let reasonPannel = this.reasonPannelMount();
+        mainForm.appendChild(reasonPannel);
 
-      let inputCol = document.createElement("div");
-      inputCol.className = "col-4";
+        mainContainer.appendChild(mainForm);
+        //Footer :
 
-      let label = document.createElement("label");
-      label.setAttribute("for", keyLabelListValue);
-      label.innerHTML = labelList[i][keyLabelListValue];
-
-      //Construction de l'input
-      let inputValue = document.createElement("input");
-      inputValue.className = "form-control";
-      inputValue.setAttribute("type", "text");
-      inputValue.setAttribute("id", keyLabelListValue);
-      inputValue.setAttribute("name", keyLabelListValue);
-      inputValue.setAttribute("value", "");
-      inputValue.disabled = true;
-
-      //Ajout des composants à la col :
-      inputCol.appendChild(label);
-      inputCol.appendChild(inputValue);
-
-      //Ajout de la col a la row :
-      placePannelRow.appendChild(inputCol);
+        this.domElement.appendChild(mainContainer);
     }
 
-    placePannel.appendChild(placePannelRow);
+    doctorPannelMount() {
+        let doctorPannel = document.createElement("div");
+        doctorPannel.className = "form-group p-4";
 
-    return placePannel;
-  }
+        //Titre du pannel :
+        let doctorPannelTitle = document.createElement("h1");
+        doctorPannelTitle.className = "row h4 mb-3 border-bottom";
+        doctorPannelTitle.innerHTML = "Le médecin :";
+        doctorPannel.appendChild(doctorPannelTitle);
 
-  datePannelMount() {
-    let datePannel = document.createElement("div");
-    datePannel.className = "form-group p-4";
-    datePannel.setAttribute("id", "calendarMainPage");
+        let labelList = [
+            { medicalType: "Type de médecine" },
+            { doctorName: "Nom du médecin" },
+        ];
 
-    //Titre du pannel :
-    let datePannelTitle = document.createElement("h1");
-    datePannelTitle.className = "row h4 mb-3 border-bottom";
-    datePannelTitle.innerHTML = "La date :";
-    datePannel.appendChild(datePannelTitle);
+        let pannelRow = document.createElement("div");
+        pannelRow.className = "row mt-3";
 
-    let calendarPannelRow = document.createElement("div");
-    calendarPannelRow.className = "row mt-3 justify-content-center";
+        for (let i = 0; i < labelList.length; i++) {
+            let keyLabelListValue = Object.keys(labelList[i])[0];
 
-    let calendarPannelCol = document.createElement("div");
-    calendarPannelCol.className = "col-10";
-    calendarPannelCol.setAttribute("id", "doctorCalendar");
+            let pannelCol = document.createElement("div");
+            pannelCol.className = "col-4";
 
-    //Création du calendrier :
-    const calendar = new Calendar(calendarPannelCol);
-    calendar.componentMount("today", "calendarMainPage");
+            //Création du label :
+            let label = document.createElement("label");
+            label.className = "input-group-text";
+            label.setAttribute("for", keyLabelListValue);
+            label.innerHTML = labelList[i][keyLabelListValue];
+            pannelRow.appendChild(label);
 
-    calendarPannelRow.appendChild(calendarPannelCol);
+            //Création de la liste déroulante de valeur
+            let optionList = document.createElement("select");
+            optionList.className = "custom-select";
+            optionList.setAttribute("id", keyLabelListValue);
 
-    let datePannelRow = document.createElement("div");
-    datePannelRow.className = "row mt-3 justify-content-center";
+            if (optionList.getAttribute("id") === "medicalType") {
+                for (let j = 0; j < this.medecineTypeList.length; j++) {
+                    let option = document.createElement("option");
+                    option.setAttribute("value", j);
+                    option.innerHTML = this.medecineTypeList[j];
+                    optionList.appendChild(option);
+                }
+                //Gestionnaire d'évenement de la liste medicalType :
+                optionList.addEventListener("input", () => {
+                    this.onMedicalTypeChangeValue(optionList);
+                });
+            } else {
+                //Gestionnaire d'évenement de la liste doctorName :
+                optionList.addEventListener("input", () => {
+                    this.onDoctorNameChangeValue(optionList);
+                });
+            }
 
-    //Création des inputs :
-    let inputLabelList = {
-      monthInput: "Mois :",
-      dayInput: "Jour :",
-    };
-    let labelKey = Object.keys(inputLabelList);
+            pannelCol.appendChild(label);
+            pannelCol.appendChild(optionList);
 
-    for (let i = 0; i < labelKey.length; i++) {
-      let col = document.createElement("div");
-      col.className = "col-3";
-
-      let label = document.createElement("label");
-      label.setAttribute("for", labelKey[i]);
-      label.innerHTML = inputLabelList[labelKey[i]];
-
-      let input = document.createElement("input");
-      input.className = "form-control";
-      input.setAttribute("type", "text");
-      input.setAttribute("id", labelKey[i]);
-      input.setAttribute("name", labelKey[i]);
-      input.disabled = true;
-
-      col.appendChild(label);
-      col.appendChild(input);
-
-      datePannelRow.appendChild(col);
-    }
-
-    //Création de la selectList hour :
-    let hourCol = document.createElement("div");
-    hourCol.className = "col-3";
-
-    let hourLabel = document.createElement("label");
-    hourLabel.className = "input-group-text";
-    hourLabel.setAttribute("for", "hourList");
-    hourLabel.innerHTML = "Heure du RDV";
-    hourCol.appendChild(hourLabel);
-
-    let hourOptionList = document.createElement("select");
-    hourOptionList.className = "custom-select";
-    hourOptionList.setAttribute("id", "hourList");
-    hourCol.appendChild(hourOptionList);
-
-    datePannelRow.appendChild(hourCol);
-
-    datePannel.appendChild(calendarPannelRow);
-    datePannel.appendChild(datePannelRow);
-
-    return datePannel;
-  }
-
-  reasonPannelMount() {
-    let reasonPannel = document.createElement("div");
-    reasonPannel.className = "form-group p-4";
-
-    //Titre du pannel :
-    let reasonPannelTitle = document.createElement("h1");
-    reasonPannelTitle.className = "row h4 mb-3 border-bottom";
-    reasonPannelTitle.innerHTML = "Le motif :";
-    reasonPannel.appendChild(reasonPannelTitle);
-
-    let pannelRow = document.createElement("div");
-    pannelRow.className = "row mt-3 col align-items-end";
-
-    //Création de l'reasonInput du motif :
-    let inputCol = document.createElement("div");
-    inputCol.className = "col-4";
-
-    let inputLabel = document.createElement("label");
-    inputLabel.setAttribute("for", "reasonInput");
-    inputLabel.innerHTML = "Motif de la consultation :";
-
-    let reasonInput = document.createElement("input");
-    reasonInput.className = "form-control";
-    reasonInput.setAttribute("type", "text");
-    reasonInput.setAttribute("id", "reasonInput");
-    reasonInput.setAttribute("name", "reasonInput");
-
-    inputCol.appendChild(inputLabel);
-    inputCol.appendChild(reasonInput);
-
-    pannelRow.appendChild(inputCol);
-
-    //Check box de premier rdv :
-    let checkBoxCol = document.createElement("div");
-    checkBoxCol.className = "col-4";
-
-    let checkBoxLabel = document.createElement("label");
-    checkBoxLabel.setAttribute("for", "firstDateInput");
-    checkBoxLabel.innerHTML = "Est un premier RDV ";
-
-    let checkBoxInput = document.createElement("input");
-    checkBoxInput.className = "form-check-input ml-2";
-    checkBoxInput.setAttribute("type", "checkbox");
-    checkBoxInput.setAttribute("id", "firstDateInput");
-    checkBoxInput.setAttribute("name", "firstDateInput");
-
-    checkBoxCol.appendChild(checkBoxLabel);
-    checkBoxCol.appendChild(checkBoxInput);
-
-    pannelRow.appendChild(checkBoxCol);
-
-    reasonPannel.appendChild(pannelRow);
-
-    return reasonPannel;
-  }
-
-  onMedicalTypeChangeValue(optionList) {
-    //Récupère la valeur contenu dans la medicalTypeList :
-    let medicalTypeValue = optionList.options[optionList.selectedIndex].text;
-
-    //On vide la liste déroulante de médecin :
-    let doctorNameOption = this.domElement.querySelector("#doctorName");
-    while (doctorNameOption.firstChild) {
-      doctorNameOption.removeChild(doctorNameOption.lastChild);
-    }
-
-    //On réinitialise la doctorList :
-    this.doctorList = [];
-
-    //Ajout des noms et des ID des docteurs à la doctorList:
-    for (let i = 0; i < this.doctorDatas.length; i++) {
-      if (this.doctorDatas[i]["medicalType"] === medicalTypeValue) {
-        this.doctorList.push({
-          doctorID: this.doctorDatas[i]["doctorID"],
-          doctorName:
-            this.doctorDatas[i]["firstName"] +
-            " " +
-            this.doctorDatas[i]["lastName"],
-        });
-      }
-    }
-
-    //On construit la liste déroulante :
-    for (let i = 0; i < this.doctorList.length; i++) {
-      let option = document.createElement("option");
-      option.setAttribute("value", this.doctorList[i]["doctorID"]);
-      option.innerHTML = this.doctorList[i]["doctorName"];
-      doctorNameOption.appendChild(option);
-    }
-
-    //On execute l'évenement sur changement de valeur de la liste doctorName :
-    this.onDoctorNameChangeValue(doctorNameOption);
-  }
-
-  onDoctorNameChangeValue(optionList) {
-    //On récupère le pannel Lieu :
-    let placePannelInformation = this.domElement.querySelector("#placePannel");
-
-    //Récupère l'ID du médecin contenu dans la liste déroulante :
-    if (optionList.options[optionList.selectedIndex]) {
-      var doctorIDValue = optionList.options[optionList.selectedIndex].value;
-      //On récupère les informations du docteur :
-      for (let i = 0; i < this.doctorDatas.length; i++) {
-        if (this.doctorDatas[i]["doctorID"] == doctorIDValue) {
-          var doctorInformation = this.doctorDatas[i];
-          break;
+            pannelRow.appendChild(pannelCol);
         }
-      }
 
-      //On change la valeur des inputs du pannel lieu :
-      placePannelInformation
-        .querySelector("#address")
-        .setAttribute("value", doctorInformation["address"]);
-      placePannelInformation
-        .querySelector("#city")
-        .setAttribute("value", doctorInformation["city"]);
-      placePannelInformation
-        .querySelector("#postalCode")
-        .setAttribute("value", doctorInformation["postalCode"]);
-    } else {
-      //On vide le informations du pannel Lieu :
-      let inputElements = placePannelInformation.getElementsByTagName("input");
-      for (let i = 0; i < inputElements.length; i++) {
-        inputElements[i].setAttribute("value", "");
-      }
+        doctorPannel.appendChild(pannelRow);
+
+        return doctorPannel;
     }
-  }
+
+    placePannelMount() {
+        let placePannel = document.createElement("div");
+        placePannel.className = "form-group p-4";
+
+        //Titre du pannel :
+        let placePannelTitle = document.createElement("h1");
+        placePannelTitle.className = "row h4 mb-3 border-bottom";
+        placePannelTitle.innerHTML = "Le lieu :";
+        placePannel.appendChild(placePannelTitle);
+
+        let placePannelRow = document.createElement("div");
+        placePannelRow.className = "row mt-3";
+        placePannelRow.setAttribute("id", "placePannel");
+
+        let labelList = [
+            { address: "Adresse du cabinet :" },
+            { city: "Ville :" },
+            { postalCode: "Code postal :" },
+        ];
+
+        for (let i = 0; i < labelList.length; i++) {
+            let keyLabelListValue = Object.keys(labelList[i])[0];
+
+            let inputCol = document.createElement("div");
+            inputCol.className = "col-4";
+
+            let label = document.createElement("label");
+            label.setAttribute("for", keyLabelListValue);
+            label.innerHTML = labelList[i][keyLabelListValue];
+
+            //Construction de l'input
+            let inputValue = document.createElement("input");
+            inputValue.className = "form-control";
+            inputValue.setAttribute("type", "text");
+            inputValue.setAttribute("id", keyLabelListValue);
+            inputValue.setAttribute("name", keyLabelListValue);
+            inputValue.setAttribute("value", "");
+            inputValue.disabled = true;
+
+            //Ajout des composants à la col :
+            inputCol.appendChild(label);
+            inputCol.appendChild(inputValue);
+
+            //Ajout de la col a la row :
+            placePannelRow.appendChild(inputCol);
+        }
+
+        placePannel.appendChild(placePannelRow);
+
+        return placePannel;
+    }
+
+    datePannelMount() {
+        let datePannel = document.createElement("div");
+        datePannel.className = "form-group p-4";
+        datePannel.setAttribute("id", "calendarMainPage");
+
+        //Titre du pannel :
+        let datePannelTitle = document.createElement("h1");
+        datePannelTitle.className = "row h4 mb-3 border-bottom";
+        datePannelTitle.innerHTML = "La date :";
+        datePannel.appendChild(datePannelTitle);
+
+        let calendarPannelRow = document.createElement("div");
+        calendarPannelRow.className = "row mt-3 justify-content-center";
+
+        let calendarPannelCol = document.createElement("div");
+        calendarPannelCol.className = "col-10";
+        calendarPannelCol.setAttribute("id", "doctorCalendar");
+
+        //Création du calendrier :
+        const calendar = new Calendar(calendarPannelCol);
+        calendar.componentMount("today", "calendarMainPage");
+
+        calendarPannelRow.appendChild(calendarPannelCol);
+
+        let datePannelRow = document.createElement("div");
+        datePannelRow.className = "row mt-3 justify-content-center";
+
+        //Création des inputs :
+        let inputLabelList = {
+            monthInput: "Mois :",
+            dayInput: "Jour :",
+        };
+        let labelKey = Object.keys(inputLabelList);
+
+        for (let i = 0; i < labelKey.length; i++) {
+            let col = document.createElement("div");
+            col.className = "col-3";
+
+            let label = document.createElement("label");
+            label.setAttribute("for", labelKey[i]);
+            label.innerHTML = inputLabelList[labelKey[i]];
+
+            let input = document.createElement("input");
+            input.className = "form-control";
+            input.setAttribute("type", "text");
+            input.setAttribute("id", labelKey[i]);
+            input.setAttribute("name", labelKey[i]);
+            input.disabled = true;
+
+            col.appendChild(label);
+            col.appendChild(input);
+
+            datePannelRow.appendChild(col);
+        }
+
+        //Création de la selectList hour :
+        let hourCol = document.createElement("div");
+        hourCol.className = "col-3";
+
+        let hourLabel = document.createElement("label");
+        hourLabel.className = "input-group-text";
+        hourLabel.setAttribute("for", "hourList");
+        hourLabel.innerHTML = "Heure du RDV";
+        hourCol.appendChild(hourLabel);
+
+        let hourOptionList = document.createElement("select");
+        hourOptionList.className = "custom-select";
+        hourOptionList.setAttribute("id", "hourList");
+        hourCol.appendChild(hourOptionList);
+
+        datePannelRow.appendChild(hourCol);
+
+        datePannel.appendChild(calendarPannelRow);
+        datePannel.appendChild(datePannelRow);
+
+        return datePannel;
+    }
+
+    reasonPannelMount() {
+        let reasonPannel = document.createElement("div");
+        reasonPannel.className = "form-group p-4";
+
+        //Titre du pannel :
+        let reasonPannelTitle = document.createElement("h1");
+        reasonPannelTitle.className = "row h4 mb-3 border-bottom";
+        reasonPannelTitle.innerHTML = "Le motif :";
+        reasonPannel.appendChild(reasonPannelTitle);
+
+        let pannelRow = document.createElement("div");
+        pannelRow.className = "row mt-3 col align-items-end";
+
+        //Création de l'reasonInput du motif :
+        let inputCol = document.createElement("div");
+        inputCol.className = "col-4";
+
+        let inputLabel = document.createElement("label");
+        inputLabel.setAttribute("for", "reasonInput");
+        inputLabel.innerHTML = "Motif de la consultation :";
+
+        let reasonInput = document.createElement("input");
+        reasonInput.className = "form-control";
+        reasonInput.setAttribute("type", "text");
+        reasonInput.setAttribute("id", "reasonInput");
+        reasonInput.setAttribute("name", "reasonInput");
+
+        inputCol.appendChild(inputLabel);
+        inputCol.appendChild(reasonInput);
+
+        pannelRow.appendChild(inputCol);
+
+        //Check box de premier rdv :
+        let checkBoxCol = document.createElement("div");
+        checkBoxCol.className = "col-4";
+
+        let checkBoxLabel = document.createElement("label");
+        checkBoxLabel.setAttribute("for", "firstDateInput");
+        checkBoxLabel.innerHTML = "Est un premier RDV ";
+
+        let checkBoxInput = document.createElement("input");
+        checkBoxInput.className = "form-check-input ml-2";
+        checkBoxInput.setAttribute("type", "checkbox");
+        checkBoxInput.setAttribute("id", "firstDateInput");
+        checkBoxInput.setAttribute("name", "firstDateInput");
+
+        checkBoxCol.appendChild(checkBoxLabel);
+        checkBoxCol.appendChild(checkBoxInput);
+
+        pannelRow.appendChild(checkBoxCol);
+
+        reasonPannel.appendChild(pannelRow);
+
+        return reasonPannel;
+    }
+
+    onMedicalTypeChangeValue(optionList) {
+        //Récupère la valeur contenu dans la medicalTypeList :
+        let medicalTypeValue =
+            optionList.options[optionList.selectedIndex].text;
+
+        //On vide la liste déroulante de médecin :
+        let doctorNameOption = this.domElement.querySelector("#doctorName");
+        while (doctorNameOption.firstChild) {
+            doctorNameOption.removeChild(doctorNameOption.lastChild);
+        }
+
+        //On réinitialise la doctorList :
+        this.doctorList = [];
+
+        //Ajout des noms et des ID des docteurs à la doctorList:
+        for (let i = 0; i < this.doctorDatas.length; i++) {
+            if (this.doctorDatas[i]["medicalType"] === medicalTypeValue) {
+                this.doctorList.push({
+                    doctorID: this.doctorDatas[i]["doctorID"],
+                    doctorName:
+                        this.doctorDatas[i]["firstName"] +
+                        " " +
+                        this.doctorDatas[i]["lastName"],
+                });
+            }
+        }
+
+        //On construit la liste déroulante :
+        for (let i = 0; i < this.doctorList.length; i++) {
+            let option = document.createElement("option");
+            option.setAttribute("value", this.doctorList[i]["doctorID"]);
+            option.innerHTML = this.doctorList[i]["doctorName"];
+            doctorNameOption.appendChild(option);
+        }
+
+        //On execute l'évenement sur changement de valeur de la liste doctorName :
+        this.onDoctorNameChangeValue(doctorNameOption);
+    }
+
+    onDoctorNameChangeValue(optionList) {
+        //On récupère le pannel Lieu :
+        let placePannelInformation = this.domElement.querySelector(
+            "#placePannel"
+        );
+
+        //Récupère l'ID du médecin contenu dans la liste déroulante :
+        if (optionList.options[optionList.selectedIndex]) {
+            var doctorIDValue =
+                optionList.options[optionList.selectedIndex].value;
+            //On récupère les informations du docteur :
+            for (let i = 0; i < this.doctorDatas.length; i++) {
+                if (this.doctorDatas[i]["doctorID"] == doctorIDValue) {
+                    var doctorInformation = this.doctorDatas[i];
+                    break;
+                }
+            }
+
+            //On change la valeur des inputs du pannel lieu :
+            placePannelInformation
+                .querySelector("#address")
+                .setAttribute("value", doctorInformation["address"]);
+            placePannelInformation
+                .querySelector("#city")
+                .setAttribute("value", doctorInformation["city"]);
+            placePannelInformation
+                .querySelector("#postalCode")
+                .setAttribute("value", doctorInformation["postalCode"]);
+        } else {
+            //On vide le informations du pannel Lieu :
+            let inputElements = placePannelInformation.getElementsByTagName(
+                "input"
+            );
+            for (let i = 0; i < inputElements.length; i++) {
+                inputElements[i].setAttribute("value", "");
+            }
+        }
+    }
 }
 
 //Gestionnnaire d'évenement du document :
 document.addEventListener("readystatechange", () => {
-  loadMainPage();
+    loadMainPage();
 });
 function loadMainPage() {
-  if (document.readyState === "complete") {
-    //Datas du server TODO : requete SQL =>  récupérer le nom, prénom, ID planning, type médecin, adresse, de tous les docteurs présent dans le cabinet.
-    doctorDatas = [
-      {
-        doctorID: 1,
-        firstName: "Gregory",
-        lastName: "HOUSE",
-        medicalType: "Chirurgie",
-        address: "1er rue de la liberté",
-        city: "Lyon",
-        postalCode: "69003",
-        planningID: 1,
-      },
-      {
-        doctorID: 2,
-        firstName: "Michel",
-        lastName: "CYMES",
-        medicalType: "Généraliste",
-        address: "2 rue des cadets de la France libre",
-        city: "Lyon",
-        postalCode: "69006",
-        planningID: 2,
-      },
-      {
-        doctorID: 3,
-        firstName: "Steven",
-        lastName: "STRANGE",
-        medicalType: "Chirurgie",
-        address: "15 rue de la république",
-        city: "Jonage",
-        postalCode: "69330",
-        planningID: 3,
-      },
-    ];
+    if (document.readyState === "complete") {
+        //Datas du server TODO : requete SQL =>  récupérer le nom, prénom, ID planning, type médecin, adresse, de tous les docteurs présent dans le cabinet.
+        doctorDatas = [
+            {
+                doctorID: 1,
+                firstName: "Gregory",
+                lastName: "HOUSE",
+                medicalType: "Chirurgie",
+                address: "1er rue de la liberté",
+                city: "Lyon",
+                postalCode: "69003",
+                planningID: 1,
+            },
+            {
+                doctorID: 2,
+                firstName: "Michel",
+                lastName: "CYMES",
+                medicalType: "Généraliste",
+                address: "2 rue des cadets de la France libre",
+                city: "Lyon",
+                postalCode: "69006",
+                planningID: 2,
+            },
+            {
+                doctorID: 3,
+                firstName: "Steven",
+                lastName: "STRANGE",
+                medicalType: "Chirurgie",
+                address: "15 rue de la république",
+                city: "Jonage",
+                postalCode: "69330",
+                planningID: 3,
+            },
+        ];
 
-    //Création du composant userMenu :
-    let domElement = document.getElementById("mainRow");
-    const mainPage = new DateReservation(domElement, doctorDatas);
-    mainPage.componentMount();
-  }
+        //Création du composant userMenu :
+        let domElement = document.getElementById("mainRow");
+        const mainPage = new DateReservation(domElement, doctorDatas);
+        mainPage.componentMount();
+    }
 }
