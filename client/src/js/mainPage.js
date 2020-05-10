@@ -394,39 +394,13 @@ document.addEventListener("readystatechange", () => {
 });
 function loadMainPage() {
     if (document.readyState === "complete") {
-        //Datas du server TODO : requete SQL =>  récupérer le nom, prénom, ID planning, type médecin, adresse, de tous les docteurs présent dans le cabinet.
-        doctorDatas = [
-            {
-                doctorID: 1,
-                firstName: "Gregory",
-                lastName: "HOUSE",
-                medicalType: "Chirurgie",
-                address: "1er rue de la liberté",
-                city: "Lyon",
-                postalCode: "69003",
-                planningID: 1,
-            },
-            {
-                doctorID: 2,
-                firstName: "Michel",
-                lastName: "CYMES",
-                medicalType: "Généraliste",
-                address: "2 rue des cadets de la France libre",
-                city: "Lyon",
-                postalCode: "69006",
-                planningID: 2,
-            },
-            {
-                doctorID: 3,
-                firstName: "Steven",
-                lastName: "STRANGE",
-                medicalType: "Chirurgie",
-                address: "15 rue de la république",
-                city: "Jonage",
-                postalCode: "69330",
-                planningID: 3,
-            },
-        ];
+        // Récupération de l'ensemble des données nécessaire a la prise de RDV (nom et prénom du médecin, ID planning, type médecin, adresse du cabinet).
+        let ajax = new AjaxCall("getDoctorAjax");
+        ajax.getDoctorAjaxOnload();
+        ajax.sendAjax(
+            "GET",
+            "http://stethoscope/server/src/httpRequests.php?getId=get_doctor_datas"
+        );
 
         //Création du composant userMenu :
         let domElement = document.getElementById("mainRow");
