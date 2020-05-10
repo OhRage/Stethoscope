@@ -78,7 +78,7 @@ class AjaxCall {
                             ajax.destroySessionOnload();
                             ajax.sendAjax(
                                 "GET",
-                                "http://stethoscope/server/src/httpRequests.php?getId=destroy_php_session"
+                                "http://stethoscope/server/src/httpRequests.php?destroyPhpSession"
                             );
                         } else {
                             connexionFeedback.style.display = "block";
@@ -233,15 +233,63 @@ class AjaxCall {
         }
     }
 
+    getDoctorAjaxOnload() {
+        if (this.ajaxId === "getDoctorAjax") {
+            this.ajax.onload = () => {
+                let doctorDatas = [];
+                if (this.ajax.status == 200) {
+                    let datas = JSON.parse(this.ajax.response);
+
+                    for (let key in datas) {
+                        // check if the property/key is defined in the object itself, not in parent
+                        if (datas.hasOwnProperty(key)) {
+                            doctorDatas.push({
+                                doctorID: datas[key]["ID_Doctor"],
+                                firstName:
+                                    datas[key]["first_name"]
+                                        .charAt(0)
+                                        .toUpperCase() +
+                                    datas[key]["first_name"].slice(1),
+                                lastName: datas[key]["last_name"].toUpperCase(),
+                                medicalType: datas[key]["medical_type"].split(
+                                    "&"
+                                ),
+                                address: datas[key]["address"],
+                                city: datas[key]["city"],
+                                postalCode: datas[key]["postal_code"],
+                                planningID: datas[key]["ID_Planning"],
+                            });
+                        }
+                    }
+
+                    //Création du composant userMenu :
+                    let domElement = document.getElementById("mainRow");
+                    const mainPage = new DateReservation(
+                        domElement,
+                        doctorDatas
+                    );
+                    mainPage.componentMount();
+                } else {
+                    console.log(
+                        "Erreur de récupération des données du serveur (getId = get_doctor_datas)"
+                    );
+                    return doctorDatas;
+                }
+            };
+        } else {
+            console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);
+        }
+    }
+
     destroySessionOnload() {
         if (this.ajaxId === "destroySessionAjax") {
             this.ajax.onload = () => {
                 let status = this.ajax.status;
 
                 if (status === 200) {
-                    console.log("Destruction de session terminée.")
+                    console.log("Destruction de session terminée.");
                 } else {
-                    console.log("Erreur lors de la destruction de session.")
+                    console.log("Erreur lors de la destruction de session.");
                 }
                 window.location = "../../../index.php";
             };

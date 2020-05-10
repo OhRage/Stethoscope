@@ -8,12 +8,20 @@ class DateReservation {
 
         //Ajout des types de médecine à la medecineTypeList:
         for (let i = 0; i < this.doctorDatas.length; i++) {
-            if (
-                !this.medecineTypeList.includes(
-                    this.doctorDatas[i]["medicalType"]
-                )
+            for (
+                let j = 0;
+                j < this.doctorDatas[i]["medicalType"].length;
+                j++
             ) {
-                this.medecineTypeList.push(this.doctorDatas[i]["medicalType"]);
+                if (
+                    !this.medecineTypeList.includes(
+                        this.doctorDatas[i]["medicalType"][j]
+                    )
+                ) {
+                    this.medecineTypeList.push(
+                        this.doctorDatas[i]["medicalType"][j]
+                    );
+                }
             }
         }
     }
@@ -325,14 +333,20 @@ class DateReservation {
 
         //Ajout des noms et des ID des docteurs à la doctorList:
         for (let i = 0; i < this.doctorDatas.length; i++) {
-            if (this.doctorDatas[i]["medicalType"] === medicalTypeValue) {
-                this.doctorList.push({
-                    doctorID: this.doctorDatas[i]["doctorID"],
-                    doctorName:
-                        this.doctorDatas[i]["firstName"] +
-                        " " +
-                        this.doctorDatas[i]["lastName"],
-                });
+            for (
+                let j = 0;
+                j < this.doctorDatas[i]["medicalType"].length;
+                j++
+            ) {
+                if (this.doctorDatas[i]["medicalType"][j] === medicalTypeValue) {
+                    this.doctorList.push({
+                        doctorID: this.doctorDatas[i]["doctorID"],
+                        doctorName:
+                            this.doctorDatas[i]["firstName"] +
+                            " " +
+                            this.doctorDatas[i]["lastName"],
+                    });
+                }
             }
         }
 
@@ -394,17 +408,12 @@ document.addEventListener("readystatechange", () => {
 });
 function loadMainPage() {
     if (document.readyState === "complete") {
-        // Récupération de l'ensemble des données nécessaire a la prise de RDV (nom et prénom du médecin, ID planning, type médecin, adresse du cabinet).
+        //Récupération de l'ensemble des données nécessaire a la prise de RDV (nom et prénom du médecin, ID planning, type médecin, adresse du cabinet).
         let ajax = new AjaxCall("getDoctorAjax");
         ajax.getDoctorAjaxOnload();
         ajax.sendAjax(
             "GET",
-            "http://stethoscope/server/src/httpRequests.php?getId=get_doctor_datas"
+            "http://stethoscope/server/src/httpRequests.php?getDoctorDatas"
         );
-
-        //Création du composant userMenu :
-        let domElement = document.getElementById("mainRow");
-        const mainPage = new DateReservation(domElement, doctorDatas);
-        mainPage.componentMount();
     }
 }

@@ -35,23 +35,16 @@ class UserMenu {
         //Cadre photo :
         let displayPhoto = document.createElement("div");
         displayPhoto.className = "row justify-items-center my-3 mx-auto";
-        if (this.userDatas["imagePath"]) {
-            displayPhoto.setAttribute("id", "userPhoto");
-            let photo = document.createElement("img");
-            photo.className = "fluid";
-            photo.setAttribute("src", this.userDatas["imagePath"]);
-            photo.setAttribute("alt", "photo");
-            displayPhoto.appendChild(photo);
-        } else {
-            //Image par défaut de l'utilisateur :
-            displayPhoto.setAttribute("id", "userImage");
-            let defaultImage = document.createElement("div");
-            defaultImage.setAttribute("id", "userDefaultImage");
-            defaultImage.innerHTML =
-                this.userDatas["firstName"].charAt(0) +
-                this.userDatas["lastName"].charAt(0);
-            displayPhoto.appendChild(defaultImage);
-        }
+
+        //Image par défaut de l'utilisateur :
+        displayPhoto.setAttribute("id", "userImage");
+        let defaultImage = document.createElement("div");
+        defaultImage.setAttribute("id", "userDefaultImage");
+        defaultImage.innerHTML =
+            this.userDatas["firstName"].charAt(0) +
+            this.userDatas["lastName"].charAt(0);
+        displayPhoto.appendChild(defaultImage);
+
         return displayPhoto;
     }
 
@@ -142,7 +135,7 @@ class UserMenu {
                 ajax.getProfileAjaxOnload();
                 ajax.sendAjax(
                     "GET",
-                    "http://stethoscope/server/src/httpRequests.php?getId=get_user_datas&login=" +
+                    "http://stethoscope/server/src/httpRequests.php?getUserDatas&login=" +
                         sessionLogin
                 );
                 break;
@@ -234,7 +227,7 @@ function loadUserMenu() {
         ajax.getUsernameAjaxOnload();
         ajax.sendAjax(
             "GET",
-            "http://stethoscope/server/src/httpRequests.php?getId=get_user_datas&login=" +
+            "http://stethoscope/server/src/httpRequests.php?getUserDatas&login=" +
                 sessionLogin
         );
     }
