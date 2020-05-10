@@ -281,6 +281,16 @@ class AjaxCall {
         }
     }
 
+    getFullSlotDayAjaxOnload() {
+        if (this.ajaxId === "fullSlotDayAjax") {
+            this.ajax.onload = () => {
+                
+            };
+        } else {
+            console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);
+        }
+    }
+
     destroySessionOnload() {
         if (this.ajaxId === "destroySessionAjax") {
             this.ajax.onload = () => {
