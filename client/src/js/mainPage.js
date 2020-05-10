@@ -2,7 +2,7 @@ class DateReservation {
     constructor(domElement, doctorDatas) {
         this.domElement = domElement;
         this.doctorDatas = doctorDatas;
-
+        this.doctorCalendar = null;
         this.doctorList = [];
         this.medecineTypeList = [""];
 
@@ -204,6 +204,7 @@ class DateReservation {
         //Création du calendrier :
         const calendar = new Calendar(calendarPannelCol);
         calendar.componentMount("today", "calendarMainPage");
+        this.doctorCalendar = calendar;
 
         calendarPannelRow.appendChild(calendarPannelCol);
 
@@ -399,6 +400,12 @@ class DateReservation {
                 inputElements[i].setAttribute("value", "");
             }
         }
+
+        //On reconstruit le calendrier :
+        let domElement = document.querySelector("#doctorCalendar");
+        this.doctorCalendar.componentUnmount();
+        this.doctorCalendar = new Calendar(domElement, this.doctorDatas[doctorIDValue-1]["planningID"]);
+        this.doctorCalendar.componentMount("today", "calendarMainPage");
     }
 }
 
