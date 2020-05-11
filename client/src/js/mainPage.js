@@ -60,8 +60,17 @@ class DateReservation {
         let reasonPannel = this.reasonPannelMount();
         mainForm.appendChild(reasonPannel);
 
+        //Création du pannel de bouton :
+        let buttonPannel = this.buttonsPannelMount();
+        mainForm.appendChild(buttonPannel);
+
+        //Ajout d'un input au formulaire contenant le nom de celui (pour traitement côté server):
+        let formName = document.createElement("input");
+        formName.setAttribute("type", "hidden");
+        formName.setAttribute("name", "dateReservationForm");
+        mainForm.appendChild(formName);
+
         mainContainer.appendChild(mainForm);
-        //Footer :
 
         this.domElement.appendChild(mainContainer);
     }
@@ -339,7 +348,9 @@ class DateReservation {
                 j < this.doctorDatas[i]["medicalType"].length;
                 j++
             ) {
-                if (this.doctorDatas[i]["medicalType"][j] === medicalTypeValue) {
+                if (
+                    this.doctorDatas[i]["medicalType"][j] === medicalTypeValue
+                ) {
                     this.doctorList.push({
                         doctorID: this.doctorDatas[i]["doctorID"],
                         doctorName:
@@ -404,9 +415,46 @@ class DateReservation {
         //On reconstruit le calendrier :
         let domElement = document.querySelector("#doctorCalendar");
         this.doctorCalendar.componentUnmount();
-        this.doctorCalendar = new Calendar(domElement, this.doctorDatas[doctorIDValue-1]["planningID"]);
+        this.doctorCalendar = new Calendar(
+            domElement,
+            this.doctorDatas[doctorIDValue - 1]["planningID"]
+        );
         this.doctorCalendar.componentMount("today", "calendarMainPage");
     }
+
+    buttonsPannelMount() {
+        let modalRow = document.createElement("div");
+        modalRow.className = "row justify-content-end";
+
+        //Bouton Annuler
+        let modalCancelButton = document.createElement("button");
+        modalCancelButton.className = "btn btn-primary mx-4 my-4";
+        modalCancelButton.setAttribute("type", "button");
+        modalCancelButton.setAttribute("id", "cancelMainFormButton");
+        modalCancelButton.innerHTML = "Annuler";
+        modalRow.appendChild(modalCancelButton);
+        modalCancelButton.addEventListener("click", () => {
+            this.onCancelButtonClick();
+        });
+        modalRow.appendChild(modalCancelButton);
+
+        //Bouton valider :
+        let modalValidateButton = document.createElement("button");
+        modalValidateButton.className = "btn btn-primary mx-4 my-4";
+        modalValidateButton.setAttribute("type", "button");
+        modalValidateButton.setAttribute("id", "validateMainFormButton");
+        modalValidateButton.innerHTML = "Valider";
+        modalValidateButton.addEventListener("click", () => {
+            this.onValidateButtonClick();
+        });
+        modalRow.appendChild(modalValidateButton);
+
+        return modalRow;
+    }
+
+    onCancelButtonClick() {}
+
+    onValidateButtonClick() {}
 }
 
 //Gestionnnaire d'évenement du document :
