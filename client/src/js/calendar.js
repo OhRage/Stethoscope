@@ -309,7 +309,6 @@ class Calendar {
 
             if (ajax.status === 200) {
                 fullSlotDays = JSON.parse(ajax.response);
-                console.log(fullSlotDays);
             } else {
                 console.log(
                     "Erreur de récupération des données du serveur (getId = getFullSlotDay)"
