@@ -241,7 +241,6 @@ class AjaxCall {
                     let datas = JSON.parse(this.ajax.response);
 
                     for (let key in datas) {
-                        // check if the property/key is defined in the object itself, not in parent
                         if (datas.hasOwnProperty(key)) {
                             doctorDatas.push({
                                 doctorID: datas[key]["ID_Doctor"],
@@ -281,18 +280,29 @@ class AjaxCall {
         }
     }
 
-    getAvalaibleSlotAjaxOnload() {
+    getAvalaibleSlotAjaxOnload(hourList) {
         if (this.ajaxId === "getAvailableSlots") {
             this.ajax.onload = () => {
                 let availableSlots = [];
                 if (this.ajax.status == 200) {
                     let datas = JSON.parse(this.ajax.response);
-                    console.log("OK")
+
+                    for (let key in datas) {
+                        if (datas.hasOwnProperty(key)) {
+                            availableSlots.push(datas[key]);
+                        }
+                    }
+
+                    for (let i = 0; i < availableSlots.length; i++) {
+                        let option = document.createElement("option");
+                        option.setAttribute("value", i);
+                        option.innerHTML = availableSlots[i];
+                        hourList.appendChild(option);
+                    }
                 } else {
                     console.log(
                         "Erreur de récupération des données du serveur (getId = get_doctor_datas)"
                     );
-                    return doctorDatas;
                 }
             };
         } else {

@@ -422,7 +422,7 @@ class Calendar {
         if (month && day) {
             //Récupération des slots times de disponible :
             let ajax = new AjaxCall("getAvailableSlots");
-            ajax.getAvalaibleSlotAjaxOnload();
+            ajax.getAvalaibleSlotAjaxOnload(hourList);
             ajax.sendAjax(
                 "GET",
                 "http://stethoscope/server/src/httpRequests.php?getAvailableSlots&planningID=" +
@@ -434,14 +434,6 @@ class Calendar {
                     "&year=" +
                     this.lastdayOfMonth.getFullYear()
             );
-
-            let serverDatas = ["8h-9h", "10h-11h", "15h-16h"];
-            for (let i = 0; i < serverDatas.length; i++) {
-                let option = document.createElement("option");
-                option.setAttribute("value", i);
-                option.innerHTML = serverDatas[i];
-                hourList.appendChild(option);
-            }
         }
     }
 
