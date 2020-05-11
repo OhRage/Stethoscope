@@ -281,6 +281,25 @@ class AjaxCall {
         }
     }
 
+    getAvalaibleSlotAjaxOnload() {
+        if (this.ajaxId === "getAvailableSlots") {
+            this.ajax.onload = () => {
+                let availableSlots = [];
+                if (this.ajax.status == 200) {
+                    let datas = JSON.parse(this.ajax.response);
+                    console.log("OK")
+                } else {
+                    console.log(
+                        "Erreur de récupération des données du serveur (getId = get_doctor_datas)"
+                    );
+                    return doctorDatas;
+                }
+            };
+        } else {
+            console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);
+        }
+    }
+
     destroySessionOnload() {
         if (this.ajaxId === "destroySessionAjax") {
             this.ajax.onload = () => {

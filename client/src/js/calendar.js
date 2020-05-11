@@ -309,6 +309,7 @@ class Calendar {
 
             if (ajax.status === 200) {
                 fullSlotDays = JSON.parse(ajax.response);
+                console.log(fullSlotDays);
             } else {
                 console.log(
                     "Erreur de récupération des données du serveur (getId = getFullSlotDay)"
@@ -323,7 +324,7 @@ class Calendar {
                 let htmlCell = tableRow.childNodes[j];
                 if (htmlCell.getAttribute("value").includes("filled")) {
                     var htmlButton = htmlCell.childNodes[0];
-                    if (fullSlotDays.includes(parseInt(htmlButton.innerHTML))) {
+                    if (fullSlotDays.includes(htmlButton.innerHTML)) {
                         htmlButton.setAttribute("value", "dateNotAvailable");
                         htmlButton.disabled = true;
                     } else {
@@ -420,7 +421,21 @@ class Calendar {
 
         //On affecte les heures de RDV a la mainPage (si month et day existe) :
         if (month && day) {
-            //@TODO : récupération des heures de dispo pour le jour sélectionné  => SQL
+            //Récupération des slots times de disponible :
+            let ajax = new AjaxCall("getAvailableSlots");
+            ajax.getAvalaibleSlotAjaxOnload();
+            ajax.sendAjax(
+                "GET",
+                "http://stethoscope/server/src/httpRequests.php?getAvailableSlots&planningID=" +
+                    this.planningID +
+                    "&day=" +
+                    day +
+                    "&month=" +
+                    (this.lastdayOfMonth.getMonth() + 1) +
+                    "&year=" +
+                    this.lastdayOfMonth.getFullYear()
+            );
+
             let serverDatas = ["8h-9h", "10h-11h", "15h-16h"];
             for (let i = 0; i < serverDatas.length; i++) {
                 let option = document.createElement("option");

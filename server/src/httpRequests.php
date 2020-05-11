@@ -278,6 +278,39 @@
             http_response_code(500);
         }
 
+    }else if (isset($_GET["getAvailableSlots"])){
+
+        //Récupération des slots déjà utilisé : 
+        $query = "SELECT 
+            CONSULTATION.time_slot
+        FROM CONSULTATION
+        WHERE CONSULTATION.ID_Planning = {$_GET["planningID"]}
+            AND (SELECT DAY(CONSULTATION.consultation_date)) = {$_GET["day"]}
+            AND (SELECT MONTH(CONSULTATION.consultation_date)) = {$_GET["month"]}
+            AND (SELECT YEAR(CONSULTATION.consultation_date)) = {$_GET["year"]};";
+
+        $result = send_simple_query($query, "select");
+
+        if(gettype($result) == "array"){
+            $json = ["1", "2", "3", "4", "5", "6", "7", "8"];
+
+            if($result){
+                foreach($result as $result){
+                    $time_slot = $result["time_slot"];
+                    if(in_array($time_slot, $json)){
+                        $index = array_search($time_slot, $json);
+                        unset($json[$index]);
+                    }
+                }
+            }
+
+            http_response_code(200);
+            header('Content-type: application/json');
+            echo json_encode($json);
+        }else{
+            http_response_code(500);
+        }
+
     }else if (isset($_GET["destroyPhpSession"])){
         session_destroy();
         http_response_code(200);
