@@ -64,6 +64,7 @@ class CalendarModalWindow {
     modalCloseButton.className = "btn btn-primary mr-4 ml-4";
     modalCloseButton.setAttribute("type", "button");
     modalCloseButton.setAttribute("data-dismiss", "modal");
+    modalCloseButton.setAttribute("id", "modalCloseButton");
     modalCloseButton.innerHTML = "Fermer";
 
     modalRow.appendChild(modalCloseButton);

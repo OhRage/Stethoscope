@@ -127,6 +127,7 @@ class ProfileModalWindow {
         modalCloseButton.className = "btn btn-primary mr-4 ml-4";
         modalCloseButton.setAttribute("type", "button");
         modalCloseButton.setAttribute("data-dismiss", "modal");
+        modalCloseButton.setAttribute("id", "modalCloseButton");
         modalCloseButton.innerHTML = "Fermer";
         modalRow.appendChild(modalCloseButton);
 
@@ -134,6 +135,7 @@ class ProfileModalWindow {
         let modalModifyButton = document.createElement("button");
         modalModifyButton.className = "btn btn-primary mr-4 ml-4";
         modalModifyButton.setAttribute("type", "button");
+        modalModifyButton.setAttribute("id", "modalModifyButton");
         modalModifyButton.innerHTML = "Modifier";
         modalRow.appendChild(modalModifyButton);
 
@@ -141,6 +143,7 @@ class ProfileModalWindow {
         let modalValidateButton = document.createElement("button");
         modalValidateButton.className = "btn btn-primary mr-4 ml-4";
         modalValidateButton.setAttribute("type", "button");
+        modalValidateButton.setAttribute("id", "modalValidateButton");
         modalValidateButton.innerHTML = "Valider";
         modalValidateButton.style.display = "none";
         modalValidateButton.addEventListener("click", () => {
