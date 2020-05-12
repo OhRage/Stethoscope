@@ -122,7 +122,6 @@ class DoctorModalWindow {
     //Récupération du formulaire :
     let form = modalBody.querySelector("[name=mainForm");
     form.setAttribute("id", "doctorInformationModalForm");
-    form.setAttribute("action", "/server/src/httpRequests.php");
 
     //Ajout d'un input au formulaire contenant le nom de celui (pour traitement côté server):
     let formName = document.createElement("input");

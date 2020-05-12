@@ -86,7 +86,6 @@ class ProfileModalWindow {
         //Récupération du formulaire :
         let form = modalBody.querySelector("[name=mainForm");
         form.setAttribute("id", "personalInformationModalForm");
-        form.setAttribute("action", "/server/src/httpRequests.php");
 
         //On rend les inputs disabled :
         let inputs = form.getElementsByTagName("input");

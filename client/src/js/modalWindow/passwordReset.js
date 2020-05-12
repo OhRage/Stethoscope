@@ -58,7 +58,6 @@ class ResetPasswordModalWindow {
     let mainForm = document.createElement("form");
     mainForm.setAttribute("method", "post");
     mainForm.setAttribute("name", "mainForm");
-    mainForm.setAttribute("action", "/server/src/httpRequests.php");
     mainForm.className = "needs-validation";
     mainForm.noValidate = true;
 
@@ -98,7 +97,6 @@ class ResetPasswordModalWindow {
     //Récupération du formulaire :
     let form = modalBody.querySelector("[name=mainForm");
     form.setAttribute("id", "forgotPasswordModalForm");
-    form.setAttribute("action", "/server/src/httpRequests.php");
 
     //Ajout d'un input au formulaire contenant le nom de celui (pour traitement côté server):
     let formName = document.createElement("input");
