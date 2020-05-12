@@ -297,7 +297,7 @@ class Calendar {
             let ajax = new XMLHttpRequest();
             ajax.open(
                 "GET",
-                "http://stethoscope/server/src/httpRequests.php?getFullSlotDay&planningID=" +
+                "http://stethoscope/server/src/getFullSlotDay.php?planningID=" +
                     this.planningID +
                     "&month=" +
                     (this.lastdayOfMonth.getMonth() + 1) +
