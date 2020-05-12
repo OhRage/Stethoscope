@@ -500,7 +500,7 @@ function loadMainPage() {
         ajax.getDoctorAjaxOnload();
         ajax.sendAjax(
             "GET",
-            "http://stethoscope/server/src/httpRequests.php?getDoctorDatas"
+            "http://stethoscope/server/src/getDoctorDatas.php"
         );
     }
 }
