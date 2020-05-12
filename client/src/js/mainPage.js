@@ -61,7 +61,7 @@ class DateReservation {
         mainForm.appendChild(reasonPannel);
 
         //Création du pannel de bouton :
-        let buttonPannel = this.buttonsPannelMount();
+        let buttonPannel = this.buttonsPannelMount(mainForm);
         mainForm.appendChild(buttonPannel);
 
         //Ajout d'un input au formulaire contenant le nom de celui (pour traitement côté server):
@@ -110,6 +110,7 @@ class DateReservation {
             let optionList = document.createElement("select");
             optionList.className = "custom-select";
             optionList.setAttribute("id", keyLabelListValue);
+            optionList.setAttribute("name", keyLabelListValue);
 
             if (optionList.getAttribute("id") === "medicalType") {
                 for (let j = 0; j < this.medecineTypeList.length; j++) {
@@ -261,6 +262,7 @@ class DateReservation {
         let hourOptionList = document.createElement("select");
         hourOptionList.className = "custom-select";
         hourOptionList.setAttribute("id", "hourList");
+        hourOptionList.setAttribute("name", "hourList");
         hourCol.appendChild(hourOptionList);
 
         datePannelRow.appendChild(hourCol);
@@ -308,14 +310,14 @@ class DateReservation {
         checkBoxCol.className = "col-4";
 
         let checkBoxLabel = document.createElement("label");
-        checkBoxLabel.setAttribute("for", "firstDateInput");
+        checkBoxLabel.setAttribute("for", "firstDate");
         checkBoxLabel.innerHTML = "Est un premier RDV ";
 
         let checkBoxInput = document.createElement("input");
         checkBoxInput.className = "form-check-input ml-2";
         checkBoxInput.setAttribute("type", "checkbox");
-        checkBoxInput.setAttribute("id", "firstDateInput");
-        checkBoxInput.setAttribute("name", "firstDateInput");
+        checkBoxInput.setAttribute("id", "firstDate");
+        checkBoxInput.setAttribute("name", "firstDate");
 
         checkBoxCol.appendChild(checkBoxLabel);
         checkBoxCol.appendChild(checkBoxInput);
@@ -422,7 +424,7 @@ class DateReservation {
         this.doctorCalendar.componentMount("today", "calendarMainPage");
     }
 
-    buttonsPannelMount() {
+    buttonsPannelMount(mainForm) {
         let modalRow = document.createElement("div");
         modalRow.className = "row justify-content-end";
 
@@ -445,7 +447,7 @@ class DateReservation {
         modalValidateButton.setAttribute("id", "validateMainFormButton");
         modalValidateButton.innerHTML = "Valider";
         modalValidateButton.addEventListener("click", () => {
-            this.onValidateButtonClick();
+            this.onValidateButtonClick(mainForm);
         });
         modalRow.appendChild(modalValidateButton);
 
@@ -454,7 +456,37 @@ class DateReservation {
 
     onCancelButtonClick() {}
 
-    onValidateButtonClick() {}
+    onValidateButtonClick(mainForm) {
+        //Formatage des données :
+        let hourList = mainForm.querySelector("#hourList");
+        let doctorList = mainForm.querySelector("#doctorName");
+        let consultationDate =
+            mainForm
+                .querySelector("#calendarActualMonth")
+                .innerHTML.split(" ")[1] +
+            "-" +
+            getMonth(mainForm.querySelector("#monthInput").value) +
+            "-" +
+            mainForm.querySelector("#dayInput").value;
+
+        let datas = {
+            formID: "dateReservationForm",
+            reason: mainForm.querySelector("#reasonInput").value,
+            consultationDate: consultationDate,
+            timeSlot: hourList.options[hourList.selectedIndex].value,
+            firstTime: mainForm.querySelector("#firstDate").checked,
+            login: sessionLogin,
+            doctorID: doctorList.options[doctorList.selectedIndex].value,
+        };
+
+        //Envoi des données au serveur :
+        let ajax = new AjaxCall();
+        // ajax.setConsultationAjaxOnload();
+        ajax.sendJSONAjax(
+            "http://stethoscope/server/src/setConsultation.php",
+            JSON.stringify(datas)
+        );
+    }
 }
 
 //Gestionnnaire d'évenement du document :

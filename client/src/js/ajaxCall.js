@@ -9,6 +9,12 @@ class AjaxCall {
         this.ajax.send(postParameter);
     }
 
+    sendJSONAjax(url, json) {
+        this.ajax.open("POST", url);
+        this.ajax.setRequestHeader("Content-Type", "application/json");
+        this.ajax.send(json);
+    }
+
     loginAjaxOnload() {
         if (this.ajaxId === "loginAjax") {
             this.ajax.onload = () => {
@@ -283,21 +289,16 @@ class AjaxCall {
     getAvalaibleSlotAjaxOnload(hourList) {
         if (this.ajaxId === "getAvailableSlots") {
             this.ajax.onload = () => {
-                let availableSlots = [];
                 if (this.ajax.status == 200) {
                     let datas = JSON.parse(this.ajax.response);
 
                     for (let key in datas) {
                         if (datas.hasOwnProperty(key)) {
-                            availableSlots.push(datas[key]);
+                            let option = document.createElement("option");
+                            option.setAttribute("value", key);
+                            option.innerHTML = datas[key];
+                            hourList.appendChild(option);
                         }
-                    }
-
-                    for (let i = 0; i < availableSlots.length; i++) {
-                        let option = document.createElement("option");
-                        option.setAttribute("value", i);
-                        option.innerHTML = availableSlots[i];
-                        hourList.appendChild(option);
                     }
                 } else {
                     console.log(
@@ -309,6 +310,31 @@ class AjaxCall {
             console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);
         }
     }
+
+    // setConsultationAjaxOnload() {
+    //     if (this.ajaxId === "registerAjax") {
+    //         this.ajax.onload = () => {
+    //             let status = this.ajax.status;
+    //             let msg = JSON.parse(this.ajax.response)["message"];
+
+    //             if (
+    //                 status === 403 &&
+    //                 msg === "L'email que vous avez saisie est déjà utilisé."
+    //             ) {
+
+    //             } else {
+
+    //                 if (status === 200) {
+
+    //                 } else {
+
+    //                 }
+    //             }
+    //         };
+    //     } else {
+    //         console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);
+    //     }
+    // }
 
     destroySessionOnload() {
         if (this.ajaxId === "destroySessionAjax") {

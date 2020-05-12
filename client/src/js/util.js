@@ -9,6 +9,31 @@ function getAge(dateString) {
     return age;
 }
 
+function getMonth(monthInput) {
+    let month = monthInput.toLowerCase();
+
+    let months = [
+        "janvier",
+        "février",
+        "mars",
+        "avril",
+        "mai",
+        "juin",
+        "juillet",
+        "aout",
+        "septembre",
+        "octobre",
+        "novembre",
+        "décembre",
+    ];
+    let indexOfMonth = (months.indexOf(month) + 1).toString();
+    if (indexOfMonth.length === 1) {
+        indexOfMonth = "0" + indexOfMonth;
+    }
+
+    return indexOfMonth;
+}
+
 function registerInputControl(form, inputs) {
     for (let i = 0; i < inputs.length; i++) {
         if (inputs[i].type !== "hidden") {
