@@ -84,7 +84,7 @@ class AjaxCall {
                             ajax.destroySessionOnload();
                             ajax.sendAjax(
                                 "GET",
-                                "http://stethoscope/server/src/httpRequests.php?destroyPhpSession"
+                                "http://stethoscope/server/src/destroyPhpSession.php"
                             );
                         } else {
                             connexionFeedback.style.display = "block";
