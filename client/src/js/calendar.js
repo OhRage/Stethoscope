@@ -425,7 +425,7 @@ class Calendar {
             ajax.getAvalaibleSlotAjaxOnload(hourList);
             ajax.sendAjax(
                 "GET",
-                "http://stethoscope/server/src/httpRequests.php?getAvailableSlots&planningID=" +
+                "http://stethoscope/server/src/getAvailableSlots.php?planningID=" +
                     this.planningID +
                     "&day=" +
                     day +
