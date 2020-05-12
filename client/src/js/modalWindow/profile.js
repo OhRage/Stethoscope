@@ -211,7 +211,7 @@ class ProfileModalWindow {
         ajax.registerAjaxOnload();
         ajax.sendAjax(
             "POST",
-            "http://stethoscope/server/src/httpRequests.php",
+            "http://stethoscope/server/src/setUserDatas.php",
             new FormData(form)
         );
       }
