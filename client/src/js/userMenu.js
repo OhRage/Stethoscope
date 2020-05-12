@@ -135,7 +135,7 @@ class UserMenu {
                 ajax.getProfileAjaxOnload();
                 ajax.sendAjax(
                     "GET",
-                    "http://stethoscope/server/src/httpRequests.php?getUserDatas&login=" +
+                    "http://stethoscope/server/src/getUserDatas.php?login=" +
                         sessionLogin
                 );
                 break;
@@ -227,7 +227,7 @@ function loadUserMenu() {
         ajax.getUsernameAjaxOnload();
         ajax.sendAjax(
             "GET",
-            "http://stethoscope/server/src/httpRequests.php?getUserDatas&login=" +
+            "http://stethoscope/server/src/getUserDatas.php?login=" +
                 sessionLogin
         );
     }
