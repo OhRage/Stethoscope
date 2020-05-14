@@ -44,13 +44,14 @@
 
         /* Vérification de la connexion */
         if ($error = mysqli_connect_errno()){
-            error_log("Echec de la connexion : {$error}\n", 0);
+            error_log("Echec de la connexion : {$error}", 0);
             exit();
         }
             
         if (mysqli_multi_query($connection, $query)) {
             do {
-                if ($result = mysqli_store_result($connection) == false) {
+                $result = mysqli_store_result($connection);
+                if ($result == false) {
                     break;
                 }
             } while (mysqli_next_result($connection));
@@ -58,7 +59,7 @@
 
         if ($result  == false){
             $error = mysqli_error($connection);
-            error_log("Erreur de transaction : {$error} Requête : {$request}\n", 0);
+            error_log("Erreur de transaction : {$error} Requête : {$query}\n", 0);
         }
     
         /* Fermeture de la connexion */
