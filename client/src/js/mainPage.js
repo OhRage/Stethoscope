@@ -115,6 +115,7 @@ class DateReservation {
                 for (let j = 0; j < this.medecineTypeList.length; j++) {
                     let option = document.createElement("option");
                     option.setAttribute("value", j);
+                    option.setAttribute("id", "medicalTypeValue" + j);
                     option.innerHTML = this.medecineTypeList[j];
                     optionList.appendChild(option);
                 }
@@ -477,7 +478,12 @@ class DateReservation {
         return modalRow;
     }
 
-    onCancelButtonClick() {}
+    onCancelButtonClick() {
+        //On affecte une valeur nulle dans la liste "Type de médecine":
+        let medicalType = document.querySelector("#medicalType");
+        medicalType.querySelector("#medicalTypeValue0").selected = true;
+        this.onMedicalTypeChangeValue(medicalType);
+    }
 
     onValidateButtonClick(mainForm) {
         //Formatage des données :
