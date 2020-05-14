@@ -5,60 +5,82 @@
     $datas = json_decode($request_payload, true);
     $first_time =  (int)$datas["firstTime"];
 
-    //Construction de la requête :
-    $query = "SET AUTOCOMMIT=0;";
-
-    //Récupération de l'ID du patient :
-    $query .= "SET @ID_Patient  = (
-    SELECT
-        PATIENT.ID_Patient 
-    FROM PATIENT
-    INNER JOIN USERS ON USERS.ID_User = PATIENT.ID_User
-    WHERE USERS.login = \"{$datas["login"]}\"
-    );";
-    
     //Récupération de l'ID du planning :
-    $query .= "SET @ID_Planning  = (
-    SELECT
+    $query = "SELECT
         PLANNING.ID_Planning
     FROM PLANNING
-    WHERE PLANNING.ID_Doctor = {$datas["doctorID"]}
-    );";
+    WHERE PLANNING.ID_Doctor = {$datas["doctorID"]};";
 
-    //Vérification que le slot time n'est pas déjà pris :
-    $query .= "SELECT
-        CONSULTATION.time_slot
-    FROM CONSULTATION
-    WHERE CONSULTATION.consutation_date = \"{$datas["consultationDate"]}\"
-        AND CONSULTATION.ID_Planning = @ID_Planning;";
-
-    //Ajout d'un enregistrement dans la table CONSULTATION
-    $query .= "INSERT INTO CONSULTATION (
-        reason
-        , consultation_date
-        , time_slot
-        , first_time
-        , ID_Patient
-        , ID_Planning
-    ) VALUES (
-        \"{$datas["reason"]}\"
-        , \"{$datas["consultationDate"]}\" 
-        , {$datas["timeSlot"]} 
-        , {$first_time} 
-        , @ID_Patient
-        , @ID_Planning
-    );";
-
-    $query .= "COMMIT;";    
-
-    $result = send_multiple_upsert_query($query);
+    $result = send_simple_query($query, "select");
 
     if($result){
-        $msg = "Rendez-vous reservé avec succès.";
-        $code = 200;
+        $id_planning = $result[0]["ID_Planning"];
+        
+        //Récupération de l'ID du patient :
+        $query = "SELECT
+            PATIENT.ID_Patient 
+        FROM PATIENT
+        INNER JOIN USERS ON USERS.ID_User = PATIENT.ID_User
+        WHERE USERS.login = \"{$datas["login"]}\";";
+
+        $result = send_simple_query($query, "select");
+
+        if($result){
+            $id_patient = $result[0]["ID_Patient"];
+
+            //Controle sur le slot time :
+            $query = "SELECT
+                CONSULTATION.time_slot
+            FROM CONSULTATION
+            WHERE CONSULTATION.consultation_date = \"{$datas["consultationDate"]}\"
+                AND CONSULTATION.ID_Planning = {$id_planning};";
+            
+            $result = send_simple_query($query, "select");
+
+            if(gettype($result) == "array" && $result == false){
+                //Ajout d'un enregistrement dans la table CONSULTATION                
+                $query = "INSERT INTO CONSULTATION (
+                    reason
+                    , consultation_date
+                    , time_slot
+                    , first_time
+                    , ID_Patient
+                    , ID_Planning
+                ) VALUES (
+                    \"{$datas["reason"]}\"
+                    , \"{$datas["consultationDate"]}\" 
+                    , {$datas["timeSlot"]} 
+                    , {$first_time} 
+                    , {$id_patient}
+                    , {$id_planning}
+                );";
+
+                $result = send_simple_query($query, "upsert");
+
+                if($result){
+                    $msg = " Réservation validée.";
+                    $code = 200;
+                }else{
+                    $msg = " Veuillez réessayer.";
+                    $code = 500;
+                }
+            }else{
+                $msg = " Créneaux déjà réservé.";
+                $code = 500;  
+            }
+
+        }else{
+            $msg = " Médecin non reconnu.";
+            $code = 500; 
+        }
+
     }else{
-        $msg = "Echec lors de la réservation du rendez-vous. Veuillez réessayer.";
-        $code = 500;
+        $msg = " Utilisateur non reconnu.";
+        $code = 500; 
+    }
+
+    if($code == 500){
+        $msg = "Echec lors de la réservation du rendez-vous." .$msg;
     }
 
     http_response_code($code);

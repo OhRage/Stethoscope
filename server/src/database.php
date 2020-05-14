@@ -3,7 +3,7 @@
     ini_set("log_errors", 1);
     ini_set("error_log", "../log/error.stethoscope.fr.log");
 
-    function send_simple_query($request, $type){
+    function send_simple_query($query, $type){
 
         /* Ouverture de la connexion non persistante : */
         $connection = mysqli_connect("127.0.0.1:3306", "root", "Jupiter2020!", "Stethoscope");
@@ -14,11 +14,11 @@
             exit();
         }
             
-        $result = mysqli_query($connection, $request);
+        $result = mysqli_query($connection, $query);
 
         if ($result  == false){
             $error = mysqli_error($connection);
-            error_log("Erreur de transaction : {$error} Requête : {$request}\n", 0);
+            error_log("Erreur de transaction : {$error} Requête : {$query}", 0);
             $rows = false;
         } else {
             /* Récupération des données : */
@@ -59,7 +59,7 @@
 
         if ($result  == false){
             $error = mysqli_error($connection);
-            error_log("Erreur de transaction : {$error} Requête : {$query}\n", 0);
+            error_log("Erreur de transaction : {$error} Requête : {$query}", 0);
         }
     
         /* Fermeture de la connexion */

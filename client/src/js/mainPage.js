@@ -509,8 +509,8 @@ class DateReservation {
         };
 
         //Envoi des données au serveur :
-        let ajax = new AjaxCall();
-        // ajax.setConsultationAjaxOnload();
+        let ajax = new AjaxCall("setConsultationAjax");
+        ajax.setConsultationAjaxOnload();
         ajax.sendJSONAjax(
             "http://stethoscope/server/src/setConsultation.php",
             JSON.stringify(datas)

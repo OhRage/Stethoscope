@@ -311,30 +311,17 @@ class AjaxCall {
         }
     }
 
-    // setConsultationAjaxOnload() {
-    //     if (this.ajaxId === "registerAjax") {
-    //         this.ajax.onload = () => {
-    //             let status = this.ajax.status;
-    //             let msg = JSON.parse(this.ajax.response)["message"];
-
-    //             if (
-    //                 status === 403 &&
-    //                 msg === "L'email que vous avez saisie est déjà utilisé."
-    //             ) {
-
-    //             } else {
-
-    //                 if (status === 200) {
-
-    //                 } else {
-
-    //                 }
-    //             }
-    //         };
-    //     } else {
-    //         console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);
-    //     }
-    // }
+    setConsultationAjaxOnload() {
+        if (this.ajaxId === "setConsultationAjax") {
+            this.ajax.onload = () => {
+                let status = this.ajax.status;
+                let msg = JSON.parse(this.ajax.response)["message"];
+                alert(msg);
+            };
+        } else {
+            console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);
+        }
+    }
 
     destroySessionOnload() {
         if (this.ajaxId === "destroySessionAjax") {
