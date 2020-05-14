@@ -7,7 +7,7 @@
 
     //Construction de la requête :
     $query = "SET AUTOCOMMIT=0;";
-    
+
     //Récupération de l'ID du patient :
     $query .= "SET @ID_Patient  = (
     SELECT
@@ -24,6 +24,13 @@
     FROM PLANNING
     WHERE PLANNING.ID_Doctor = {$datas["doctorID"]}
     );";
+
+    //Vérification que le slot time n'est pas déjà pris :
+    $query .= "SELECT
+        CONSULTATION.time_slot
+    FROM CONSULTATION
+    WHERE CONSULTATION.consutation_date = \"{$datas["consultationDate"]}\"
+        AND CONSULTATION.ID_Planning = @ID_Planning;";
 
     //Ajout d'un enregistrement dans la table CONSULTATION
     $query .= "INSERT INTO CONSULTATION (
@@ -56,5 +63,5 @@
 
     http_response_code($code);
     header('Content-type: application/json');
-    echo json_encode($query);
+    echo json_encode($msg);
 ?>
