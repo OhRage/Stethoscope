@@ -342,28 +342,43 @@ class DateReservation {
         //On réinitialise la doctorList :
         this.doctorList = [];
 
-        //Ajout des noms et des ID des docteurs à la doctorList:
-        for (let i = 0; i < this.doctorDatas.length; i++) {
-            for (
-                let j = 0;
-                j < this.doctorDatas[i]["medicalType"].length;
-                j++
-            ) {
-                if (
-                    this.doctorDatas[i]["medicalType"][j] === medicalTypeValue
+        if (medicalTypeValue) {
+            //Ajout des noms et des ID des docteurs à la doctorList:
+            for (let i = 0; i < this.doctorDatas.length; i++) {
+                for (
+                    let j = 0;
+                    j < this.doctorDatas[i]["medicalType"].length;
+                    j++
                 ) {
-                    this.doctorList.push({
-                        doctorID: this.doctorDatas[i]["doctorID"],
-                        doctorName:
-                            this.doctorDatas[i]["firstName"] +
-                            " " +
-                            this.doctorDatas[i]["lastName"],
-                    });
+                    if (
+                        this.doctorDatas[i]["medicalType"][j] ===
+                        medicalTypeValue
+                    ) {
+                        this.doctorList.push({
+                            doctorID: this.doctorDatas[i]["doctorID"],
+                            doctorName:
+                                this.doctorDatas[i]["firstName"] +
+                                " " +
+                                this.doctorDatas[i]["lastName"],
+                        });
+                    }
                 }
             }
+
+            //On rend le bouton valider disponible :
+            let validateMainFormButton = document.querySelector(
+                "#validateMainFormButton"
+            );
+            validateMainFormButton.disabled = false;
+        } else {
+            //On rend le bouton valider indisponible :
+            let validateMainFormButton = document.querySelector(
+                "#validateMainFormButton"
+            );
+            validateMainFormButton.disabled = true;
         }
 
-        //On construit la liste déroulante :
+        //On construit la liste déroulante des docteurs :
         for (let i = 0; i < this.doctorList.length; i++) {
             let option = document.createElement("option");
             option.setAttribute("value", this.doctorList[i]["doctorID"]);
@@ -380,6 +395,10 @@ class DateReservation {
         let placePannelInformation = this.domElement.querySelector(
             "#placePannel"
         );
+
+        //On détruit le calendrier :
+        let domElement = document.querySelector("#doctorCalendar");
+        this.doctorCalendar.componentUnmount();
 
         //Récupère l'ID du médecin contenu dans la liste déroulante :
         if (optionList.options[optionList.selectedIndex]) {
@@ -403,6 +422,13 @@ class DateReservation {
             placePannelInformation
                 .querySelector("#postalCode")
                 .setAttribute("value", doctorInformation["postalCode"]);
+
+            //On construit le calendrier du médecin correspondant :
+            this.doctorCalendar = new Calendar(
+                domElement,
+                this.doctorDatas[doctorIDValue - 1]["planningID"]
+            );
+            this.doctorCalendar.componentMount("today", "calendarMainPage");
         } else {
             //On vide le informations du pannel Lieu :
             let inputElements = placePannelInformation.getElementsByTagName(
@@ -411,16 +437,13 @@ class DateReservation {
             for (let i = 0; i < inputElements.length; i++) {
                 inputElements[i].setAttribute("value", "");
             }
-        }
 
-        //On reconstruit le calendrier :
-        let domElement = document.querySelector("#doctorCalendar");
-        this.doctorCalendar.componentUnmount();
-        this.doctorCalendar = new Calendar(
-            domElement,
-            this.doctorDatas[doctorIDValue - 1]["planningID"]
-        );
-        this.doctorCalendar.componentMount("today", "calendarMainPage");
+            //On construit un calendrier vide :
+            this.doctorCalendar = new Calendar(domElement);
+            this.doctorCalendar.componentMount("today", "calendarMainPage");
+
+            //On masque le pannel de date du RDV :
+        }
     }
 
     buttonsPannelMount(mainForm) {
@@ -444,6 +467,7 @@ class DateReservation {
         modalValidateButton.className = "btn btn-primary mx-4 my-4";
         modalValidateButton.setAttribute("type", "button");
         modalValidateButton.setAttribute("id", "validateMainFormButton");
+        modalValidateButton.disabled = true;
         modalValidateButton.innerHTML = "Valider";
         modalValidateButton.addEventListener("click", () => {
             this.onValidateButtonClick(mainForm);
