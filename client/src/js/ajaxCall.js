@@ -311,12 +311,17 @@ class AjaxCall {
         }
     }
 
-    setConsultationAjaxOnload() {
+    setConsultationAjaxOnload(modalCancelButton) {
         if (this.ajaxId === "setConsultationAjax") {
             this.ajax.onload = () => {
                 let status = this.ajax.status;
                 let msg = JSON.parse(this.ajax.response)["message"];
                 alert(msg);
+
+                if(status === 200){
+                    //Vide les champs :
+                    modalCancelButton.click();
+                }
             };
         } else {
             console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);

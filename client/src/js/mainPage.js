@@ -442,8 +442,6 @@ class DateReservation {
             //On construit un calendrier vide :
             this.doctorCalendar = new Calendar(domElement);
             this.doctorCalendar.componentMount("today", "calendarMainPage");
-
-            //On masque le pannel de date du RDV :
         }
     }
 
@@ -471,7 +469,7 @@ class DateReservation {
         modalValidateButton.disabled = true;
         modalValidateButton.innerHTML = "Valider";
         modalValidateButton.addEventListener("click", () => {
-            this.onValidateButtonClick(mainForm);
+            this.onValidateButtonClick(mainForm, modalCancelButton);
         });
         modalRow.appendChild(modalValidateButton);
 
@@ -485,7 +483,7 @@ class DateReservation {
         this.onMedicalTypeChangeValue(medicalType);
     }
 
-    onValidateButtonClick(mainForm) {
+    onValidateButtonClick(mainForm, modalCancelButton) {
         //Formatage des données :
         let hourList = mainForm.querySelector("#hourList");
         let doctorList = mainForm.querySelector("#doctorName");
@@ -510,7 +508,7 @@ class DateReservation {
 
         //Envoi des données au serveur :
         let ajax = new AjaxCall("setConsultationAjax");
-        ajax.setConsultationAjaxOnload();
+        ajax.setConsultationAjaxOnload(modalCancelButton);
         ajax.sendJSONAjax(
             "http://stethoscope/server/src/setConsultation.php",
             JSON.stringify(datas)

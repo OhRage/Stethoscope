@@ -83,7 +83,9 @@
         $msg = "Echec lors de la réservation du rendez-vous." .$msg;
     }
 
+    $json = ["message" => $msg];
+
     http_response_code($code);
     header('Content-type: application/json');
-    echo json_encode($msg);
+    echo json_encode($json);
 ?>
