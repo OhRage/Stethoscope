@@ -485,6 +485,13 @@ class DateReservation {
 
     onValidateButtonClick(mainForm, modalCancelButton) {
         //Formatage des données :
+        let address =
+            mainForm.querySelector("#address").value +
+            " - " +
+            mainForm.querySelector("#city").value +
+            " - " +
+            mainForm.querySelector("#postalCode").value;
+
         let hourList = mainForm.querySelector("#hourList");
         let doctorList = mainForm.querySelector("#doctorName");
         let consultationDate =
@@ -506,13 +513,27 @@ class DateReservation {
             doctorID: doctorList.options[doctorList.selectedIndex].value,
         };
 
-        //Envoi des données au serveur :
-        let ajax = new AjaxCall("setConsultationAjax");
-        ajax.setConsultationAjaxOnload(modalCancelButton);
-        ajax.sendJSONAjax(
-            "http://stethoscope/server/src/setConsultation.php",
-            JSON.stringify(datas)
+        //Demande de confirmation de l'utilisateur :
+        let userResponse = confirm(
+            "Êtes vous sur de vouloir valider ce rendez vous? \n\nMédecin : " +
+                doctorList.options[doctorList.selectedIndex].text +
+                " \nDate : " +
+                consultationDate +
+                "\nHeure : " +
+                hourList.options[hourList.selectedIndex].text +
+                "\nLieu : " +
+                address
         );
+
+        if (userResponse === true) {
+            //Envoi des données au serveur :
+            let ajax = new AjaxCall("setConsultationAjax");
+            ajax.setConsultationAjaxOnload(modalCancelButton);
+            ajax.sendJSONAjax(
+                "http://stethoscope/server/src/setConsultation.php",
+                JSON.stringify(datas)
+            );
+        }
     }
 }
 
