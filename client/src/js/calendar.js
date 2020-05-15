@@ -291,7 +291,7 @@ class Calendar {
     }
 
     doctorSetDate(daysOfMonth) {
-        //@TODO : Récupérer les données du serveur via une requête http : SQL => récupérer les jours du mois qui n'ont plus de créneaux de disponible
+        //Récupération des créneaux disponibles :
         let fullSlotDays = [];
         if (this.planningID) {
             let ajax = new XMLHttpRequest();
@@ -393,16 +393,16 @@ class Calendar {
         dayButton.addEventListener(
             "click",
             () => {
-                this.setMainPageDateValues(
-                    this.monthList[this.firstDayOfMonth.getMonth()],
-                    dayButton.innerHTML
-                );
+                this.setMainPageDateValues(dayButton);
             },
             false
         );
     }
 
-    setMainPageDateValues(month, day) {
+    setMainPageDateValues(dayButton) {
+        let month = this.monthList[this.firstDayOfMonth.getMonth()];
+        let day = dayButton.innerHTML;
+
         //Récupération de la mainPage :
         let mainPageElement = document.querySelector("#mainPage");
 
@@ -434,6 +434,28 @@ class Calendar {
                     "&year=" +
                     this.lastdayOfMonth.getFullYear()
             );
+        }
+
+        //On affecte les couleurs par défaut des filledBox :
+        let filledbox = mainPageElement.querySelectorAll(
+            "[id^='calendar'] .table-bordered tbody td[value='filledBox'] button"
+        );
+
+        for (let i = 0; i < filledbox.length; i++) {
+            filledbox[i].style.backgroundColor = "white";
+            filledbox[i].style.color = "#20b2aa";
+        }
+
+        let filledTodayBox = mainPageElement.querySelector(
+            "[id^='calendar'] .table-bordered tbody td[value='filledTodayBox'] button"
+        );
+        filledTodayBox.style.backgroundColor = "#2e2f32";
+        filledTodayBox.style.color = "white";
+
+        //On change la couleur du fillexBox sélectionné :
+        if (typeof dayButton !== "string") {
+            dayButton.style.backgroundColor = "#20b2aa";
+            dayButton.style.color = "white";
         }
     }
 

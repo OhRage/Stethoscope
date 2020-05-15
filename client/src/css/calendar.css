@@ -49,7 +49,7 @@
 
 [id^="calendar"] .table-bordered tbody td[value="filledTodayBox"] button {
   color: white;
-  background-color: #20b2aa;
+  background-color: #2e2f32;
   font-weight: bold;
   display: inline-block;
   width: 100%;

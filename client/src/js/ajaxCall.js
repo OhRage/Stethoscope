@@ -300,10 +300,6 @@ class AjaxCall {
                             hourList.appendChild(option);
                         }
                     }
-                } else {
-                    console.log(
-                        "Erreur de récupération des données du serveur (getId = get_doctor_datas)"
-                    );
                 }
             };
         } else {
