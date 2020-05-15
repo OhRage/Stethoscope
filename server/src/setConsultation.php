@@ -33,7 +33,8 @@
                 CONSULTATION.time_slot
             FROM CONSULTATION
             WHERE CONSULTATION.consultation_date = \"{$datas["consultationDate"]}\"
-                AND CONSULTATION.ID_Planning = {$id_planning};";
+                AND CONSULTATION.ID_Planning = {$id_planning}
+                AND CONSULTATION.time_slot = {$datas["timeSlot"]};";
             
             $result = send_simple_query($query, "select");
 
