@@ -13,10 +13,14 @@
         , ADDRESS.address
         , ADDRESS.city
         , ADDRESS.postal_code
+        , DOCTOR.first_name
+        , DOCTOR.last_name
+        , DOCTOR.image_path
     FROM CONSULTATION
     LEFT JOIN ADDRESS ON ADDRESS.is_office_address = 1
     INNER JOIN USERS ON USERS.login = \"{$_GET["login"]}\"
     INNER JOIN PATIENT ON PATIENT.ID_User = USERS.ID_User
+    INNER JOIN DOCTOR ON DOCTOR.ID_Doctor = CONSULTATION.ID_Doctor
     WHERE CONSULTATION.ID_Patient = PATIENT.ID_Patient;";
 
     $result = send_simple_query($query, "select");
@@ -36,6 +40,9 @@
                 "address" => $result["address"],
                 "city" => $result["city"],
                 "postal_code" => $result["postal_code"],
+                "doctor_first_name" => $result["first_name"],
+                "doctor_last_name" => $result["last_name"],
+                "image_path" => $result["image_path"],
             );
         }
 
