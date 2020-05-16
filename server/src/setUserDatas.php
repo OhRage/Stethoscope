@@ -75,12 +75,14 @@
                 address
                 , city
                 , postal_code
+                , is_office_address
                 , ID_User
             )
             VALUES(
                 \"{$datas["address"]}\"
                 , \"{$datas["city"]}\"
                 , \"{$datas["postalCode"]}\"
+                , 0
                 , @User_id);";
 
         }else if (isset($_POST["personalInformationModalForm"])){

@@ -11,8 +11,7 @@
         , ADDRESS.postal_code
         , PLANNING.ID_Planning
     FROM DOCTOR
-        INNER JOIN OFFICE ON OFFICE.ID_Office = DOCTOR.ID_Office
-        INNER JOIN ADDRESS ON ADDRESS.ID_Address = OFFICE.ID_Address 
+        LEFT JOIN ADDRESS ON ADDRESS.is_office_address = 1 
         INNER JOIN PRACTICE ON PRACTICE.ID_Doctor = DOCTOR.ID_Doctor
         INNER JOIN PLANNING ON PLANNING.ID_Doctor = DOCTOR.ID_Doctor;";
 
