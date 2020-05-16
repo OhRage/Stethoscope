@@ -4,7 +4,7 @@
     $query = "SELECT 
         CONSULTATION.time_slot
     FROM CONSULTATION
-    WHERE CONSULTATION.ID_Planning = {$_GET["planningID"]}
+    WHERE CONSULTATION.ID_Doctor = {$_GET["doctorID"]}
         AND (SELECT DAY(CONSULTATION.consultation_date)) = {$_GET["day"]}
         AND (SELECT MONTH(CONSULTATION.consultation_date)) = {$_GET["month"]}
         AND (SELECT YEAR(CONSULTATION.consultation_date)) = {$_GET["year"]};";

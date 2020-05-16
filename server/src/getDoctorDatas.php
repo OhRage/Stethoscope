@@ -9,11 +9,9 @@
         , ADDRESS.address
         , ADDRESS.city
         , ADDRESS.postal_code
-        , PLANNING.ID_Planning
     FROM DOCTOR
         LEFT JOIN ADDRESS ON ADDRESS.is_office_address = 1 
-        INNER JOIN PRACTICE ON PRACTICE.ID_Doctor = DOCTOR.ID_Doctor
-        INNER JOIN PLANNING ON PLANNING.ID_Doctor = DOCTOR.ID_Doctor;";
+        INNER JOIN PRACTICE ON PRACTICE.ID_Doctor = DOCTOR.ID_Doctor;";
 
     $result1 = send_simple_query($query, "select");
 
@@ -44,7 +42,6 @@
                 "address" => $result1["address"],
                 "city" => $result1["city"],
                 "postal_code" => $result1["postal_code"],
-                "ID_Planning" => $result1["ID_Planning"],
             );
         }
 

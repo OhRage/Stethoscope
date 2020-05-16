@@ -5,7 +5,7 @@
         DAY(CONSULTATION.consultation_date) as consultation_day
         , COUNT(CONSULTATION.consultation_date) AS slots_number
     FROM CONSULTATION
-    WHERE CONSULTATION.ID_Planning = {$_GET["planningID"]}
+    WHERE CONSULTATION.ID_Doctor = {$_GET["doctorID"]}
         AND (SELECT MONTH(CONSULTATION.consultation_date)) = {$_GET["month"]}
         AND (SELECT YEAR(CONSULTATION.consultation_date)) = {$_GET["year"]}
     GROUP BY consultation_day
