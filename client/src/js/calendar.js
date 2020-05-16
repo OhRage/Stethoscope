@@ -393,16 +393,17 @@ class Calendar {
         dayButton.addEventListener(
             "click",
             () => {
-                this.setMainPageDateValues(dayButton);
+                this.setMainPageDateValues(
+                    this.monthList[this.firstDayOfMonth.getMonth()],
+                    dayButton.innerHTML,
+                    dayButton
+                );
             },
             false
         );
     }
 
-    setMainPageDateValues(dayButton) {
-        let month = this.monthList[this.firstDayOfMonth.getMonth()];
-        let day = dayButton.innerHTML;
-
+    setMainPageDateValues(month, day, dayButton = null) {
         //Récupération de la mainPage :
         let mainPageElement = document.querySelector("#mainPage");
 
@@ -453,7 +454,7 @@ class Calendar {
         filledTodayBox.style.color = "white";
 
         //On change la couleur du fillexBox sélectionné :
-        if (typeof dayButton !== "string") {
+        if (dayButton) {
             dayButton.style.backgroundColor = "#20b2aa";
             dayButton.style.color = "white";
         }
