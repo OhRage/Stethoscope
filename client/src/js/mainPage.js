@@ -213,7 +213,7 @@ class DateReservation {
 
         //Création du calendrier :
         const calendar = new Calendar(calendarPannelCol);
-        calendar.componentMount("today", "calendarMainPage");
+        calendar.componentMount("today");
         this.doctorCalendar = calendar;
 
         calendarPannelRow.appendChild(calendarPannelCol);
@@ -410,7 +410,7 @@ class DateReservation {
                 domElement,
                 this.doctorDatas[doctorIDValue - 1]["doctorID"]
             );
-            this.doctorCalendar.componentMount("today", "calendarMainPage");
+            this.doctorCalendar.componentMount("today");
         } else {
             //On vide le informations du pannel Lieu :
             let inputElements = placePannelInformation.getElementsByTagName(
@@ -422,7 +422,7 @@ class DateReservation {
 
             //On construit un calendrier vide :
             this.doctorCalendar = new Calendar(domElement);
-            this.doctorCalendar.componentMount("today", "calendarMainPage");
+            this.doctorCalendar.componentMount("today");
         }
     }
 

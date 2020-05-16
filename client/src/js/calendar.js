@@ -2,6 +2,7 @@ class Calendar {
     constructor(domElement, doctorID = undefined) {
         this.domElement = domElement;
         this.doctorID = doctorID;
+        this.patientConsultationDatas = null;
         this.monthList = new Array(
             "Janvier",
             "Février",
@@ -237,7 +238,8 @@ class Calendar {
     }
 
     patientSetDate(daysOfMonth) {
-        //@TODO : Récupérer les données du serveur via une requête http : SQL => récupérer les jours du mois qui ont un rendez vous confirmé et ceux qui ont un rendez vous en attente
+        //Récupération des RDV du mois :
+
         var serverDataTest = {
             dateConfirmed: [2, 6],
             datePending: [2, 4],
@@ -504,7 +506,7 @@ class Calendar {
         return calendarCaption;
     }
 
-    componentMount(action, calendarType) {
+    componentMount(action) {
         //On redefine le premier et dernier jour du mois
         this.setFirstDayOfMonth(action);
         this.setLastDayOfMonth(action);
