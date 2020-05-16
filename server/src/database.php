@@ -15,9 +15,8 @@
         }
             
         $result = mysqli_query($connection, $query);
-
-        if ($result  == false){
-            $error = mysqli_error($connection);
+        $error = mysqli_error($connection);
+        if ($error){
             error_log("Erreur de transaction : {$error} Requête : {$query}", 0);
             $rows = false;
         } else {
@@ -41,27 +40,25 @@
 
         /* Ouverture de la connexion non persistante : */
         $connection = mysqli_connect("127.0.0.1:3306", "root", "Jupiter2020!", "Stethoscope");
-
+        $result = true;
         /* Vérification de la connexion */
         if ($error = mysqli_connect_errno()){
             error_log("Echec de la connexion : {$error}", 0);
+            $result = false;
             exit();
         }
             
         if (mysqli_multi_query($connection, $query)) {
             do {
-                $result = mysqli_store_result($connection);
-                if ($result == false) {
+                $error = mysqli_error($connection);
+                if ($error) {
+                    $result = false;
+                    error_log("Erreur de transaction : {$error} Requête : {$query}", 0);
                     break;
                 }
             } while (mysqli_next_result($connection));
         };
-
-        if ($result  == false){
-            $error = mysqli_error($connection);
-            error_log("Erreur de transaction : {$error} Requête : {$query}", 0);
-        }
-    
+   
         /* Fermeture de la connexion */
         mysqli_close($connection);
 
