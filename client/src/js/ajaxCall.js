@@ -105,11 +105,9 @@ class AjaxCall {
                 if (this.ajax.status == 200) {
                     let datas = JSON.parse(this.ajax.response);
                     userMenuDatas = {
-                        firstName:
+                        firstName: firstLetterUpperCase(
                             datas["personnal_datas"]["first_name"]
-                                .charAt(0)
-                                .toUpperCase() +
-                            datas["personnal_datas"]["first_name"].slice(1),
+                        ),
                         lastName: datas["personnal_datas"][
                             "last_name"
                         ].toUpperCase(),
@@ -147,11 +145,9 @@ class AjaxCall {
 
                     profileDatas = {
                         personnalDatas: {
-                            firstName:
+                            firstName: firstLetterUpperCase(
                                 datas["personnal_datas"]["first_name"]
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                datas["personnal_datas"]["first_name"].slice(1),
+                            ),
                             lastName: datas["personnal_datas"][
                                 "last_name"
                             ].toUpperCase(),
@@ -161,11 +157,9 @@ class AjaxCall {
                                     "social_security_number"
                                 ],
                             address: datas["personnal_datas"]["address"],
-                            city:
+                            city: firstLetterUpperCase(
                                 datas["personnal_datas"]["city"]
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                datas["personnal_datas"]["city"].slice(1),
+                            ),
                             postalCode: datas["personnal_datas"]["postal_code"],
                             phoneNumber:
                                 datas["personnal_datas"]["phone_number"],
@@ -250,11 +244,9 @@ class AjaxCall {
                         if (datas.hasOwnProperty(key)) {
                             doctorDatas.push({
                                 doctorID: datas[key]["ID_Doctor"],
-                                firstName:
+                                firstName: firstLetterUpperCase(
                                     datas[key]["first_name"]
-                                        .charAt(0)
-                                        .toUpperCase() +
-                                    datas[key]["first_name"].slice(1),
+                                ),
                                 lastName: datas[key]["last_name"].toUpperCase(),
                                 medicalType: datas[key]["medical_type"].split(
                                     "&"

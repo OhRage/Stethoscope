@@ -170,3 +170,8 @@ function registerInputControl(form, inputs) {
         }
     }
 }
+
+function firstLetterUpperCase(firstName) {
+    let firstNameUpperCase = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+    return firstNameUpperCase;
+}
