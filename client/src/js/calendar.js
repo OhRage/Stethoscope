@@ -353,7 +353,7 @@ class Calendar {
 
     modalConsultationWindowMount(modalWindowTitle, dayButton = undefined) {
         let consultationDatas = [];
-        let actualMonth = this.lastdayOfMonth.getMonth()+1;
+        let actualMonth = this.lastdayOfMonth.getMonth() + 1;
         if (dayButton) {
             var actualDay = parseInt(dayButton.innerHTML);
         }
@@ -498,8 +498,10 @@ class Calendar {
         let filledTodayBox = mainPageElement.querySelector(
             "[id^='calendar'] .table-bordered tbody td[value='filledTodayBox'] button"
         );
-        filledTodayBox.style.backgroundColor = "#2e2f32";
-        filledTodayBox.style.color = "white";
+        if (filledTodayBox) {
+            filledTodayBox.style.backgroundColor = "#2e2f32";
+            filledTodayBox.style.color = "white";
+        }
 
         //On change la couleur du fillexBox sélectionné :
         if (dayButton) {
