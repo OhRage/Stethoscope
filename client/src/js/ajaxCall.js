@@ -313,7 +313,7 @@ class AjaxCall {
                 let msg = JSON.parse(this.ajax.response)["message"];
                 alert(msg);
 
-                if(status === 200){
+                if (status === 200) {
                     //Vide les champs :
                     modalCancelButton.click();
                 }
@@ -323,12 +323,12 @@ class AjaxCall {
         }
     }
 
-    getPatientConsultationOnload(){
+    getPatientConsultationOnload(patientConsultationDatas) {
         if (this.ajaxId === "getPatientConsultationAjax") {
             this.ajax.onload = () => {
                 if (this.ajax.status == 200) {
                     let datas = JSON.parse(this.ajax.response);
-
+                    patientConsultationDatas = datas;
                 }
             };
         } else {

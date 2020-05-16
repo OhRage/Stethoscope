@@ -529,7 +529,7 @@ class Calendar {
 
             //Récupération des consultations du patient :
             let ajax = new AjaxCall("getPatientConsultationAjax");
-            ajax.getPatientConsultationOnload();
+            ajax.getPatientConsultationOnload(this.patientConsultationDatas);
             ajax.sendAjax(
                 "GET",
                 "http://stethoscope/server/src/getPatientConsultation.php?login=" +
