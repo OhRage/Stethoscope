@@ -175,3 +175,17 @@ function firstLetterUpperCase(firstName) {
     let firstNameUpperCase = firstName.charAt(0).toUpperCase() + firstName.slice(1);
     return firstNameUpperCase;
 }
+
+function getHourFromTimeSlot(timeSlot){
+    hourlist = {
+        1: "8h-9h",
+        2: "9h-10h",
+        3: "10h-11h",
+        4: "11h-12h",
+        5: "14h-15h",
+        6: "15h-16h",
+        7: "16h-17h",
+        8: "17h-18h",
+    }
+    return hourlist[timeSlot];
+}
