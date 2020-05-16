@@ -238,12 +238,26 @@ class Calendar {
     }
 
     patientSetDate(daysOfMonth) {
-        //Récupération des RDV du mois :
-
-        var serverDataTest = {
-            dateConfirmed: [2, 6],
-            datePending: [2, 4],
+        let patientDates = {
+            dateConfirmed: [],
+            datePending: [],
         };
+
+        //Récupération des RDV du mois :
+        for (let key in this.patientConsultationDatas) {
+            let consultation = this.patientConsultationDatas[key];
+            let month = parseInt(
+                consultation["consultation_date"].split("-")[1]
+            );
+
+            let day = parseInt(consultation["consultation_date"].split("-")[2]);
+            if (month === this.lastdayOfMonth.getMonth() + 1)
+                if (consultation["is_validate"] === "1") {
+                    patientDates["dateConfirmed"].push(day);
+                } else {
+                    patientDates["datePending"].push(day);
+                }
+        }
 
         //Définition des dayButton ayant des RDV :
         for (let i = 0; i < daysOfMonth.childNodes.length; i++) {
@@ -253,10 +267,10 @@ class Calendar {
                 if (htmlCell.getAttribute("value") === "filledBox") {
                     var htmlButton = htmlCell.childNodes[0];
                     if (
-                        serverDataTest["dateConfirmed"].includes(
+                        patientDates["dateConfirmed"].includes(
                             parseInt(htmlButton.innerHTML)
                         ) ||
-                        serverDataTest["datePending"].includes(
+                        patientDates["datePending"].includes(
                             parseInt(htmlButton.innerHTML)
                         )
                     ) {
@@ -269,13 +283,13 @@ class Calendar {
                         this.onPatientDayButtonClick(htmlButton);
 
                         if (
-                            !serverDataTest["dateConfirmed"].includes(
+                            !patientDates["dateConfirmed"].includes(
                                 parseInt(htmlButton.innerHTML)
                             )
                         ) {
                             htmlButton.setAttribute("value", "pendingDate");
                         } else if (
-                            !serverDataTest["datePending"].includes(
+                            !patientDates["datePending"].includes(
                                 parseInt(htmlButton.innerHTML)
                             )
                         ) {
@@ -515,6 +529,22 @@ class Calendar {
         //On détruit le composant si il existe déjà :
         this.componentUnmount();
 
+        //Récupération des consultations du patient :
+        if (this.domElement.getAttribute("id") === "patientCalendar") {
+            let ajax = new XMLHttpRequest();
+            ajax.open(
+                "GET",
+                "http://stethoscope/server/src/getPatientConsultation.php?login=" +
+                    sessionLogin,
+                false
+            );
+            ajax.send();
+            if (ajax.status == 200) {
+                let datas = JSON.parse(ajax.response);
+                this.patientConsultationDatas = datas;
+            }
+        }
+
         //Création des composants enfants en fonction du type du calendrier :
         let topBanner = this.topBannerMount(month); //Bandeau d'action
         this.domElement.appendChild(topBanner);
@@ -526,15 +556,6 @@ class Calendar {
         if (this.domElement.getAttribute("id") === "patientCalendar") {
             let captionCalendar = this.captionCalendarMount(); //Légende du calendrier
             this.domElement.appendChild(captionCalendar);
-
-            //Récupération des consultations du patient :
-            let ajax = new AjaxCall("getPatientConsultationAjax");
-            ajax.getPatientConsultationOnload(this.patientConsultationDatas);
-            ajax.sendAjax(
-                "GET",
-                "http://stethoscope/server/src/getPatientConsultation.php?login=" +
-                    sessionLogin
-            );
 
             //Calendrier du docteur :
         } else if (
