@@ -491,8 +491,14 @@ class Calendar {
         );
 
         for (let i = 0; i < filledbox.length; i++) {
-            filledbox[i].style.backgroundColor = "white";
-            filledbox[i].style.color = "#20b2aa";
+            console.log()
+            if(filledbox[i].value !== "dateNotAvailable"){
+                filledbox[i].style.backgroundColor = "white";
+                filledbox[i].style.color = "#20b2aa";
+            }else{
+                filledbox[i].style.backgroundColor = "#D3D3D3";
+                filledbox[i].style.color = "#2e2f32"; 
+            }
         }
 
         let filledTodayBox = mainPageElement.querySelector(
