@@ -408,7 +408,7 @@ class DateReservation {
             //On construit le calendrier du médecin correspondant :
             this.doctorCalendar = new Calendar(
                 domElement,
-                this.doctorDatas[doctorIDValue - 1]["planningID"]
+                this.doctorDatas[doctorIDValue - 1]["doctorID"]
             );
             this.doctorCalendar.componentMount("today", "calendarMainPage");
         } else {
@@ -523,7 +523,7 @@ document.addEventListener("readystatechange", () => {
 });
 function loadMainPage() {
     if (document.readyState === "complete") {
-        //Récupération de l'ensemble des données nécessaire a la prise de RDV (nom et prénom du médecin, ID planning, type médecin, adresse du cabinet).
+        //Récupération de l'ensemble des données nécessaire a la prise de RDV (nom et prénom du médecin, type médecin, adresse du cabinet).
         let ajax = new AjaxCall("getDoctorAjax");
         ajax.getDoctorAjaxOnload();
         ajax.sendAjax(

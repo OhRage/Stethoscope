@@ -262,7 +262,6 @@ class AjaxCall {
                                 address: datas[key]["address"],
                                 city: datas[key]["city"],
                                 postalCode: datas[key]["postal_code"],
-                                planningID: datas[key]["ID_Planning"],
                             });
                         }
                     }

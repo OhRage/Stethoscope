@@ -1,7 +1,7 @@
 class Calendar {
-    constructor(domElement, planningID = undefined) {
+    constructor(domElement, doctorID = undefined) {
         this.domElement = domElement;
-        this.planningID = planningID;
+        this.doctorID = doctorID;
         this.monthList = new Array(
             "Janvier",
             "Février",
@@ -293,12 +293,12 @@ class Calendar {
     doctorSetDate(daysOfMonth) {
         //Récupération des créneaux disponibles :
         let fullSlotDays = [];
-        if (this.planningID) {
+        if (this.doctorID) {
             let ajax = new XMLHttpRequest();
             ajax.open(
                 "GET",
-                "http://stethoscope/server/src/getFullSlotDay.php?planningID=" +
-                    this.planningID +
+                "http://stethoscope/server/src/getFullSlotDay.php?doctorID=" +
+                    this.doctorID +
                     "&month=" +
                     (this.lastdayOfMonth.getMonth() + 1) +
                     "&year=" +
@@ -426,8 +426,8 @@ class Calendar {
             ajax.getAvalaibleSlotAjaxOnload(hourList);
             ajax.sendAjax(
                 "GET",
-                "http://stethoscope/server/src/getAvailableSlots.php?planningID=" +
-                    this.planningID +
+                "http://stethoscope/server/src/getAvailableSlots.php?doctorID=" +
+                    this.doctorID +
                     "&day=" +
                     day +
                     "&month=" +
