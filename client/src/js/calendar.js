@@ -351,43 +351,74 @@ class Calendar {
         }
     }
 
-    modalConsultationWindowMount(modalWindowTitle) {
-        //@TODO : Récupération des informations des consultations du jour. SQL => Pour chaque consultation du jours, récupérer les contenu dans la variable serverDataTest :
-        var serverDatas = [
-            {
-                consultationID: 1,
-                userType: "Patient",
-                lastName: "ICOL",
-                firstName: "Kevin",
-                date: "11/07/2020",
-                hour: 9,
-                address: "3 rue de la liberté",
-                city: "Lyon",
-                postalCode: "69003",
-                reason: "Bilan sanguin annuel",
-                imagePath: "../img/user-image.jpg",
-            },
-            {
-                consultationID: 2,
-                userType: "Patient",
-                lastName: "RUFFIER",
-                firstName: "Lilou",
-                date: "11/07/2020",
-                hour: 14,
-                address: "3 rue de la liberté",
-                city: "Lyon",
-                postalCode: "69003",
-                reason: "Gynécologue",
-                imagePath: "../img/user-image.jpg",
-            },
-        ];
+    modalConsultationWindowMount(modalWindowTitle, dayButton = undefined) {
+        let consultationDatas = [];
+        let actualMonth = this.lastdayOfMonth.getMonth()+1;
+        if (dayButton) {
+            var actualDay = parseInt(dayButton.innerHTML);
+        }
+
+        for (let key in this.patientConsultationDatas) {
+            let consultation = this.patientConsultationDatas[key];
+            let consultationMonth = parseInt(
+                consultation["consultation_date"].split("-")[1]
+            );
+
+            let consultationDay = parseInt(
+                consultation["consultation_date"].split("-")[2]
+            );
+            let datas = {
+                consultationID: parseInt(consultation["ID_Consultation"]),
+                lastName: consultation["doctor_last_name"].toUpperCase(),
+                firstName: firstLetterUpperCase(
+                    consultation["doctor_first_name"]
+                ),
+                date: consultation["consultation_date"],
+                hour: getHourFromTimeSlot(parseInt(consultation["time_slot"])),
+                address: consultation["address"],
+                city: consultation["city"],
+                postalCode: consultation["postal_code"],
+                reason: consultation["reason"],
+                imagePath: consultation["image_path"],
+            };
+
+            switch (modalWindowTitle) {
+                case "RDV du jour":
+                    if (
+                        consultationDay === actualDay &&
+                        consultationMonth === actualMonth
+                    ) {
+                        consultationDatas.push(datas);
+                    }
+                    break;
+
+                case "RDV confirmés du mois":
+                    if (
+                        consultationMonth === actualMonth &&
+                        consultation["is_validate"] === "1"
+                    ) {
+                        consultationDatas.push(datas);
+                    }
+                    break;
+
+                case "RDV en attente du mois":
+                    if (
+                        consultationMonth === actualMonth &&
+                        consultation["is_validate"] === "0"
+                    ) {
+                        consultationDatas.push(datas);
+                    }
+                    break;
+            }
+        }
+
         var modalSection = document.querySelector("#modalSection");
 
         //On ajoute la fenêtre modal au domElement :
         var modalWindow = new ConsultationModalWindow(
             modalSection,
             modalWindowTitle,
-            serverDatas
+            consultationDatas
         );
         modalWindow.componentMount();
 
@@ -399,7 +430,7 @@ class Calendar {
         dayButton.addEventListener(
             "click",
             () => {
-                this.modalConsultationWindowMount("RDV confirmés du jour");
+                this.modalConsultationWindowMount("RDV du jour", dayButton);
             },
             false
         );
