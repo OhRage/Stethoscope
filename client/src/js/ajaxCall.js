@@ -286,8 +286,8 @@ class AjaxCall {
                     for (let key in datas) {
                         if (datas.hasOwnProperty(key)) {
                             let option = document.createElement("option");
-                            option.setAttribute("value", key);
-                            option.innerHTML = datas[key];
+                            option.setAttribute("value", datas[key]);
+                            option.innerHTML = getHourFromTimeSlot(parseInt(datas[key]));
                             hourList.appendChild(option);
                         }
                     }
