@@ -18,8 +18,7 @@ class Consultation {
         "le " +
         consultationDatas["date"] +
         " à " +
-        consultationDatas["hour"] +
-        " heure",
+        consultationDatas["hour"],
       addressValue:
         consultationDatas["address"] +
         " - " +
