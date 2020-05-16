@@ -305,25 +305,6 @@ class DateReservation {
 
         pannelRow.appendChild(inputCol);
 
-        //Check box de premier rdv :
-        let checkBoxCol = document.createElement("div");
-        checkBoxCol.className = "col-4";
-
-        let checkBoxLabel = document.createElement("label");
-        checkBoxLabel.setAttribute("for", "firstDate");
-        checkBoxLabel.innerHTML = "Est un premier RDV ";
-
-        let checkBoxInput = document.createElement("input");
-        checkBoxInput.className = "form-check-input ml-2";
-        checkBoxInput.setAttribute("type", "checkbox");
-        checkBoxInput.setAttribute("id", "firstDate");
-        checkBoxInput.setAttribute("name", "firstDate");
-
-        checkBoxCol.appendChild(checkBoxLabel);
-        checkBoxCol.appendChild(checkBoxInput);
-
-        pannelRow.appendChild(checkBoxCol);
-
         reasonPannel.appendChild(pannelRow);
 
         return reasonPannel;
@@ -508,7 +489,6 @@ class DateReservation {
             reason: mainForm.querySelector("#reasonInput").value,
             consultationDate: consultationDate,
             timeSlot: hourList.options[hourList.selectedIndex].value,
-            firstTime: mainForm.querySelector("#firstDate").checked,
             login: sessionLogin,
             doctorID: doctorList.options[doctorList.selectedIndex].value,
         };

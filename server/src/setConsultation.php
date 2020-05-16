@@ -3,7 +3,6 @@
 
     $request_payload = file_get_contents("php://input");
     $datas = json_decode($request_payload, true);
-    $first_time =  (int)$datas["firstTime"];
 
     //Récupération de l'ID du planning :
     $query = "SELECT
@@ -39,6 +38,22 @@
             $result = send_simple_query($query, "select");
 
             if(gettype($result) == "array" && $result == false){
+
+                //Vérification si c'est un premier RDV :
+                $first_time = 1;
+
+                $query = "SELECT
+                    CONSULTATION.ID_Consultation
+                FROM CONSULTATION
+                WHERE CONSULTATION.ID_Patient = {$id_patient}
+                    AND CONSULTATION.ID_Planning = {$id_planning};";
+
+                $result = send_simple_query($query, "select");
+
+                if($result){
+                    $first_time = 0;
+                }
+
                 //Ajout d'un enregistrement dans la table CONSULTATION                
                 $query = "INSERT INTO CONSULTATION (
                     reason
