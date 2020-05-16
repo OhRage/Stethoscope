@@ -60,6 +60,7 @@
                     , consultation_date
                     , time_slot
                     , first_time
+                    , is_validate
                     , ID_Patient
                     , ID_Planning
                 ) VALUES (
@@ -67,6 +68,7 @@
                     , \"{$datas["consultationDate"]}\" 
                     , {$datas["timeSlot"]} 
                     , {$first_time} 
+                    , 0
                     , {$id_patient}
                     , {$id_planning}
                 );";
