@@ -368,6 +368,7 @@ class Calendar {
                 consultation["consultation_date"].split("-")[2]
             );
             let datas = {
+                userType: "Docteur",
                 consultationID: parseInt(consultation["ID_Consultation"]),
                 lastName: consultation["doctor_last_name"].toUpperCase(),
                 firstName: firstLetterUpperCase(
