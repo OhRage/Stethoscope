@@ -526,6 +526,16 @@ class Calendar {
         if (this.domElement.getAttribute("id") === "patientCalendar") {
             let captionCalendar = this.captionCalendarMount(); //Légende du calendrier
             this.domElement.appendChild(captionCalendar);
+
+            //Récupération des consultations du patient :
+            let ajax = new AjaxCall("getPatientConsultationAjax");
+            ajax.getPatientConsultationOnload();
+            ajax.sendAjax(
+                "GET",
+                "http://stethoscope/server/src/getPatientConsultation.php?login=" +
+                    sessionLogin
+            );
+
             //Calendrier du docteur :
         } else if (
             this.domElement.getAttribute("id") === "doctorCalendar" &&

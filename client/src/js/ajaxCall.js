@@ -323,6 +323,19 @@ class AjaxCall {
         }
     }
 
+    getPatientConsultationOnload(){
+        if (this.ajaxId === "getPatientConsultationAjax") {
+            this.ajax.onload = () => {
+                if (this.ajax.status == 200) {
+                    let datas = JSON.parse(this.ajax.response);
+
+                }
+            };
+        } else {
+            console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);
+        }
+    }
+
     destroySessionOnload() {
         if (this.ajaxId === "destroySessionAjax") {
             this.ajax.onload = () => {
