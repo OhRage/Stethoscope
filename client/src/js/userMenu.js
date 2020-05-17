@@ -165,14 +165,23 @@ class UserMenu {
                 break;
             case "#calendarModal":
                 //On ajoute la fenêtre modal au domElement :
-                let calendarModalWindow = new CalendarModalWindow(
-                    modalSection,
-                );
+                let calendarModalWindow = new CalendarModalWindow(modalSection);
                 calendarModalWindow.componentMount();
                 break;
             case "#historyMenu":
                 break;
             case "#logoutButton":
+                let userResponse = confirm(
+                    "Etes vous sur de vouloir vous déconnecter?"
+                );
+                if (userResponse == true) {
+                    let destroySessionAjax = new AjaxCall("destroySessionAjax");
+                    destroySessionAjax.destroySessionOnload();
+                    destroySessionAjax.sendAjax(
+                        "GET",
+                        "http://stethoscope/server/src/destroyPhpSession.php"
+                    );
+                }
                 break;
         }
     }
