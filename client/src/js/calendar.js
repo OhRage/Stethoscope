@@ -381,6 +381,10 @@ class Calendar {
                 postalCode: consultation["postal_code"],
                 reason: consultation["reason"],
                 imagePath: consultation["image_path"],
+                status:
+                    consultation["is_validate"] == "1"
+                        ? "confirmé"
+                        : "en attente",
             };
 
             switch (modalWindowTitle) {
@@ -491,13 +495,13 @@ class Calendar {
         );
 
         for (let i = 0; i < filledbox.length; i++) {
-            console.log()
-            if(filledbox[i].value !== "dateNotAvailable"){
+            console.log();
+            if (filledbox[i].value !== "dateNotAvailable") {
                 filledbox[i].style.backgroundColor = "white";
                 filledbox[i].style.color = "#20b2aa";
-            }else{
+            } else {
                 filledbox[i].style.backgroundColor = "#D3D3D3";
-                filledbox[i].style.color = "#2e2f32"; 
+                filledbox[i].style.color = "#2e2f32";
             }
         }
 

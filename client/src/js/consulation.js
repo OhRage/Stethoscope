@@ -9,6 +9,7 @@ class Consultation {
       dateLabel: "Date : ",
       addressLabel: "Adresse du cabinet : ",
       reasonLabel: "Motif : ",
+      statutLabel: "Status du RDV : "
     };
 
     this.informationValues = {
@@ -26,6 +27,7 @@ class Consultation {
         " - " +
         consultationDatas["city"],
       reasonValue: consultationDatas["reason"],
+      statutValue: consultationDatas["status"],
     };
   }
 

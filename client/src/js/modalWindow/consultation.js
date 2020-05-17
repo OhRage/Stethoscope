@@ -72,6 +72,7 @@ class ConsultationModalWindow {
     let modalCloseButton = document.createElement("button");
     modalCloseButton.className = "btn btn-primary mr-4 ml-4";
     modalCloseButton.setAttribute("type", "button");
+    modalCloseButton.setAttribute("id", "modalCloseButton");
     modalCloseButton.setAttribute("data-dismiss", "modal");
     modalCloseButton.innerHTML = "Fermer";
 
