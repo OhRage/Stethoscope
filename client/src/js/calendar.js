@@ -379,7 +379,7 @@ class Calendar {
                 address: consultation["address"],
                 city: consultation["city"],
                 postalCode: consultation["postal_code"],
-                reason: consultation["reason"],
+                reason: consultation["reason"] == "" ? "aucun" : consultation["reason"],
                 imagePath: consultation["image_path"],
                 status:
                     consultation["is_validate"] == "1"
