@@ -1,8 +1,9 @@
 class ConsultationModalWindow {
-  constructor(domElement, modalWindowTitle, serverDatas) {
+  constructor(domElement, modalWindowTitle, serverDatas, modalWindowOrigin) {
     this.domElement = domElement;
     this.modalWindowTitle = modalWindowTitle;
     this.serverDatas = serverDatas;
+    this.modalWindowOrigin = modalWindowOrigin;
   }
 
   componentMount() {
@@ -57,6 +58,8 @@ class ConsultationModalWindow {
     //On affiche la calendarModal dans le cas de la destruction d'une consultationModal :
     let calendarModalWindow = document.querySelector("#calendarModal");
     if (calendarModalWindow) {
+      this.modalWindowOrigin.componentUnmount()
+      this.modalWindowOrigin.componentMount();
       $("#calendarModal").modal("show");
     }
   }

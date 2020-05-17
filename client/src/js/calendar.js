@@ -426,7 +426,8 @@ class Calendar {
         var modalWindow = new ConsultationModalWindow(
             modalSection,
             modalWindowTitle,
-            consultationDatas
+            consultationDatas,
+            this
         );
         modalWindow.componentMount();
 
