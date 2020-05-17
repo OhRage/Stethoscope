@@ -466,8 +466,16 @@ class Calendar {
         //On affecte le mois de RDV a la mainPage :
         mainPageElement.querySelector("#monthInput").value = month;
 
-        //On affecte le jour de RDV a la mainPage :
-        mainPageElement.querySelector("#dayInput").value = day;
+        //On affecte le jour de RDV a la mainPage si ce n'est pas un dimanche :
+        let selectDay = new Date(
+            this.lastdayOfMonth.getFullYear(),
+            this.lastdayOfMonth.getMonth(),
+            parseInt(day)
+        );
+
+        if (selectDay.getDay() !== 0) {
+            mainPageElement.querySelector("#dayInput").value = day;
+        }
 
         //On vide les heures de la mainPage :
         let hourList = mainPageElement.querySelector("#hourList");
@@ -499,7 +507,6 @@ class Calendar {
         );
 
         for (let i = 0; i < filledbox.length; i++) {
-            console.log();
             if (filledbox[i].value !== "dateNotAvailable") {
                 filledbox[i].style.backgroundColor = "white";
                 filledbox[i].style.color = "#20b2aa";
