@@ -315,6 +315,17 @@ class AjaxCall {
         }
     }
 
+    removeConsultationAjaxOnload(){
+        if (this.ajaxId === "removeConsultationAjax") {
+            this.ajax.onload = () => {
+                let msg = JSON.parse(this.ajax.response)["message"];
+                alert(msg);
+            };
+        } else {
+            console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);
+        }
+    }
+
     destroySessionOnload() {
         if (this.ajaxId === "destroySessionAjax") {
             this.ajax.onload = () => {
