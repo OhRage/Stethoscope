@@ -27,55 +27,68 @@
         $result = send_simple_query($query, "select");
 
         if(gettype($result) == "array" && $result == false){
-
-            //Vérification si c'est un premier RDV :
-            $first_time = 1;
-
+            //Controle si le patient n'a pas déjà reservé un RDV le même jour a la même heure :
             $query = "SELECT
                 CONSULTATION.ID_Consultation
             FROM CONSULTATION
-            WHERE CONSULTATION.ID_Patient = {$id_patient}
-                AND CONSULTATION.ID_Doctor = {$datas["doctorID"]};";
-
+            WHERE CONSULTATION.consultation_date = \"{$datas["consultationDate"]}\"
+                AND CONSULTATION.time_slot = {$datas["timeSlot"]};";
+            
             $result = send_simple_query($query, "select");
 
-            if($result){
-                $first_time = 0;
-            }
+            if(gettype($result) == "array" && $result == false){
 
-            //Ajout d'un enregistrement dans la table CONSULTATION                
-            $query = "INSERT INTO CONSULTATION (
-                reason
-                , consultation_date
-                , time_slot
-                , first_time
-                , is_validate
-                , ID_Patient
-                , ID_Doctor
-            ) VALUES (
-                \"{$datas["reason"]}\"
-                , \"{$datas["consultationDate"]}\" 
-                , {$datas["timeSlot"]} 
-                , {$first_time} 
-                , 0
-                , {$id_patient}
-                , {$datas["doctorID"]}
-            );";
-
-            $result = send_simple_query($query, "upsert");
-
-            if($result){
-                $msg = " Réservation validée.";
-                $code = 200;
+                //Vérification si c'est un premier RDV :
+                $first_time = 1;
+    
+                $query = "SELECT
+                    CONSULTATION.ID_Consultation
+                FROM CONSULTATION
+                WHERE CONSULTATION.ID_Patient = {$id_patient}
+                    AND CONSULTATION.ID_Doctor = {$datas["doctorID"]};";
+    
+                $result = send_simple_query($query, "select");
+    
+                if($result){
+                    $first_time = 0;
+                }
+    
+                //Ajout d'un enregistrement dans la table CONSULTATION                
+                $query = "INSERT INTO CONSULTATION (
+                    reason
+                    , consultation_date
+                    , time_slot
+                    , first_time
+                    , is_validate
+                    , ID_Patient
+                    , ID_Doctor
+                ) VALUES (
+                    \"{$datas["reason"]}\"
+                    , \"{$datas["consultationDate"]}\" 
+                    , {$datas["timeSlot"]} 
+                    , {$first_time} 
+                    , 0
+                    , {$id_patient}
+                    , {$datas["doctorID"]}
+                );";
+    
+                $result = send_simple_query($query, "upsert");
+    
+                if($result){
+                    $msg = " Réservation validée.";
+                    $code = 200;
+                }else{
+                    $msg = " Veuillez réessayer.";
+                    $code = 500;
+                }
             }else{
-                $msg = " Veuillez réessayer.";
-                $code = 500;
+                $msg = " Vous avez déjà un RDV de reservé sur sur à la même date et la même heure.";
+                $code = 500;  
             }
         }else{
             $msg = " Créneaux déjà réservé.";
-            $code = 500;  
+            $code = 500; 
         }
-
     }else{
         $msg = " Utilisateur non reconnu.";
         $code = 500; 
