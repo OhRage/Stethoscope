@@ -475,6 +475,16 @@ class Calendar {
 
         if (selectDay.getDay() !== 0) {
             mainPageElement.querySelector("#dayInput").value = day;
+
+             //On rend le bouton Valider enabled :
+             mainPageElement.querySelector(
+                "#validateMainFormButton"
+            ).disabled = false;
+        } else {
+            //On rend le bouton Valider disabled :
+            mainPageElement.querySelector(
+                "#validateMainFormButton"
+            ).disabled = true;
         }
 
         //On vide les heures de la mainPage :
