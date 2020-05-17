@@ -164,11 +164,9 @@ class UserMenu {
 
                 break;
             case "#calendarModal":
-                //@TODO : Cas du bouton "Mon planning" => Récupération des informations du planning de l'utilisateur.
                 //On ajoute la fenêtre modal au domElement :
                 let calendarModalWindow = new CalendarModalWindow(
                     modalSection,
-                    serverDatas
                 );
                 calendarModalWindow.componentMount();
                 break;

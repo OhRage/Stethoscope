@@ -1,7 +1,6 @@
 class CalendarModalWindow {
-  constructor(domElement, serverDatas) {
+  constructor(domElement) {
     this.domElement = domElement;
-    this.serverDatas = serverDatas;
   }
 
   componentMount() {
