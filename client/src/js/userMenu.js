@@ -19,7 +19,7 @@ class UserMenu {
                 labelValue: "Mon planning",
             },
             {
-                modalWindowID: "#historyMenu",
+                modalWindowID: "#consultationInformationModal",
                 iconPath: "../img/history-icon.svg",
                 labelValue: "Mon historique",
             },
@@ -168,7 +168,7 @@ class UserMenu {
                 let calendarModalWindow = new CalendarModalWindow(modalSection);
                 calendarModalWindow.componentMount();
                 break;
-            case "#historyMenu":
+            case "#consultationInformationModal":
                 //Récupération des 10 derniers RDV :
                 let consultationDatas = this.getPatientHistory();
 
