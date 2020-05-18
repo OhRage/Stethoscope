@@ -44,7 +44,7 @@ class ConsultationModalWindow {
 
     //Link du button sur la fenêtre modal :
     $("#consultationInformationModal").modal();
-
+    console.log("Link")
     //Ajout de la fenêtre modal au domElement :
     this.domElement.appendChild(modal);
   }

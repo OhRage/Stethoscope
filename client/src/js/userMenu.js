@@ -169,6 +169,17 @@ class UserMenu {
                 calendarModalWindow.componentMount();
                 break;
             case "#historyMenu":
+                //Récupération des 10 derniers RDV :
+                let consultationDatas = this.getPatientHistory();
+
+                //Ouverture de la fenêtre des consultations :
+                var consultationModalWindow = new ConsultationModalWindow(
+                    modalSection,
+                    "Historique récent de vos RDV : ",
+                    consultationDatas,
+                    this
+                );
+                consultationModalWindow.componentMount();
                 break;
             case "#logoutButton":
                 let userResponse = confirm(
@@ -220,6 +231,68 @@ class UserMenu {
 
         //Ajout des composant au DOM :
         this.domElement.prepend(mainContainer);
+    }
+
+    getPatientHistory() {
+        let patientConsultationDatas = [];
+        let datas = new XMLHttpRequest();
+        datas.open(
+            "GET",
+            "http://stethoscope/server/src/getPatientConsultation.php?login=" +
+                sessionLogin,
+            false
+        );
+        datas.send();
+
+        if (datas.status == 200) {
+            datas = JSON.parse(datas.response);
+        }
+
+        let actualDay = new Date();
+
+        for (let key in datas) {
+            let consultation = datas[key];
+            let consultationYear = parseInt(
+                consultation["consultation_date"].split("-")[0]
+            );
+            let consultationMonth = parseInt(
+                consultation["consultation_date"].split("-")[1]
+            );
+            let consultationDay = parseInt(
+                consultation["consultation_date"].split("-")[2]
+            );
+
+            let consultationDatas = {
+                userType: "Docteur",
+                consultationID: parseInt(consultation["ID_Consultation"]),
+                lastName: consultation["doctor_last_name"].toUpperCase(),
+                firstName: firstLetterUpperCase(
+                    consultation["doctor_first_name"]
+                ),
+                date: consultation["consultation_date"],
+                hour: getHourFromTimeSlot(parseInt(consultation["time_slot"])),
+                address: consultation["address"],
+                city: consultation["city"],
+                postalCode: consultation["postal_code"],
+                reason:
+                    consultation["reason"] == ""
+                        ? "aucun"
+                        : consultation["reason"],
+                imagePath: consultation["image_path"],
+                status:
+                    consultation["is_validate"] == "1" ? "Réalisé" : "Annulé",
+            };
+
+            if (
+                consultationYear === actualDay.getFullYear() &&
+                consultationMonth === actualDay.getMonth() + 1 &&
+                consultationDay < actualDay.getDate()
+            ) {
+                patientConsultationDatas.push(consultationDatas);
+            }
+        }
+
+        return patientConsultationDatas;
     }
 }
 
