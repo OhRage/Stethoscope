@@ -1,9 +1,14 @@
 class Consultation {
-    constructor(domElement, consultationDatas, modalWindowOrigin) {
+    constructor(domElement, consultationDatas) {
         this.domElement = domElement;
         this.imagePath = consultationDatas["imagePath"];
         this.consultationID = consultationDatas["consultationID"];
-        this.modalWindowOrigin = modalWindowOrigin;
+        this.consultationDate = new Date(
+            parseInt(consultationDatas["date"].split("-")[0]),
+            parseInt(consultationDatas["date"].split("-")[1]) - 1,
+            parseInt(consultationDatas["date"].split("-")[2]),
+            parseInt(consultationDatas["hour"].split("-")[0].split("h")[0])
+        );
 
         this.informationLabels = {
             usernameLabel: consultationDatas["userType"] + " :",
@@ -50,11 +55,7 @@ class Consultation {
         let displayInformations = this.pannelInformationMount();
         mainContainer.appendChild(displayInformations);
 
-        //Ajout du bouton d'annulation de la consultation :
-        if(this.modalWindowOrigin.modalWindowTitle !== "Historique récent de vos RDV : "){
-            var displayCancelButton = this.cancelButtonMount();
-            mainContainer.appendChild(displayCancelButton);
-        }
+        this.cancelButtonMount(mainContainer);
 
         this.domElement.appendChild(mainContainer);
     }
@@ -113,21 +114,28 @@ class Consultation {
         return displayInformations;
     }
 
-    cancelButtonMount() {
-        let displayButton = document.createElement("div");
-        displayButton.className = "row col-1 align-items-center";
+    cancelButtonMount(mainContainer) {
+        let today = new Date();
 
-        let cancelButton = document.createElement("input");
-        cancelButton.setAttribute("id", "cancelConsultationButton");
-        cancelButton.setAttribute("type", "image");
-        cancelButton.setAttribute("src", "../img/cancel-consultation-icon.svg");
-        displayButton.appendChild(cancelButton);
+        if (this.consultationDate >= today) {
+            let displayButton = document.createElement("div");
+            displayButton.className = "row col-1 align-items-center";
 
-        cancelButton.addEventListener("click", () => {
-            this.onCancelConsultationClick();
-        });
+            let cancelButton = document.createElement("input");
+            cancelButton.setAttribute("id", "cancelConsultationButton");
+            cancelButton.setAttribute("type", "image");
+            cancelButton.setAttribute(
+                "src",
+                "../img/cancel-consultation-icon.svg"
+            );
+            displayButton.appendChild(cancelButton);
 
-        return displayButton;
+            cancelButton.addEventListener("click", () => {
+                this.onCancelConsultationClick();
+            });
+
+            mainContainer.appendChild(displayButton);
+        }
     }
 
     onCancelConsultationClick() {
