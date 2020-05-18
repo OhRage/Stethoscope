@@ -44,7 +44,7 @@ class ConsultationModalWindow {
 
     //Link du button sur la fenêtre modal :
     $("#consultationInformationModal").modal();
-    console.log("Link")
+
     //Ajout de la fenêtre modal au domElement :
     this.domElement.appendChild(modal);
   }
@@ -101,7 +101,8 @@ class ConsultationModalWindow {
     for (let i = 0; i < this.serverDatas.length; i++) {
       var consultationComponent = new Consultation(
         modalBody,
-        this.serverDatas[i]
+        this.serverDatas[i],
+        this,
       );
       consultationComponent.componentMount();
     }

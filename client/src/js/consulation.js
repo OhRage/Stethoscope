@@ -1,8 +1,9 @@
 class Consultation {
-    constructor(domElement, consultationDatas) {
+    constructor(domElement, consultationDatas, modalWindowOrigin) {
         this.domElement = domElement;
         this.imagePath = consultationDatas["imagePath"];
         this.consultationID = consultationDatas["consultationID"];
+        this.modalWindowOrigin = modalWindowOrigin;
 
         this.informationLabels = {
             usernameLabel: consultationDatas["userType"] + " :",
@@ -43,17 +44,18 @@ class Consultation {
 
         //Création de la photo :
         let displayPhoto = this.userPhotoMount();
+        mainContainer.appendChild(displayPhoto);
 
         //Création du pannel d'information :
         let displayInformations = this.pannelInformationMount();
+        mainContainer.appendChild(displayInformations);
 
         //Ajout du bouton d'annulation de la consultation :
-        let displayCancelButton = this.cancelButtonMount();
+        if(this.modalWindowOrigin.modalWindowTitle !== "Historique récent de vos RDV : "){
+            var displayCancelButton = this.cancelButtonMount();
+            mainContainer.appendChild(displayCancelButton);
+        }
 
-        //Ajout des composants a homepage
-        mainContainer.appendChild(displayPhoto);
-        mainContainer.appendChild(displayInformations);
-        mainContainer.appendChild(displayCancelButton);
         this.domElement.appendChild(mainContainer);
     }
 
