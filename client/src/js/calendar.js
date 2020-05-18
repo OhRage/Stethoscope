@@ -264,7 +264,10 @@ class Calendar {
             let tableRow = daysOfMonth.childNodes[i];
             for (let j = 0; j < tableRow.childNodes.length; j++) {
                 let htmlCell = tableRow.childNodes[j];
-                if (htmlCell.getAttribute("value") === "filledBox" || htmlCell.getAttribute("value") === "filledTodayBox") {
+                if (
+                    htmlCell.getAttribute("value") === "filledBox" ||
+                    htmlCell.getAttribute("value") === "filledTodayBox"
+                ) {
                     var htmlButton = htmlCell.childNodes[0];
                     if (
                         patientDates["dateConfirmed"].includes(
@@ -339,7 +342,19 @@ class Calendar {
                 let htmlCell = tableRow.childNodes[j];
                 if (htmlCell.getAttribute("value").includes("filled")) {
                     var htmlButton = htmlCell.childNodes[0];
-                    if (fullSlotDays.includes(htmlButton.innerHTML)) {
+                    if (
+                        fullSlotDays.includes(htmlButton.innerHTML) ||
+                        this.lastdayOfMonth.getFullYear() <
+                            this.today.getFullYear() ||
+                        (this.lastdayOfMonth.getFullYear() ==
+                            this.today.getFullYear() &&
+                            (this.lastdayOfMonth.getMonth() <
+                                this.today.getMonth() ||
+                                (this.lastdayOfMonth.getMonth() ===
+                                    this.today.getMonth() &&
+                                    this.today.getDate() >
+                                        parseInt(htmlButton.innerHTML))))
+                    ) {
                         htmlButton.setAttribute("value", "dateNotAvailable");
                         htmlButton.disabled = true;
                     } else {
