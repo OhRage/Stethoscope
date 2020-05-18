@@ -74,7 +74,7 @@
 #calendarModal
   .table-bordered
   tbody
-  td[value="filledBox"]
+  td[value^="filled"]
   button[value="confirmedDate"] {
   color: white;
   font-weight: bold;
@@ -86,7 +86,7 @@
 #calendarModal
   .table-bordered
   tbody
-  td[value="filledBox"]
+  td[value^="filled"]
   button[value="pendingDate"] {
   color: white;
   font-weight: bold;
@@ -98,7 +98,7 @@
 #calendarModal
   .table-bordered
   tbody
-  td[value="filledBox"]
+  td[value^="filled"]
   button[value="confirmedAndPendingDate"] {
   color: white;
   font-weight: bold;

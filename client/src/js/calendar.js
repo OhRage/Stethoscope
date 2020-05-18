@@ -264,7 +264,7 @@ class Calendar {
             let tableRow = daysOfMonth.childNodes[i];
             for (let j = 0; j < tableRow.childNodes.length; j++) {
                 let htmlCell = tableRow.childNodes[j];
-                if (htmlCell.getAttribute("value") === "filledBox") {
+                if (htmlCell.getAttribute("value") === "filledBox" || htmlCell.getAttribute("value") === "filledTodayBox") {
                     var htmlButton = htmlCell.childNodes[0];
                     if (
                         patientDates["dateConfirmed"].includes(
@@ -476,8 +476,8 @@ class Calendar {
         if (selectDay.getDay() !== 0) {
             mainPageElement.querySelector("#dayInput").value = day;
 
-             //On rend le bouton Valider enabled :
-             mainPageElement.querySelector(
+            //On rend le bouton Valider enabled :
+            mainPageElement.querySelector(
                 "#validateMainFormButton"
             ).disabled = false;
         } else {
