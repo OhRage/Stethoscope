@@ -1,5 +1,5 @@
-function getAge(dateString) {
-    let birthDate = new Date(dateString);
+function getAge(dateValue) {
+    let birthDate = new Date(dateValue);
     let today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
     let m = today.getMonth() - birthDate.getMonth();
