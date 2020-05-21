@@ -525,7 +525,7 @@ function loadMainPage() {
     if (document.readyState === "complete") {
         //Récupération de l'ensemble des données nécessaire a la prise de RDV (nom et prénom du médecin, type médecin, adresse du cabinet).
         let ajax = new AjaxCall("getDoctorAjax");
-        ajax.getDoctorAjaxOnload();
+        ajax.getDoctorsForMainPageAjaxOnload();
         ajax.sendAjax(
             "GET",
             "http://stethoscope/server/src/getDoctorDatas.php"
