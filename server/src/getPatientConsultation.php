@@ -21,7 +21,8 @@
     INNER JOIN USERS ON USERS.login = \"{$_GET["login"]}\"
     INNER JOIN PATIENT ON PATIENT.ID_User = USERS.ID_User
     INNER JOIN DOCTOR ON DOCTOR.ID_Doctor = CONSULTATION.ID_Doctor
-    WHERE CONSULTATION.ID_Patient = PATIENT.ID_Patient;";
+    WHERE CONSULTATION.ID_Patient = PATIENT.ID_Patient
+    ORDER BY CONSULTATION.consultation_date;";
 
     $result = send_simple_query($query, "select");
 
