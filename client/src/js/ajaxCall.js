@@ -233,7 +233,7 @@ class AjaxCall {
         }
     }
 
-    getDoctorAjaxOnload() {
+    getDoctorsForMainPageAjaxOnload() {
         if (this.ajaxId === "getDoctorAjax") {
             this.ajax.onload = () => {
                 let doctorDatas = [];
@@ -270,6 +270,57 @@ class AjaxCall {
                         "Erreur de récupération des données du serveur"
                     );
                     return doctorDatas;
+                }
+            };
+        } else {
+            console.log("Wrong ajax call method. ajaxID : " + this.ajaxId);
+        }
+    }
+
+    getDoctorsForDoctorModalWindowAjaxOnload(doctorsDatas, doctorOptionList) {
+        if (this.ajaxId === "getDoctorsMWAjax") {
+            this.ajax.onload = () => {
+                if (this.ajax.status == 200) {
+                    let datas = JSON.parse(this.ajax.response);
+
+                    for (let key in datas) {
+                        if (datas.hasOwnProperty(key)) {
+                            doctorsDatas.push({
+                                doctorID: datas[key]["ID_Doctor"],
+                                firstName: firstLetterUpperCase(
+                                    datas[key]["first_name"]
+                                ),
+                                lastName: datas[key]["last_name"].toUpperCase(),
+                                medicalType: datas[key]["medical_type"].split(
+                                    "&"
+                                ).slice(1).join(" et "),
+                                phoneNumber: datas[key]["phone_number"],
+                                imagePath: datas[key]["image_path"],
+                                age: getAge(
+                                    parseInt(datas[key]["birth_date"]) * 1000
+                                ),
+                                sexe:
+                                    datas[key]["sexe"] === "1"
+                                        ? "Homme"
+                                        : "Femme",
+                            });
+
+                            let option = document.createElement("option");
+                            option.setAttribute(
+                                "value",
+                                datas[key]["ID_Doctor"]
+                            );
+                            option.innerHTML =
+                                firstLetterUpperCase(datas[key]["first_name"]) +
+                                " " +
+                                datas[key]["last_name"].toUpperCase();
+                            doctorOptionList.appendChild(option);
+                        }
+                    }
+                } else {
+                    console.log(
+                        "Erreur de récupération des données du serveur"
+                    );
                 }
             };
         } else {
