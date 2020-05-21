@@ -277,18 +277,35 @@ class AjaxCall {
         }
     }
 
-    getAvalaibleSlotAjaxOnload(hourList) {
+    getAvalaibleSlotAjaxOnload(selectDay, hourList) {
         if (this.ajaxId === "getAvailableSlots") {
             this.ajax.onload = () => {
                 if (this.ajax.status == 200) {
                     let datas = JSON.parse(this.ajax.response);
+                    let hour = new Date().getHours();
+                    let todayTs = new Date().setHours(0,0,0,0);
+                    let selectDayTs = selectDay.getTime();
 
                     for (let key in datas) {
                         if (datas.hasOwnProperty(key)) {
-                            let option = document.createElement("option");
-                            option.setAttribute("value", datas[key]);
-                            option.innerHTML = getHourFromTimeSlot(parseInt(datas[key]));
-                            hourList.appendChild(option);
+                            let consultationHour = parseInt(
+                                getHourFromTimeSlot(parseInt(datas[key]))
+                                    .split("-")[0]
+                                    .split("h")[0]
+                            );
+
+                            if (
+                                selectDayTs > todayTs ||
+                                (selectDayTs === todayTs &&
+                                    consultationHour > hour)
+                            ) {
+                                let option = document.createElement("option");
+                                option.setAttribute("value", datas[key]);
+                                option.innerHTML = getHourFromTimeSlot(
+                                    parseInt(datas[key])
+                                );
+                                hourList.appendChild(option);
+                            }
                         }
                     }
                 }
@@ -315,7 +332,7 @@ class AjaxCall {
         }
     }
 
-    removeConsultationAjaxOnload(){
+    removeConsultationAjaxOnload() {
         if (this.ajaxId === "removeConsultationAjax") {
             this.ajax.onload = () => {
                 let msg = JSON.parse(this.ajax.response)["message"];

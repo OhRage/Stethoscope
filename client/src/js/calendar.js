@@ -522,7 +522,7 @@ class Calendar {
         if (month && day) {
             //Récupération des slots times de disponible :
             let ajax = new AjaxCall("getAvailableSlots");
-            ajax.getAvalaibleSlotAjaxOnload(hourList);
+            ajax.getAvalaibleSlotAjaxOnload(selectDay, hourList);
             ajax.sendAjax(
                 "GET",
                 "http://stethoscope/server/src/getAvailableSlots.php?doctorID=" +
