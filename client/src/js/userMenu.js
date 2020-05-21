@@ -248,46 +248,50 @@ class UserMenu {
             datas = JSON.parse(datas.response);
         }
 
-        let actualDay = new Date();
+        if (datas.length > 0) {
+            let actualDay = new Date();
 
-        for (let key in datas) {
-            let consultation = datas[key];
-            let consultationYear = parseInt(
-                consultation["consultation_date"].split("-")[0]
-            );
-            let consultationMonth = parseInt(
-                consultation["consultation_date"].split("-")[1]
-            );
-            let consultationDay = parseInt(
-                consultation["consultation_date"].split("-")[2]
-            );
+            for (let key in datas) {
+                let consultation = datas[key];
+                let consultationYear = parseInt(
+                    consultation["consultation_date"].split("-")[0]
+                );
+                let consultationMonth = parseInt(
+                    consultation["consultation_date"].split("-")[1]
+                );
+                let consultationDay = parseInt(
+                    consultation["consultation_date"].split("-")[2]
+                );
 
-            let consultationDatas = {
-                userType: "Docteur",
-                consultationID: parseInt(consultation["ID_Consultation"]),
-                lastName: consultation["doctor_last_name"].toUpperCase(),
-                firstName: firstLetterUpperCase(
-                    consultation["doctor_first_name"]
-                ),
-                date: consultation["consultation_date"],
-                hour: getHourFromTimeSlot(parseInt(consultation["time_slot"])),
-                address: consultation["address"],
-                city: consultation["city"],
-                postalCode: consultation["postal_code"],
-                reason:
-                    consultation["reason"] == ""
-                        ? "aucun"
-                        : consultation["reason"],
-                imagePath: consultation["image_path"],
-                status: consultation["is_validate"],
-            };
+                let consultationDatas = {
+                    userType: "Docteur",
+                    consultationID: parseInt(consultation["ID_Consultation"]),
+                    lastName: consultation["doctor_last_name"].toUpperCase(),
+                    firstName: firstLetterUpperCase(
+                        consultation["doctor_first_name"]
+                    ),
+                    date: consultation["consultation_date"],
+                    hour: getHourFromTimeSlot(
+                        parseInt(consultation["time_slot"])
+                    ),
+                    address: consultation["address"],
+                    city: consultation["city"],
+                    postalCode: consultation["postal_code"],
+                    reason:
+                        consultation["reason"] == ""
+                            ? "aucun"
+                            : consultation["reason"],
+                    imagePath: consultation["image_path"],
+                    status: consultation["is_validate"],
+                };
 
-            if (
-                consultationYear === actualDay.getFullYear() &&
-                consultationMonth === actualDay.getMonth() + 1 &&
-                consultationDay < actualDay.getDate()
-            ) {
-                patientConsultationDatas.push(consultationDatas);
+                if (
+                    consultationYear === actualDay.getFullYear() &&
+                    consultationMonth === actualDay.getMonth() + 1 &&
+                    consultationDay < actualDay.getDate()
+                ) {
+                    patientConsultationDatas.push(consultationDatas);
+                }
             }
         }
 
