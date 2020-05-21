@@ -368,20 +368,31 @@ class Calendar {
 
     modalConsultationWindowMount(modalWindowTitle, dayButton = undefined) {
         let consultationDatas = [];
-        let actualMonth = this.lastdayOfMonth.getMonth() + 1;
         if (dayButton) {
             var actualDay = parseInt(dayButton.innerHTML);
+        } else {
+            var actualDay = this.lastdayOfMonth.getDate();
         }
+
+        let today = new Date();
+        let actualDate = new Date(
+            this.lastdayOfMonth.getFullYear(),
+            this.lastdayOfMonth.getMonth(),
+            actualDay
+        );
 
         for (let key in this.patientConsultationDatas) {
             let consultation = this.patientConsultationDatas[key];
-            let consultationMonth = parseInt(
-                consultation["consultation_date"].split("-")[1]
+            let consultationHour = getHourFromTimeSlot(
+                parseInt(consultation["time_slot"])
+            );
+            let consultationDate = new Date(
+                consultation["consultation_date"].split("-")[0],
+                consultation["consultation_date"].split("-")[1] - 1,
+                consultation["consultation_date"].split("-")[2],
+                parseInt(consultationHour.split("-")[0].split("h")[0])
             );
 
-            let consultationDay = parseInt(
-                consultation["consultation_date"].split("-")[2]
-            );
             let datas = {
                 userType: "Docteur",
                 consultationID: parseInt(consultation["ID_Consultation"]),
@@ -390,7 +401,7 @@ class Calendar {
                     consultation["doctor_first_name"]
                 ),
                 date: consultation["consultation_date"],
-                hour: getHourFromTimeSlot(parseInt(consultation["time_slot"])),
+                hour: consultationHour,
                 address: consultation["address"],
                 city: consultation["city"],
                 postalCode: consultation["postal_code"],
@@ -405,8 +416,8 @@ class Calendar {
             switch (modalWindowTitle) {
                 case "RDV du jour":
                     if (
-                        consultationDay === actualDay &&
-                        consultationMonth === actualMonth
+                        consultationDate.getDate() === actualDate.getDate() &&
+                        consultationDate.getMonth() === actualDate.getMonth()
                     ) {
                         consultationDatas.push(datas);
                     }
@@ -414,8 +425,9 @@ class Calendar {
 
                 case "RDV confirmés du mois":
                     if (
-                        consultationMonth === actualMonth &&
-                        consultation["is_validate"] === "1"
+                        consultationDate.getMonth() === actualDate.getMonth() &&
+                        consultation["is_validate"] === "1" &&
+                        consultationDate > today
                     ) {
                         consultationDatas.push(datas);
                     }
@@ -423,8 +435,9 @@ class Calendar {
 
                 case "RDV en attente du mois":
                     if (
-                        consultationMonth === actualMonth &&
-                        consultation["is_validate"] === "0"
+                        consultationDate.getMonth() === actualDate.getMonth() &&
+                        consultation["is_validate"] === "0" &&
+                        consultationDate > today
                     ) {
                         consultationDatas.push(datas);
                     }
