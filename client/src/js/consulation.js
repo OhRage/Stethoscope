@@ -3,12 +3,15 @@ class Consultation {
         this.domElement = domElement;
         this.imagePath = consultationDatas["imagePath"];
         this.consultationID = consultationDatas["consultationID"];
-        this.consultationDate = new Date(
-            parseInt(consultationDatas["date"].split("-")[0]),
-            parseInt(consultationDatas["date"].split("-")[1]) - 1,
-            parseInt(consultationDatas["date"].split("-")[2]),
-            parseInt(consultationDatas["hour"].split("-")[0].split("h")[0])
-        );
+        this.isPastDay =
+            new Date(
+                parseInt(consultationDatas["date"].split("-")[0]),
+                parseInt(consultationDatas["date"].split("-")[1]) - 1,
+                parseInt(consultationDatas["date"].split("-")[2]),
+                parseInt(consultationDatas["hour"].split("-")[0].split("h")[0])
+            ) < new Date()
+                ? 1
+                : 0;
 
         this.informationLabels = {
             usernameLabel: consultationDatas["userType"] + " :",
@@ -35,7 +38,14 @@ class Consultation {
                 " - " +
                 consultationDatas["city"],
             reasonValue: consultationDatas["reason"],
-            statutValue: consultationDatas["status"],
+            statutValue:
+                this.isPastDay && consultationDatas["status"] === "1"
+                    ? "Réalisé"
+                    : this.isPastDay && consultationDatas["status"] === "0"
+                    ? "Annulé"
+                    : !this.isPastDay && consultationDatas["status"] === "1"
+                    ? "Confirmé"
+                    : "En attente",
         };
     }
 
@@ -115,9 +125,7 @@ class Consultation {
     }
 
     cancelButtonMount(mainContainer) {
-        let today = new Date();
-
-        if (this.consultationDate >= today) {
+        if (!this.isPastDay) {
             let displayButton = document.createElement("div");
             displayButton.className = "row col-1 align-items-center";
 

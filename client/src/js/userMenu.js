@@ -279,8 +279,7 @@ class UserMenu {
                         ? "aucun"
                         : consultation["reason"],
                 imagePath: consultation["image_path"],
-                status:
-                    consultation["is_validate"] == "1" ? "Réalisé" : "Annulé",
+                status: consultation["is_validate"],
             };
 
             if (

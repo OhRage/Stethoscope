@@ -399,10 +399,7 @@ class Calendar {
                         ? "aucun"
                         : consultation["reason"],
                 imagePath: consultation["image_path"],
-                status:
-                    consultation["is_validate"] == "1"
-                        ? "confirmé"
-                        : "en attente",
+                status: consultation["is_validate"],
             };
 
             switch (modalWindowTitle) {
