@@ -1,160 +1,126 @@
 class ResetPasswordModalWindow {
-  constructor(domElement) {
-    this.domElement = domElement;
-  }
+    constructor(domElement) {
+        this.domElement = domElement;
+    }
 
-  componentMount() {
-    //Modal :
-    let modal = document.createElement("div");
-    modal.className = "modal";
-    modal.setAttribute("id", "forgotPasswordModal");
+    componentMount() {
+        //Modal :
+        let modal = document.createElement("div");
+        modal.className = "modal";
+        modal.setAttribute("id", "forgotPasswordModal");
 
-    //Modail Dialog :
-    let modalDialog = document.createElement("div");
-    modalDialog.className = "modal-dialog";
+        //Modail Dialog :
+        let modalDialog = document.createElement("div");
+        modalDialog.className = "modal-dialog";
 
-    //Modal Content :
-    let modalContent = document.createElement("div");
-    modalContent.className = "modal-content";
+        //Modal Content :
+        let modalContent = document.createElement("div");
+        modalContent.className = "modal-content";
 
-    //Modal Header :
-    let modalHeader = document.createElement("div");
-    modalHeader.className = "modal-header text-center";
-    let modalWindowTitle = document.createElement("h3");
-    modalWindowTitle.className = "col-12 modal-title text-center";
-    modalWindowTitle.innerHTML = "Mot de passe oublié";
-    modalHeader.appendChild(modalWindowTitle);
+        //Modal Header :
+        let modalHeader = document.createElement("div");
+        modalHeader.className = "modal-header text-center";
+        let modalWindowTitle = document.createElement("h3");
+        modalWindowTitle.className = "col-12 modal-title text-center";
+        modalWindowTitle.innerHTML = "Mot de passe oublié";
+        modalHeader.appendChild(modalWindowTitle);
 
-    let modalBody = this.modalWindowBodyMount();
+        let modalBody = this.modalWindowBodyMount();
 
-    //Construction du modalFooter :
-    let modalFooter = this.modalWindowFooterMount();
+        //Construction du modalFooter :
+        let modalFooter = this.modalWindowFooterMount();
 
-    //Ajout de tous les composant de la fenêtre modal :
-    modalContent.appendChild(modalHeader);
-    modalContent.appendChild(modalBody);
-    modalContent.appendChild(modalFooter);
+        //Ajout de tous les composant de la fenêtre modal :
+        modalContent.appendChild(modalHeader);
+        modalContent.appendChild(modalBody);
+        modalContent.appendChild(modalFooter);
 
-    modalDialog.appendChild(modalContent);
-    modal.appendChild(modalDialog);
+        modalDialog.appendChild(modalContent);
+        modal.appendChild(modalDialog);
 
-    //Link du button sur la fenêtre modal :
-    $("#forgotPasswordModal").modal();
+        //Link du button sur la fenêtre modal :
+        $("#forgotPasswordModal").modal();
 
-    //Ajout de la fenêtre modal au domElement :
-    this.domElement.appendChild(modal);
-  }
+        //Ajout de la fenêtre modal au domElement :
+        this.domElement.appendChild(modal);
+    }
 
-  componentUnmount() {
-    let component = this.domElement.querySelector("#forgotPasswordModal");
-    this.domElement.removeChild(component);
-  }
+    componentUnmount() {
+        let component = this.domElement.querySelector("#forgotPasswordModal");
+        this.domElement.removeChild(component);
+    }
 
-  modalWindowBodyMount() {
-    //Création du modalBody :
-    let modalBody = document.createElement("div");
-    modalBody.className = "modal-body text-left";
+    modalWindowBodyMount() {
+        //Création du modalBody :
+        let modalBody = document.createElement("div");
+        modalBody.className = "modal-body text-center";
 
-    let mainForm = document.createElement("form");
-    mainForm.setAttribute("method", "post");
-    mainForm.setAttribute("name", "mainForm");
-    mainForm.className = "needs-validation";
-    mainForm.noValidate = true;
+        let label = document.createElement("h1");
+        label.className = "h6";
+        label.innerHTML =
+            "Veuillez contacter l'administrateur à l'adresse suivante : ";
+        modalBody.appendChild(label);
 
-    let formGroup = document.createElement("div");
-    formGroup.className = "form-group p-4";
+        let hr = document.createElement("div");
+        hr.className = "w-100";
 
-    let label = document.createElement("h1");
-    label.className = "h6";
-    label.innerHTML = "Veuillez renseigner votre adresse email : ";
+        let row = document.createElement("div");
+        row.className = "row mt-2";
 
-    let hr = document.createElement("div");
-    hr.className = "w-100";
+        let col = document.createElement("div");
+        col.className = "col";
 
-    let row = document.createElement("div");
-    row.className = "row mt-2";
+        let input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("id", "administratorEmail");
+        input.setAttribute("value", "kevin.icol.auditeur@lecnam.fr");
+        input.disabled = true;
 
-    let col = document.createElement("div");
-    col.className = "col";
+        col.appendChild(input);
+        row.appendChild(col);
+        modalBody.appendChild(row);
 
-    let input = document.createElement("input");
-    input.setAttribute("type", "email");
-    input.setAttribute("id", "inputEmail");
-    input.setAttribute("name", "inputEmail");
-    input.setAttribute("placeholder", "jean.blanc@gmail.com");
-    input.setAttribute("aria-describedby", "emailHelp");
-    input.required = true;
-    input.className = "form-control";
+        return modalBody;
+    }
 
-    col.appendChild(input);
-    row.appendChild(col);
-    formGroup.appendChild(label);
-    formGroup.appendChild(hr);
-    formGroup.appendChild(row);
-    mainForm.appendChild(formGroup);
-    modalBody.appendChild(mainForm);
+    modalWindowFooterMount() {
+        //Création du modalFooter :
+        let modalFooter = document.createElement("div");
+        modalFooter.className = "modal-footer";
+        let modalRow = document.createElement("div");
+        modalRow.className = "row";
 
-    //Récupération du formulaire :
-    let form = modalBody.querySelector("[name=mainForm");
-    form.setAttribute("id", "forgotPasswordModalForm");
+        //Bouton fermer
+        let modalCloseButton = document.createElement("button");
+        modalCloseButton.className = "btn btn-primary mr-4 ml-4";
+        modalCloseButton.setAttribute("type", "button");
+        modalCloseButton.setAttribute("data-dismiss", "modal");
+        modalCloseButton.innerHTML = "Fermer";
 
-    //Ajout d'un input au formulaire contenant le nom de celui (pour traitement côté server):
-    let formName = document.createElement("input");
-    formName.setAttribute("type", "hidden");
-    formName.setAttribute("name", "forgotPasswordModalForm");
+        modalRow.appendChild(modalCloseButton);
+        modalFooter.appendChild(modalRow);
 
-    form.appendChild(formName)
+        modalFooter.appendChild(modalRow);
 
-    return modalBody;
-  }
+        //Gestionnaire d'évenement sur le bouton fermer :
+        modalCloseButton.addEventListener(
+            "click",
+            () => {
+                this.componentUnmount();
+            },
+            false
+        );
 
-  modalWindowFooterMount() {
-    //Création du modalFooter :
-    let modalFooter = document.createElement("div");
-    modalFooter.className = "modal-footer";
-    let modalRow = document.createElement("div");
-    modalRow.className = "row";
+        return modalFooter;
+    }
 
-    //Bouton fermer
-    let modalCloseButton = document.createElement("button");
-    modalCloseButton.className = "btn btn-primary mr-4 ml-4";
-    modalCloseButton.setAttribute("type", "button");
-    modalCloseButton.setAttribute("data-dismiss", "modal");
-    modalCloseButton.innerHTML = "Fermer";
+    onValidateButtonClick() {
+        //Récupération du formulaire de la fenêtre modale :
+        let mainForm = document.querySelector("#modalSection [name=mainForm]");
 
-    modalRow.appendChild(modalCloseButton);
-    modalFooter.appendChild(modalRow);
+        //Vérification des saisies :
 
-    let modalValidateButton = document.createElement("button");
-    modalValidateButton.className = "btn btn-primary mr-4 ml-4";
-    modalValidateButton.setAttribute("type", "submit");
-    modalValidateButton.innerHTML = "Valider";
-    modalValidateButton.addEventListener("click", () => {
-      this.onValidateButtonClick();
-    });
-    modalRow.appendChild(modalValidateButton);
-
-    modalFooter.appendChild(modalRow);
-
-    //Gestionnaire d'évenement sur le bouton fermer :
-    modalCloseButton.addEventListener(
-      "click",
-      () => {
-        this.componentUnmount();
-      },
-      false
-    );
-
-    return modalFooter;
-  }
-
-  onValidateButtonClick() {
-    //Récupération du formulaire de la fenêtre modale :
-    let mainForm = document.querySelector("#modalSection [name=mainForm]");
-
-    //Vérification des saisies :
-
-    //Envoi du formulaire :
-    mainForm.submit();
-  }
+        //Envoi du formulaire :
+        mainForm.submit();
+    }
 }
