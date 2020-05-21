@@ -10,7 +10,7 @@
         AND (SELECT YEAR(CONSULTATION.consultation_date)) = {$_GET["year"]};";
 
     $result = send_simple_query($query, "select");
-    // var_dump($result);
+
     if(gettype($result) == "array"){
         $json = ["1","2","3","4","5","6","7","8"];
         $time_slots = [];
