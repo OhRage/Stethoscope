@@ -11,7 +11,7 @@ class UserMenu {
             {
                 modalWindowID: "#doctorInformationModal",
                 iconPath: "../img/doctor-icon.svg",
-                labelValue: "Mon médecin",
+                labelValue: "Les médecins",
             },
             {
                 modalWindowID: "#calendarModal",
