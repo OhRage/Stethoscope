@@ -140,25 +140,9 @@ class UserMenu {
                 );
                 break;
             case "#doctorInformationModal":
-                //@TODO : Cas du bouton "Mon médecin" => récupération des informations du médecin traitant du patient (cf info ci-dessous):
-                serverDatas = {
-                    personnalDatas: {
-                        firstName: "Gregory",
-                        lastName: "HOUSE",
-                        birthDate: "12/06/1968",
-                        conventionArea: "Secteur 1",
-                        address: "1er rue de la liberté",
-                        city: "Lyon",
-                        postalCode: "69003",
-                        phoneNumber: "0612345678",
-                        emailAddress: "gregory.house@gmail.com",
-                    },
-                };
-
                 //On ajoute la fenêtre modal au domElement :
                 let doctorModalWindow = new DoctorModalWindow(
                     modalSection,
-                    serverDatas
                 );
                 doctorModalWindow.componentMount();
 
