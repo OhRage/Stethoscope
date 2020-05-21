@@ -6,6 +6,10 @@
         DOCTOR.ID_Doctor
         , DOCTOR.first_name
         , DOCTOR.last_name
+        , DOCTOR.phone_number
+        , DOCTOR.birth_date
+        , DOCTOR.image_path
+        , DOCTOR.sexe
         , ADDRESS.address
         , ADDRESS.city
         , ADDRESS.postal_code
@@ -38,6 +42,10 @@
                 "ID_Doctor" => $result1["ID_Doctor"],
                 "first_name" => $result1["first_name"],
                 "last_name" => $result1["last_name"],
+                "phone_number" => $result1["phone_number"],
+                "birth_date" => $result1["birth_date"],
+                "image_path" => $result1["image_path"],
+                "sexe" => $result1["sexe"],
                 "medical_type" => $medical[$result1["ID_Doctor"]],
                 "address" => $result1["address"],
                 "city" => $result1["city"],
