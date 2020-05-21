@@ -114,7 +114,7 @@ class AjaxCall {
                     };
                 } else {
                     console.log(
-                        "Erreur de récupération des données du serveur (getId = get_user_datas)"
+                        "Erreur de récupération des données du serveur"
                     );
                     userMenuDatas = {
                         firstName: undefined,
@@ -183,7 +183,7 @@ class AjaxCall {
                     $("#personalInformationModal").modal();
                 } else {
                     console.log(
-                        "Erreur de récupération des données du serveur (getId = get_user_datas)"
+                        "Erreur de récupération des données du serveur"
                     );
                 }
             };
@@ -267,7 +267,7 @@ class AjaxCall {
                     mainPage.componentMount();
                 } else {
                     console.log(
-                        "Erreur de récupération des données du serveur (getId = get_doctor_datas)"
+                        "Erreur de récupération des données du serveur"
                     );
                     return doctorDatas;
                 }
@@ -283,7 +283,7 @@ class AjaxCall {
                 if (this.ajax.status == 200) {
                     let datas = JSON.parse(this.ajax.response);
                     let hour = new Date().getHours();
-                    let todayTs = new Date().setHours(0,0,0,0);
+                    let todayTs = new Date().setHours(0, 0, 0, 0);
                     let selectDayTs = selectDay.getTime();
 
                     for (let key in datas) {
