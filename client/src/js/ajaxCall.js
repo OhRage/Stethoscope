@@ -277,12 +277,12 @@ class AjaxCall {
         }
     }
 
-    getDoctorsForDoctorModalWindowAjaxOnload(doctorModalWindow, doctorOptionList) {
+    getDoctorsForDoctorModalWindowAjaxOnload(doctorModalWindow) {
         if (this.ajaxId === "getDoctorsMWAjax") {
             this.ajax.onload = () => {
                 if (this.ajax.status == 200) {
                     let datas = JSON.parse(this.ajax.response);
-
+                    let doctorOptionList = document.querySelector("#modalSection #doctorChoice")
                     for (let key in datas) {
                         if (datas.hasOwnProperty(key)) {
                             doctorModalWindow.doctorsDatas.push({

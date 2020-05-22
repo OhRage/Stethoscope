@@ -91,9 +91,36 @@ class DoctorModalWindow {
         let modalBody = document.createElement("div");
         modalBody.className = "modal-body";
 
+        //Liste de choix du médecin :
+        let doctorChoice = this.doctorChoiceListMount();
+        modalBody.appendChild(doctorChoice);
+
+        //Identité du médecin :
+        let doctorIdentity = this.doctorIdentityMount();
+        modalBody.appendChild(doctorIdentity);
+
+        //Informations générale du médecin :
+        let doctorInformations = this.doctorInformationsMount();
+        modalBody.appendChild(doctorInformations);
+
+        //Récupération des informations des médecins du cabinets :
+        let ajax = new AjaxCall("getDoctorsMWAjax");
+        ajax.getDoctorsForDoctorModalWindowAjaxOnload(this);
+        ajax.sendAjax(
+            "GET",
+            "http://stethoscope/server/src/getDoctorDatas.php"
+        );
+
+        return modalBody;
+    }
+
+    doctorChoiceListMount() {
+        let doctorRow = document.createElement("div");
+        doctorRow.className = "row";
+
         //Liste déroulante des médecins :
         let doctorCol = document.createElement("div");
-        doctorCol.className = "col-4";
+        doctorCol.className = "col-6 my-2";
 
         let doctorLabel = document.createElement("label");
         doctorLabel.className = "input-group-text";
@@ -112,43 +139,45 @@ class DoctorModalWindow {
         });
 
         doctorCol.appendChild(doctorOptionList);
+        doctorRow.appendChild(doctorCol);
 
-        modalBody.appendChild(doctorCol);
-
-        //Photo du médecin :
-        let doctorPhoto = this.doctorPhotoMount();
-        modalBody.appendChild(doctorPhoto);
-
-        //Informations générale du médecin :
-        let doctorInformations = this.doctorInformationsMount();
-        modalBody.appendChild(doctorInformations);
-
-        //Récupération des informations des médecins du cabinets :
-        let ajax = new AjaxCall("getDoctorsMWAjax");
-        ajax.getDoctorsForDoctorModalWindowAjaxOnload(
-            this,
-            doctorOptionList,
-        );
-        ajax.sendAjax(
-            "GET",
-            "http://stethoscope/server/src/getDoctorDatas.php"
-        );
-
-        return modalBody;
+        return doctorRow;
     }
 
-    doctorPhotoMount() {
+    doctorIdentityMount() {
+        let doctorIDRow = document.createElement("div");
+        doctorIDRow.className = "row m-3 justify-content-between";
+
+        //Photo du docteur :
         let displayPhoto = document.createElement("div");
         displayPhoto.className =
-            "row col-6 my-2 justify-content-center align-items-center";
+            "row col-3 my-2 justify-content-center align-items-center";
         let doctorPhoto = document.createElement("img");
         doctorPhoto.className = "img-fluid";
         doctorPhoto.setAttribute("id", "doctorPhoto");
         doctorPhoto.setAttribute("src", "");
         doctorPhoto.setAttribute("alt", "");
         displayPhoto.appendChild(doctorPhoto);
+        doctorIDRow.appendChild(displayPhoto);
 
-        return displayPhoto;
+        //Description sur le docteur :
+        let doctorDescription = document.createElement("div");
+        doctorDescription.className = "col-8 my-2";
+
+        let descriptionlabel = document.createElement("p");
+        descriptionlabel.className = "label";
+        descriptionlabel.innerHTML = "Description : ";
+        doctorDescription.appendChild(descriptionlabel);
+
+        //Construction du paragraphe pour la valeur :
+        let descriptionInput = document.createElement("input");
+        descriptionInput.setAttribute("type", "text");
+        descriptionInput.disabled = true;
+        doctorDescription.appendChild(descriptionInput);
+
+        doctorIDRow.appendChild(doctorDescription);
+
+        return doctorIDRow;
     }
 
     doctorInformationsMount() {
@@ -161,8 +190,8 @@ class DoctorModalWindow {
             "Nom",
             "Age",
             "Sexe",
-            "Type de médecine",
-            "Numéro de téléphone",
+            "Médecine",
+            "Téléphone",
         ];
 
         let inputID = [
@@ -176,50 +205,55 @@ class DoctorModalWindow {
 
         //Prénom :
         for (let i = 0; i < labels.length; i++) {
-            let row = document.createElement("div");
-            row.className = "row";
+            let col = document.createElement("div");
+            col.className = "row col-5 my-2 mx-2";
 
             let label = document.createElement("p");
-            label.className = "label";
-            label.innerHTML = labels[i];
-            row.appendChild(label);
+            label.className = "label my-0 mr-2";
+            label.innerHTML = labels[i] + " : ";
+            col.appendChild(label);
 
             //Construction du paragraphe pour la valeur :
             let input = document.createElement("input");
             input.setAttribute("type", "text");
             input.setAttribute("id", inputID[i]);
             input.disabled = true;
-            row.appendChild(input);
+            col.appendChild(input);
 
-            doctorInformations.appendChild(row);
+            doctorInformations.appendChild(col);
         }
         return doctorInformations;
     }
 
     setDoctorInformations() {
-        let doctorModalWindow = document.querySelector("#doctorInformationModal")
-        let doctorOptionList = document.querySelector("#doctorChoice")
+        let doctorModalWindow = document.querySelector(
+            "#doctorInformationModal"
+        );
+        let doctorOptionList = document.querySelector("#doctorChoice");
         //Récupère la valeur contenu dans la liste déroulante :
-        let doctorID = doctorOptionList.options[doctorOptionList.selectedIndex].value;
-        let doctorDatas = {}
+        let doctorID =
+            doctorOptionList.options[doctorOptionList.selectedIndex].value;
+        let doctorDatas = {};
 
-        for( let i = 0; i < this.doctorsDatas.length; i++){
-            if(this.doctorsDatas[i]["doctorID"] === doctorID){
-                doctorDatas = this.doctorsDatas[i]
+        for (let i = 0; i < this.doctorsDatas.length; i++) {
+            if (this.doctorsDatas[i]["doctorID"] === doctorID) {
+                doctorDatas = this.doctorsDatas[i];
                 break;
             }
         }
 
         //On affecte la photo du médecin :
-        doctorModalWindow.querySelector("#doctorPhoto").setAttribute("src", doctorDatas["imagePath"])
-        
+        doctorModalWindow
+            .querySelector("#doctorPhoto")
+            .setAttribute("src", doctorDatas["imagePath"]);
+
         //On change la valeur de tous les inputs :
         let inputs = doctorModalWindow.querySelectorAll("input");
-        console.log(doctorDatas)
-        for(let i = 0; i < inputs.length; i++){
-            inputs[i].setAttribute("value", doctorDatas[inputs[i].getAttribute("id")])
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].setAttribute(
+                "value",
+                doctorDatas[inputs[i].getAttribute("id")]
+            );
         }
-
-        
     }
 }
