@@ -277,7 +277,7 @@ class AjaxCall {
         }
     }
 
-    getDoctorsForDoctorModalWindowAjaxOnload(doctorsDatas, doctorOptionList) {
+    getDoctorsForDoctorModalWindowAjaxOnload(doctorModalWindow, doctorOptionList) {
         if (this.ajaxId === "getDoctorsMWAjax") {
             this.ajax.onload = () => {
                 if (this.ajax.status == 200) {
@@ -285,7 +285,7 @@ class AjaxCall {
 
                     for (let key in datas) {
                         if (datas.hasOwnProperty(key)) {
-                            doctorsDatas.push({
+                            doctorModalWindow.doctorsDatas.push({
                                 doctorID: datas[key]["ID_Doctor"],
                                 firstName: firstLetterUpperCase(
                                     datas[key]["first_name"]
@@ -316,6 +316,7 @@ class AjaxCall {
                                 datas[key]["last_name"].toUpperCase();
                             doctorOptionList.appendChild(option);
                         }
+                        doctorModalWindow.setDoctorInformations()
                     }
                 } else {
                     console.log(

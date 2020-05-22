@@ -108,7 +108,7 @@ class DoctorModalWindow {
 
         //Gestionnaire d'évenement de la liste medicalType :
         doctorOptionList.addEventListener("input", () => {
-            this.setDoctorInformations(doctorOptionList);
+            this.setDoctorInformations();
         });
 
         doctorCol.appendChild(doctorOptionList);
@@ -126,8 +126,8 @@ class DoctorModalWindow {
         //Récupération des informations des médecins du cabinets :
         let ajax = new AjaxCall("getDoctorsMWAjax");
         ajax.getDoctorsForDoctorModalWindowAjaxOnload(
-            this.doctorsDatas,
-            doctorOptionList
+            this,
+            doctorOptionList,
         );
         ajax.sendAjax(
             "GET",
@@ -196,9 +196,9 @@ class DoctorModalWindow {
         return doctorInformations;
     }
 
-    setDoctorInformations(doctorOptionList) {
+    setDoctorInformations() {
         let doctorModalWindow = document.querySelector("#doctorInformationModal")
-
+        let doctorOptionList = document.querySelector("#doctorChoice")
         //Récupère la valeur contenu dans la liste déroulante :
         let doctorID = doctorOptionList.options[doctorOptionList.selectedIndex].value;
         let doctorDatas = {}
