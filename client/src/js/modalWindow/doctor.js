@@ -95,13 +95,19 @@ class DoctorModalWindow {
         let doctorChoice = this.doctorChoiceListMount();
         modalBody.appendChild(doctorChoice);
 
+        let doctorInformationRow = document.createElement("div");
+        doctorInformationRow.className = "row my-5 mx-3";
+        doctorInformationRow.setAttribute("id", "doctorInformationsPannel")
+
         //Identité du médecin :
         let doctorIdentity = this.doctorIdentityMount();
-        modalBody.appendChild(doctorIdentity);
+        doctorInformationRow.appendChild(doctorIdentity);
 
         //Informations générale du médecin :
         let doctorInformations = this.doctorInformationsMount();
-        modalBody.appendChild(doctorInformations);
+        doctorInformationRow.appendChild(doctorInformations);
+
+        modalBody.appendChild(doctorInformationRow);
 
         //Récupération des informations des médecins du cabinets :
         let ajax = new AjaxCall("getDoctorsMWAjax");
@@ -116,11 +122,11 @@ class DoctorModalWindow {
 
     doctorChoiceListMount() {
         let doctorRow = document.createElement("div");
-        doctorRow.className = "row";
+        doctorRow.className = "row my-4 mx-3";
 
         //Liste déroulante des médecins :
         let doctorCol = document.createElement("div");
-        doctorCol.className = "col-6 my-2";
+        doctorCol.className = "col-6 m-auto";
 
         let doctorLabel = document.createElement("label");
         doctorLabel.className = "input-group-text";
@@ -146,23 +152,25 @@ class DoctorModalWindow {
 
     doctorIdentityMount() {
         let doctorIDRow = document.createElement("div");
-        doctorIDRow.className = "row m-3 justify-content-between";
+        doctorIDRow.className = "row col-12 mx-auto my-4 justify-content-between";
+
+        let row = document.createElement("div");
+        row.className = "row col-12 m-auto";
 
         //Photo du docteur :
         let displayPhoto = document.createElement("div");
-        displayPhoto.className =
-            "row col-3 my-2 justify-content-center align-items-center";
+        displayPhoto.className = "row col-4 m-auto";
         let doctorPhoto = document.createElement("img");
         doctorPhoto.className = "img-fluid";
         doctorPhoto.setAttribute("id", "doctorPhoto");
         doctorPhoto.setAttribute("src", "");
         doctorPhoto.setAttribute("alt", "");
         displayPhoto.appendChild(doctorPhoto);
-        doctorIDRow.appendChild(displayPhoto);
+        row.appendChild(displayPhoto);
 
         //Description sur le docteur :
         let doctorDescription = document.createElement("div");
-        doctorDescription.className = "col-8 my-2";
+        doctorDescription.className = "col-8 mx-auto";
 
         let descriptionlabel = document.createElement("p");
         descriptionlabel.className = "label";
@@ -175,24 +183,17 @@ class DoctorModalWindow {
         descriptionInput.disabled = true;
         doctorDescription.appendChild(descriptionInput);
 
-        doctorIDRow.appendChild(doctorDescription);
+        row.appendChild(doctorDescription);
+        doctorIDRow.appendChild(row)
 
         return doctorIDRow;
     }
 
     doctorInformationsMount() {
         let doctorInformations = document.createElement("div");
-        doctorInformations.className =
-            "row col-12 my-2 justify-content-center align-items-center";
+        doctorInformations.className = "row col-12 mx-auto my-4 align-items-center justify-content-between";
 
-        let labels = [
-            "Prénom",
-            "Nom",
-            "Age",
-            "Sexe",
-            "Médecine",
-            "Téléphone",
-        ];
+        let labels = ["Prénom", "Nom", "Age", "Sexe", "Médecine", "Téléphone"];
 
         let inputID = [
             "firstName",
@@ -203,25 +204,36 @@ class DoctorModalWindow {
             "phoneNumber",
         ];
 
-        //Prénom :
-        for (let i = 0; i < labels.length; i++) {
-            let col = document.createElement("div");
-            col.className = "row col-5 my-2 mx-2";
+        //Construction des labels et inputs :
+        for (let i = 0; i < labels.length / 2; i++) {
+            let row = document.createElement("div");
+            row.className = "row col-12 m-auto";
 
-            let label = document.createElement("p");
-            label.className = "label my-0 mr-2";
-            label.innerHTML = labels[i] + " : ";
-            col.appendChild(label);
+            let carriageReturn = document.createElement("div");
+            carriageReturn.className = "w-100";
 
-            //Construction du paragraphe pour la valeur :
-            let input = document.createElement("input");
-            input.setAttribute("type", "text");
-            input.setAttribute("id", inputID[i]);
-            input.disabled = true;
-            col.appendChild(input);
+            for (let j = i * 2; j <= i * 2 + 1; j++) {
+                let col = document.createElement("div");
+                col.className = "col m-auto";
 
-            doctorInformations.appendChild(col);
+                let label = document.createElement("p");
+                label.className = "label my-2 mr-2";
+                label.innerHTML = labels[j] + " : ";
+                col.appendChild(label);
+
+                //Construction du paragraphe pour la valeur :
+                let input = document.createElement("input");
+                input.setAttribute("type", "text");
+                input.setAttribute("id", inputID[j]);
+                input.disabled = true;
+                col.appendChild(input);
+
+                row.appendChild(col);
+            }
+            doctorInformations.appendChild(row);
+            doctorInformations.appendChild(carriageReturn);
         }
+
         return doctorInformations;
     }
 

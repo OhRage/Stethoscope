@@ -33,3 +33,10 @@ body {
     border-width: 1px;
     border-radius: 15px;
 }
+
+.modal-body #doctorInformationsPannel {
+    border-style: solid;
+    border-color: #20b2aa;
+    border-width: 1px;
+    border-radius: 15px;
+}
