@@ -46,7 +46,8 @@ CREATE TABLE DOCTOR(
         birth_date   bigint NOT NULL ,
         phone_number Varchar (50) NOT NULL ,
         image_path Varchar (100) NULL,
-        ID_Office int NOT NULL      
+        sexe Int NOT NULL,
+        description  Varchar (10000)
 	,CONSTRAINT DOCTOR_PK PRIMARY KEY (ID_Doctor)
 )ENGINE=InnoDB;
 
@@ -57,32 +58,13 @@ CREATE TABLE DOCTOR(
 CREATE TABLE CONSULTATION(
         ID_Consultation Int  Auto_increment  NOT NULL ,
         reason          Varchar (300) NOT NULL ,
-        date            Datetime NOT NULL ,
+        consultation_date  Date NOT NULL ,
+        time_slot 		int NOT NULL,
         first_time      Bool NOT NULL ,
+        is_validate 	Bool NOT NULL,
         ID_Patient      Int NOT NULL ,
-        ID_Doctor       Int NOT NULL ,
-        ID_Planning     Int NOT NULL
+        ID_Doctor     Int NOT NULL
 	,CONSTRAINT CONSULTATION_PK PRIMARY KEY (ID_Consultation)
-)ENGINE=InnoDB;
-
-
-
-# Table: PLANNING
-
-CREATE TABLE PLANNING(
-        ID_Planning Int  Auto_increment  NOT NULL ,
-        ID_Doctor   Int NOT NULL
-	,CONSTRAINT PLANNING_PK PRIMARY KEY (ID_Planning)
-)ENGINE=InnoDB;
-
-
-
-# Table: OFFICE
-
-CREATE TABLE OFFICE(
-        ID_Office  Int  Auto_increment  NOT NULL ,
-        ID_Address Int NOT NULL
-	,CONSTRAINT OFFICE_PK PRIMARY KEY (ID_Office)
 )ENGINE=InnoDB;
 
 
@@ -106,6 +88,7 @@ CREATE TABLE ADDRESS(
         address     Varchar (300) NOT NULL ,
         city        Varchar (50) NOT NULL ,
         postal_code Varchar (50) NOT NULL ,
+        is_office_address Bool NOT NULL,
         ID_User     Int NULL
 	,CONSTRAINT ADDRESS_PK PRIMARY KEY (ID_Address)
 )ENGINE=InnoDB;
@@ -136,13 +119,7 @@ ALTER TABLE PATIENT
 	ADD CONSTRAINT PATIENT_USER_AK 
 	UNIQUE (ID_User);   
 
-# Table: DOCTOR
 
-ALTER TABLE DOCTOR
-	ADD CONSTRAINT DOCTOR_OFFICE_FK
-	FOREIGN KEY (ID_Office)
-	REFERENCES OFFICE(ID_Office);  
-    
 # Table: ADDRESS
     
 ALTER TABLE ADDRESS
@@ -162,27 +139,7 @@ ALTER TABLE CONSULTATION
 	ADD CONSTRAINT CONSULTATION_DOCTOR_FK
 	FOREIGN KEY (ID_Doctor)
 	REFERENCES DOCTOR(ID_Doctor);
-    
-ALTER TABLE CONSULTATION
-	ADD CONSTRAINT CONSULTATION_PLANNING_FK
-	FOREIGN KEY (ID_Planning)
-	REFERENCES PLANNING(ID_Planning);
 
-
-# Table: OFFICE
-
-ALTER TABLE OFFICE
-	ADD CONSTRAINT OFFICE_ADDRESS_FK
-	FOREIGN KEY (ID_Address)
-	REFERENCES ADDRESS(ID_Address);
-
-
-# Table: PLANNING
-
-ALTER TABLE PLANNING
-	ADD CONSTRAINT PLANNING_DOCTOR_FK
-	FOREIGN KEY (ID_Doctor)
-	REFERENCES DOCTOR(ID_Doctor);
     
 SET SQL_SAFE_UPDATES=0;
 
@@ -196,22 +153,12 @@ INSERT INTO Stethoscope.ADDRESS(
     address
     , city
     , postal_code
+    , is_office_address
 )
 VALUES
-("1er rue Paul Bert", "Lyon", "69003")
-, ("3er rue de la République", "Lyon", "69002")
-, ("10 rue Henri Rolland", "Villeurbanne", "69100");
+("1er rue Paul Bert", "Lyon", "69003", 1);
 
 
-# Table: OFFICE
-
-INSERT INTO Stethoscope.OFFICE(
-    ID_Address
-)
-VALUES
-(1)
-, (2)
-, (3);
 
 # Table: DOCTOR
 
@@ -221,14 +168,17 @@ INSERT INTO Stethoscope.DOCTOR(
     , birth_date
     , phone_number
     , image_path
-    , ID_Office
+    , sexe
+    , description
 )
 VALUES
-("gregory", "house", -333214664, "0713798254", "../../img/gregory-house.jpg", 1)
-, ("stephen", "strange", -204997064, "0796543971", "../../img/stephen-strange.jpg", 2)
-, ("michel", "cymes", -398705864, "0696348721", "../../img/michel-cymes.jpg", 3)
-, ("meredith", "grey", -398705864, "0799468237", "../../img/meredith-grey.jpg", 1)
-, ("françoise", "dolto", -4462664, "0791275946", "../../img/francoise-dolto.jpg", 2);
+("gregory", "house", -333214664, "0713798254", "../img/gregory-house.jpg", 1, "Renommé pour ses compétences dans le domaine médical, il use souvent de méthodes peu orthodoxes, en refusant le plus possible d'entrer en contact avec ses patients, en faisant des tests médicaux originaux et en poussant la rationalité à l'extrême, ce qui l'entraine dans de nombreux conflits avec ses collègues. Il est également décrit régulièrement comme misanthrope, narcissique, antipathique avec ses patients et travaillant peu, de sorte qu'il a le temps de poser les diagnostics les plus compliqués.")
+, ("stephen", "strange", -204997064, "0796543971", "../img/stephen-strange.jpg", 1, "Le docteur Stephen Strange est un brillant neurochirurgien américain, mais aussi un être dépravé, cynique et égoïste. Oublieux de ses devoirs et de la déontologie médicale, il cherche avant tout à faire fortune et sélectionne ses patients d'après le contenu de leur compte en banque.")
+, ("michel", "cymes", -398705864, "0696348721", "../img/michel-cymes.jpg", 1, " Michel Cymes fait son service militaire comme médecin volontaire en Afrique.
+
+Il effectue une partie de son internat en médecine à Paris-Descartes puis à l'hôtel-Dieu de Chartres. Il est aussi étudiant à la faculté de médecine à l'hôpital Necker de Paris. Lors de ses études, il se spécialise dans la chirurgie otorhinolaryngologique. C'est au cours de son internat qu'il développe un humour de type « carabin », par sa fonction « d'économe » et de président chargé d'organiser les fêtes et les soirées dans les salles de garde.")
+, ("meredith", "grey", -4451864, "0799468237", "../img/meredith-grey.jpg", 2, "Elle a été introduite comme interne en chirurgie dans le fictif Seattle Grace Hospital (plus tard Seattle Grace-Mercy West Hospital, et ensuite Grey+Sloan Memorial), obtenant finalement le poste de résident en chirurgie, puis celui de titulaire, et en 2015, celui de chef de la chirurgie générale. Fille du chirurgien de renommée mondiale Ellis Grey.")
+, ("francoise", "dolto", -1929789464, "0791275946", "../img/francoise-dolto.jpg", 2, "Elle est une pédiatre et psychanalyste française qui s'intéresse particulièrement à la psychanalyse des enfants et à la diffusion des connaissances dans le domaine de l'éducation des enfants dans de nombreux écrits et particulièrement dans des émissions radiodiffusées qui ont contribué à la faire connaître du grand public. ");
 
 # Table: MEDICAL_TYPE
 
@@ -237,8 +187,8 @@ INSERT INTO Stethoscope.MEDICAL_TYPE(
 )
 VALUES
 ("Chirurgie")
-, ("Générale")
-, ("Pédiatrie")
+, ("Generale")
+, ("Pediatrie")
 , ("Neurologie");
 
 # Table: PRACTICE
@@ -257,14 +207,68 @@ VALUES
 , (4, 1)
 , (5, 3);
 
-# Table: PLANNING
 
-INSERT INTO Stethoscope.PLANNING(
-    ID_Doctor
+# Création d'utilisateur :
+
+INSERT INTO Stethoscope.USERS(
+	ID_User
+    , login
+    , password
+    , administrator
 )
 VALUES
-(1)
-, (2)
-, (3)
-, (4)
-, (5);
+(1, "kevin.icol@cnam.fr", "Jupiter2020!", 0)
+, (2, "jean.blanc@gmail.com", "Jupiter2020!", 0);
+
+INSERT INTO Stethoscope.ADDRESS(
+    address
+    , city
+    , postal_code
+    , is_office_address
+    , ID_User
+)
+VALUES
+("1 rue des cadets de la france libre", "Lyon", "69003", 0, 1)
+, ("4 rue de la liberte", "Bron", "69500", 0, 2);
+
+INSERT INTO Stethoscope.PATIENT(
+    ID_Patient
+    , first_name
+    , last_name
+    , birth_date
+    , social_security_number
+    , phone_number
+    , email_address
+    , ID_User
+)
+VALUES
+(1, "kevin", "icol", 634198139, "1901487963254", "0612345678", "kevin.icol@cnam.fr", 1)
+, (2, "jean", "blanc", 444809339, "1901578951264", "0678541239", "jean.blanc@gmail.com", 2);
+
+
+# Création de consultation :
+
+INSERT INTO Stethoscope.CONSULTATION(
+    ID_Consultation
+    , reason
+    , consultation_date
+    , time_slot
+    , first_time
+    , is_validate
+    , ID_Patient
+    , ID_Doctor
+)
+VALUES
+(1, "Bilan sanguin", "2020-06-08", 1, 1, 1, 1, 1)
+, (2, "Medecine du travail", "2020-06-15", 2, 1, 1, 2, 1)
+, (3, "Douleur a la jambe", "2020-05-18", 3, 1, 0, 2, 1)
+, (4, "Mal au dents", "2020-05-18", 4, 0, 0, 1, 1)
+, (5, "Toux et fievre", "2020-06-17", 5, 0, 1, 2, 1)
+, (6, "Douleur a la tete", "2020-06-11", 6, 0, 0, 1, 1)
+, (7, "Douleur au tendon d'achille", "2020-05-18", 7, 0, 1, 2, 1)
+, (8, "Grosseur dans la hanche", "2020-06-11", 8, 0, 1, 2, 1)
+, (9, "Bilan sanguin", "2020-06-27", 1, 0, 0, 1, 1)
+, (10, "Medecine du travail", "2020-06-27", 3, 0, 0, 2, 2);
+
+
+
