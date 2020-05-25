@@ -141,9 +141,7 @@ class UserMenu {
                 break;
             case "#doctorInformationModal":
                 //On ajoute la fenêtre modal au domElement :
-                let doctorModalWindow = new DoctorModalWindow(
-                    modalSection,
-                );
+                let doctorModalWindow = new DoctorModalWindow(modalSection);
                 doctorModalWindow.componentMount();
 
                 break;

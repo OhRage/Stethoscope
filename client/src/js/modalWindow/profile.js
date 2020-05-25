@@ -110,14 +110,13 @@ class ProfileModalWindow {
             }
         }
 
-        
         let modalRow = document.createElement("div");
         modalRow.className = "row justify-content-end";
-        
-        //Ajout du feedback des reponses serveurs : 
-        let feedbackConnexion = document.createElement("div")
-        feedbackConnexion.setAttribute("id", "connexionFeedback")
-        feedbackConnexion. className = "mb-3"
+
+        //Ajout du feedback des reponses serveurs :
+        let feedbackConnexion = document.createElement("div");
+        feedbackConnexion.setAttribute("id", "connexionFeedback");
+        feedbackConnexion.className = "mb-3";
         modalRow.appendChild(feedbackConnexion);
 
         //Ajout des boutons du formulaire :
@@ -190,29 +189,29 @@ class ProfileModalWindow {
         registerInputControl(form, inputs);
 
         if (form.checkValidity() === false) {
-          //Retour à l'écran d'enregistrement :
-          event.preventDefault();
-          event.stopPropagation();
+            //Retour à l'écran d'enregistrement :
+            event.preventDefault();
+            event.stopPropagation();
 
-          for (let i = 0; i < inputs.length; i++) {
-              if (inputs[i].type !== "hidden") {
-                  let invalidFeedback = inputs[i].nextSibling;
-                  if (inputs[i].checkValidity() === false) {
-                      invalidFeedback.className = "invalid-feedback d-block";
-                  } else {
-                      invalidFeedback.className = "invalid-feedback";
-                  }
-              }
-          }
-      } else {
-        //Appel AJAX :
-        let ajax = new AjaxCall("setProfileAjax");
-        ajax.registerAjaxOnload();
-        ajax.sendAjax(
-            "POST",
-            "http://stethoscope/server/src/setUserDatas.php",
-            new FormData(form)
-        );
-      }
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].type !== "hidden") {
+                    let invalidFeedback = inputs[i].nextSibling;
+                    if (inputs[i].checkValidity() === false) {
+                        invalidFeedback.className = "invalid-feedback d-block";
+                    } else {
+                        invalidFeedback.className = "invalid-feedback";
+                    }
+                }
+            }
+        } else {
+            //Appel AJAX :
+            let ajax = new AjaxCall("setProfileAjax");
+            ajax.registerAjaxOnload();
+            ajax.sendAjax(
+                "POST",
+                "http://stethoscope/server/src/setUserDatas.php",
+                new FormData(form)
+            );
+        }
     }
 }

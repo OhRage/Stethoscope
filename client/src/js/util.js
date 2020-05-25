@@ -188,6 +188,6 @@ function getHourFromTimeSlot(timeSlot) {
         "16h-17h",
         "17h-18h",
     ];
-    
-    return hourlist[timeSlot-1];
+
+    return hourlist[timeSlot - 1];
 }
