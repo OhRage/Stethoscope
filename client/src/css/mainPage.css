@@ -1,14 +1,15 @@
 @font-face {
     font-family: "Righteous-Regular";
     src: url(./font/Righteous-Regular.ttf);
-  }
+}
 
-#mainPage{
+#mainPage {
     border-radius: 15px;
     border: solid #20b2aa 2px;
 }
 
-#mainPage #cancelMainFormButton,  #validateMainFormButton{
-  background-color: #20b2aa;
-  border-style: hidden;
+#mainPage #cancelMainFormButton,
+#validateMainFormButton {
+    background-color: #20b2aa;
+    border-style: hidden;
 }

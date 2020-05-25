@@ -1,20 +1,20 @@
-.modal-body [id^="consultationComponent"]{
+.modal-body [id^="consultationComponent"] {
     border: solid 2px #20b2aa;
     border-radius: 15px;
 }
 
-.modal-body [id^="consultationComponent"] img{
+.modal-body [id^="consultationComponent"] img {
     border-radius: 15px;
     height: 150px;
 }
 
-.modal-body [id^="consultationComponent"] p.label{
+.modal-body [id^="consultationComponent"] p.label {
     margin-right: 0.5rem;
     color: #20b2aa;
     font-weight: bold;
 }
 
-.modal-body [id^="consultationComponent"] #cancelConsultationButton{
+.modal-body [id^="consultationComponent"] #cancelConsultationButton {
     color: firebrick;
     font-size: 2rem;
 }
