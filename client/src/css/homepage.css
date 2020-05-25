@@ -40,3 +40,26 @@ body {
     border-width: 1px;
     border-radius: 15px;
 }
+
+.modal-body #doctorInformationsPannel {
+    border-style: solid;
+    border-color: #20b2aa;
+    border-width: 1px;
+    border-radius: 15px;
+}
+
+.modal-body #doctorInformationsPannel input {
+    background-color: white;
+    color: #20b2aa;
+    font-size: large;
+    text-align: center;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 15px;
+}
+
+.modal-body #doctorInformationsPannel #description {
+    min-width: 100%;
+    min-height: 80%;
+    color: black;
+}
