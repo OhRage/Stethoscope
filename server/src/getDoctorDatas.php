@@ -10,6 +10,7 @@
         , DOCTOR.birth_date
         , DOCTOR.image_path
         , DOCTOR.sexe
+        , DOCTOR.description
         , ADDRESS.address
         , ADDRESS.city
         , ADDRESS.postal_code
@@ -50,9 +51,9 @@
                 "address" => $result1["address"],
                 "city" => $result1["city"],
                 "postal_code" => $result1["postal_code"],
+                "description" => utf8_encode($result1["description"]),
             );
         }
-
         http_response_code(200);
         header('Content-type: application/json');
         echo json_encode($json);

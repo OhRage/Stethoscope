@@ -97,7 +97,7 @@ class DoctorModalWindow {
 
         let doctorInformationRow = document.createElement("div");
         doctorInformationRow.className = "row my-5 mx-3";
-        doctorInformationRow.setAttribute("id", "doctorInformationsPannel")
+        doctorInformationRow.setAttribute("id", "doctorInformationsPannel");
 
         //Identité du médecin :
         let doctorIdentity = this.doctorIdentityMount();
@@ -152,7 +152,8 @@ class DoctorModalWindow {
 
     doctorIdentityMount() {
         let doctorIDRow = document.createElement("div");
-        doctorIDRow.className = "row col-12 mx-auto my-4 justify-content-between";
+        doctorIDRow.className =
+            "row col-12 mx-auto my-4 justify-content-between";
 
         let row = document.createElement("div");
         row.className = "row col-12 m-auto";
@@ -178,20 +179,21 @@ class DoctorModalWindow {
         doctorDescription.appendChild(descriptionlabel);
 
         //Construction du paragraphe pour la valeur :
-        let descriptionInput = document.createElement("input");
-        descriptionInput.setAttribute("type", "text");
+        let descriptionInput = document.createElement("TEXTAREA");
+        descriptionInput.setAttribute("id", "description");
         descriptionInput.disabled = true;
         doctorDescription.appendChild(descriptionInput);
 
         row.appendChild(doctorDescription);
-        doctorIDRow.appendChild(row)
+        doctorIDRow.appendChild(row);
 
         return doctorIDRow;
     }
 
     doctorInformationsMount() {
         let doctorInformations = document.createElement("div");
-        doctorInformations.className = "row col-12 mx-auto my-4 align-items-center justify-content-between";
+        doctorInformations.className =
+            "row col-12 mx-auto my-4 align-items-center justify-content-between";
 
         let labels = ["Prénom", "Nom", "Age", "Sexe", "Médecine", "Téléphone"];
 
@@ -258,6 +260,10 @@ class DoctorModalWindow {
         doctorModalWindow
             .querySelector("#doctorPhoto")
             .setAttribute("src", doctorDatas["imagePath"]);
+
+        //On affecte le text de description :
+        doctorModalWindow.querySelector("#description").innerHTML =
+            doctorDatas["description"];
 
         //On change la valeur de tous les inputs :
         let inputs = doctorModalWindow.querySelectorAll("input");

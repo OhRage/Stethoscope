@@ -282,7 +282,9 @@ class AjaxCall {
             this.ajax.onload = () => {
                 if (this.ajax.status == 200) {
                     let datas = JSON.parse(this.ajax.response);
-                    let doctorOptionList = document.querySelector("#modalSection #doctorChoice")
+                    let doctorOptionList = document.querySelector(
+                        "#modalSection #doctorChoice"
+                    );
                     for (let key in datas) {
                         if (datas.hasOwnProperty(key)) {
                             doctorModalWindow.doctorsDatas.push({
@@ -291,9 +293,10 @@ class AjaxCall {
                                     datas[key]["first_name"]
                                 ),
                                 lastName: datas[key]["last_name"].toUpperCase(),
-                                medicalType: datas[key]["medical_type"].split(
-                                    "&"
-                                ).slice(1).join(" et "),
+                                medicalType: datas[key]["medical_type"]
+                                    .split("&")
+                                    .slice(1)
+                                    .join(" et "),
                                 phoneNumber: datas[key]["phone_number"],
                                 imagePath: datas[key]["image_path"],
                                 age: getAge(
@@ -303,6 +306,7 @@ class AjaxCall {
                                     datas[key]["sexe"] === "1"
                                         ? "Homme"
                                         : "Femme",
+                                description: datas[key]["description"],
                             });
 
                             let option = document.createElement("option");
@@ -316,7 +320,7 @@ class AjaxCall {
                                 datas[key]["last_name"].toUpperCase();
                             doctorOptionList.appendChild(option);
                         }
-                        doctorModalWindow.setDoctorInformations()
+                        doctorModalWindow.setDoctorInformations();
                     }
                 } else {
                     console.log(
