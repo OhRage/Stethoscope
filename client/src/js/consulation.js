@@ -155,7 +155,7 @@ class Consultation {
             ajax.removeConsultationAjaxOnload();
             ajax.sendAjax(
                 "GET",
-                "http://stethoscope/server/src/removeConsultation.php?consultationID=" +
+                "http://localhost:8080/server/src/removeConsultation.php?consultationID=" +
                     parseInt(this.consultationID)
             );
 

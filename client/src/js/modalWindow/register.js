@@ -169,7 +169,7 @@ class RegistrationModalWindow {
             ajax.registerAjaxOnload();
             ajax.sendAjax(
                 "POST",
-                "http://stethoscope/server/src/setUserDatas.php",
+                "http://localhost:8080/server/src/setUserDatas.php",
                 new FormData(form)
             );
         }

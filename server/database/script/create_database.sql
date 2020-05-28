@@ -1,9 +1,21 @@
+USE sys;
 #------------------------------------------------------------
 #        CREATE STETHOSCOPE DATABASE
 #------------------------------------------------------------
 DROP DATABASE IF EXISTS Stethoscope;
 
 CREATE DATABASE Stethoscope;
+
+USE Stethoscope;
+
+#------------------------------------------------------------
+#        CREATE STETHOSCOPE ADMIN
+#------------------------------------------------------------
+DROP USER IF EXISTS 'stethoscope_root@localhost';
+
+CREATE USER 'stethoscope_root@localhost' IDENTIFIED BY 'Jupiter2020!';
+
+GRANT ALL PRIVILEGES ON *.* TO 'stethoscope_root@localhost';
 
 USE Stethoscope;
 

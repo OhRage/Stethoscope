@@ -22,7 +22,7 @@ class AjaxCall {
                 if (status === 200) {
                     //Connexion a la page d'accueil :
                     window.location.href =
-                        "http://stethoscope/client/src/html/homepage.php";
+                        "http://localhost:8080/client/src/html/homepage.php";
                 } else if (status === 403) {
                     //Informations de connexion invalides :
                     let connexionFeedback = document.querySelector(
@@ -84,7 +84,7 @@ class AjaxCall {
                             ajax.destroySessionOnload();
                             ajax.sendAjax(
                                 "GET",
-                                "http://stethoscope/server/src/destroyPhpSession.php"
+                                "http://localhost:8080/server/src/destroyPhpSession.php"
                             );
                         } else {
                             connexionFeedback.style.display = "block";

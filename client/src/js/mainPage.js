@@ -510,7 +510,7 @@ class DateReservation {
             let ajax = new AjaxCall("setConsultationAjax");
             ajax.setConsultationAjaxOnload(modalCancelButton);
             ajax.sendJSONAjax(
-                "http://stethoscope/server/src/setConsultation.php",
+                "http://localhost:8080/server/src/setConsultation.php",
                 JSON.stringify(datas)
             );
         }
@@ -528,7 +528,7 @@ function loadMainPage() {
         ajax.getDoctorsForMainPageAjaxOnload();
         ajax.sendAjax(
             "GET",
-            "http://stethoscope/server/src/getDoctorDatas.php"
+            "http://localhost:8080/server/src/getDoctorDatas.php"
         );
     }
 }

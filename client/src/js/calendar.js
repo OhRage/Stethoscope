@@ -316,7 +316,7 @@ class Calendar {
             let ajax = new XMLHttpRequest();
             ajax.open(
                 "GET",
-                "http://stethoscope/server/src/getFullSlotDay.php?doctorID=" +
+                "http://localhost:8080/server/src/getFullSlotDay.php?doctorID=" +
                     this.doctorID +
                     "&month=" +
                     (this.lastdayOfMonth.getMonth() + 1) +
@@ -525,7 +525,7 @@ class Calendar {
             ajax.getAvalaibleSlotAjaxOnload(selectDay, hourList);
             ajax.sendAjax(
                 "GET",
-                "http://stethoscope/server/src/getAvailableSlots.php?doctorID=" +
+                "http://localhost:8080/server/src/getAvailableSlots.php?doctorID=" +
                     this.doctorID +
                     "&day=" +
                     day +
@@ -624,7 +624,7 @@ class Calendar {
             let ajax = new XMLHttpRequest();
             ajax.open(
                 "GET",
-                "http://stethoscope/server/src/getPatientConsultation.php?login=" +
+                "http://localhost:8080/server/src/getPatientConsultation.php?login=" +
                     sessionLogin,
                 false
             );

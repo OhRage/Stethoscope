@@ -114,7 +114,7 @@ class DoctorModalWindow {
         ajax.getDoctorsForDoctorModalWindowAjaxOnload(this);
         ajax.sendAjax(
             "GET",
-            "http://stethoscope/server/src/getDoctorDatas.php"
+            "http://localhost:8080/server/src/getDoctorDatas.php"
         );
 
         return modalBody;

@@ -82,7 +82,7 @@ function onLoginClick() {
         ajax.loginAjaxOnload();
         ajax.sendAjax(
             "POST",
-            "http://stethoscope/index.php",
+            "http://localhost:8080/index.php",
             new FormData(form)
         );
     }

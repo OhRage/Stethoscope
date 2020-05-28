@@ -25,7 +25,6 @@
     ORDER BY CONSULTATION.consultation_date;";
 
     $result = send_simple_query($query, "select");
-
     if($result){
         $json = [];
    
@@ -46,7 +45,6 @@
                 "image_path" => $result["image_path"],
             );
         }
-
         http_response_code(200);
         header('Content-type: application/json');
         echo json_encode($json);

@@ -135,7 +135,7 @@ class UserMenu {
                 ajax.getProfileAjaxOnload();
                 ajax.sendAjax(
                     "GET",
-                    "http://stethoscope/server/src/getUserDatas.php?login=" +
+                    "http://localhost:8080/server/src/getUserDatas.php?login=" +
                         sessionLogin
                 );
                 break;
@@ -172,7 +172,7 @@ class UserMenu {
                     destroySessionAjax.destroySessionOnload();
                     destroySessionAjax.sendAjax(
                         "GET",
-                        "http://stethoscope/server/src/destroyPhpSession.php"
+                        "http://localhost:8080/server/src/destroyPhpSession.php"
                     );
                 }
                 break;
@@ -220,7 +220,7 @@ class UserMenu {
         let datas = new XMLHttpRequest();
         datas.open(
             "GET",
-            "http://stethoscope/server/src/getPatientConsultation.php?login=" +
+            "http://localhost:8080/server/src/getPatientConsultation.php?login=" +
                 sessionLogin,
             false
         );
@@ -292,7 +292,7 @@ function loadUserMenu() {
         ajax.getUsernameAjaxOnload();
         ajax.sendAjax(
             "GET",
-            "http://stethoscope/server/src/getUserDatas.php?login=" +
+            "http://localhost:8080/server/src/getUserDatas.php?login=" +
                 sessionLogin
         );
     }
