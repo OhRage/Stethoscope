@@ -280,7 +280,10 @@ VALUES
 , (7, "Douleur au tendon d'achille", "2020-05-18", 7, 0, 1, 2, 1)
 , (8, "Grosseur dans la hanche", "2020-06-11", 8, 0, 1, 2, 1)
 , (9, "Bilan sanguin", "2020-06-27", 1, 0, 0, 1, 1)
-, (10, "Medecine du travail", "2020-06-27", 3, 0, 0, 2, 2);
+, (10, "Medecine du travail", "2020-06-27", 3, 0, 0, 2, 2)
+, (11, "Rhume", "2020-05-19", 1, 0, 0, 1, 1)
+, (12, "Douleur aux yeux", "2020-05-25", 4, 0, 1, 1, 2)
+, (13, "Fatigue importante", "2020-05-28", 5, 0, 1, 1, 3);
 
 
 
