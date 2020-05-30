@@ -230,7 +230,7 @@ class UserMenu {
             datas = JSON.parse(datas.response);
         }
 
-        if (datas.length > 0) {
+        if (Object.keys(datas).length > 0) {
             let actualDay = new Date();
 
             for (let key in datas) {
